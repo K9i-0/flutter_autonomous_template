@@ -1,0 +1,25 @@
+name: "Setup Flutter"
+description: "Setup Flutter using mise for consistent version management"
+
+runs:
+  using: "composite"
+  steps:
+    # https://github.com/jdx/mise-action
+    - name: Setup Flutter via mise
+      uses: jdx/mise-action@v2
+      with:
+        install_args: "flutter"
+
+    - name: Setup pub cache
+      run: |
+        echo "PUB_CACHE=$HOME/.pub-cache" >> "$GITHUB_ENV"
+        echo "$HOME/.pub-cache/bin" >> "$GITHUB_PATH"
+      shell: bash
+
+    - name: Install dependencies
+      run: flutter pub get
+      shell: bash
+
+    - name: Run code generation
+      run: dart run build_runner build --delete-conflicting-outputs
+      shell: bash

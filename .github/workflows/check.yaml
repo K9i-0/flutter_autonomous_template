@@ -1,0 +1,36 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      # https://github.com/invertase/github-action-dart-analyzer
+      - name: Analyze
+        uses: invertase/github-action-dart-analyzer@v3
+        with:
+          fatal-infos: false
+          fatal-warnings: true
+
+      - name: Check format
+        run: dart format --set-exit-if-changed .
+
+      - name: Run tests
+        run: flutter test

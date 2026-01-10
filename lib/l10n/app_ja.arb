@@ -27,5 +27,31 @@
 
   "delete": "削除",
 
-  "ok": "OK"
+  "ok": "OK",
+
+  "todos": "TODO",
+
+  "todoAdd": "TODOを追加",
+
+  "todoEdit": "TODOを編集",
+
+  "todoTitle": "タイトル",
+
+  "todoDescription": "説明",
+
+  "todoDueDate": "期限",
+
+  "todoEmptyTitle": "TODOがありません",
+
+  "todoEmptyDescription": "+をタップしてTODOを追加してください",
+
+  "filterAll": "すべて",
+
+  "filterActive": "未完了",
+
+  "filterCompleted": "完了済み",
+
+  "clearCompleted": "完了を削除",
+
+  "about": "アプリについて"
 }

@@ -69,5 +69,70 @@
   "ok": "OK",
   "@ok": {
     "description": "OK button text"
+  },
+
+  "todos": "TODOs",
+  "@todos": {
+    "description": "TODOs screen title"
+  },
+
+  "todoAdd": "Add TODO",
+  "@todoAdd": {
+    "description": "Add TODO button"
+  },
+
+  "todoEdit": "Edit TODO",
+  "@todoEdit": {
+    "description": "Edit TODO screen title"
+  },
+
+  "todoTitle": "Title",
+  "@todoTitle": {
+    "description": "TODO title field label"
+  },
+
+  "todoDescription": "Description",
+  "@todoDescription": {
+    "description": "TODO description field label"
+  },
+
+  "todoDueDate": "Due date",
+  "@todoDueDate": {
+    "description": "TODO due date field label"
+  },
+
+  "todoEmptyTitle": "No TODOs yet",
+  "@todoEmptyTitle": {
+    "description": "Empty TODO list title"
+  },
+
+  "todoEmptyDescription": "Tap + to add your first TODO",
+  "@todoEmptyDescription": {
+    "description": "Empty TODO list description"
+  },
+
+  "filterAll": "All",
+  "@filterAll": {
+    "description": "All filter option"
+  },
+
+  "filterActive": "Active",
+  "@filterActive": {
+    "description": "Active filter option"
+  },
+
+  "filterCompleted": "Completed",
+  "@filterCompleted": {
+    "description": "Completed filter option"
+  },
+
+  "clearCompleted": "Clear completed",
+  "@clearCompleted": {
+    "description": "Clear completed button"
+  },
+
+  "about": "About",
+  "@about": {
+    "description": "About menu item"
   }
 }

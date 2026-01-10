@@ -181,6 +181,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OK'**
   String get ok;
+
+  /// TODOs screen title
+  ///
+  /// In en, this message translates to:
+  /// **'TODOs'**
+  String get todos;
+
+  /// Add TODO button
+  ///
+  /// In en, this message translates to:
+  /// **'Add TODO'**
+  String get todoAdd;
+
+  /// Edit TODO screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Edit TODO'**
+  String get todoEdit;
+
+  /// TODO title field label
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get todoTitle;
+
+  /// TODO description field label
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get todoDescription;
+
+  /// TODO due date field label
+  ///
+  /// In en, this message translates to:
+  /// **'Due date'**
+  String get todoDueDate;
+
+  /// Empty TODO list title
+  ///
+  /// In en, this message translates to:
+  /// **'No TODOs yet'**
+  String get todoEmptyTitle;
+
+  /// Empty TODO list description
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to add your first TODO'**
+  String get todoEmptyDescription;
+
+  /// All filter option
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// Active filter option
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get filterActive;
+
+  /// Completed filter option
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get filterCompleted;
+
+  /// Clear completed button
+  ///
+  /// In en, this message translates to:
+  /// **'Clear completed'**
+  String get clearCompleted;
+
+  /// About menu item
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
 }
 
 class _AppLocalizationsDelegate

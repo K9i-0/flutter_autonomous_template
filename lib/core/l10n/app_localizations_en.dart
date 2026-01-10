@@ -49,4 +49,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ok => 'OK';
+
+  @override
+  String get todos => 'TODOs';
+
+  @override
+  String get todoAdd => 'Add TODO';
+
+  @override
+  String get todoEdit => 'Edit TODO';
+
+  @override
+  String get todoTitle => 'Title';
+
+  @override
+  String get todoDescription => 'Description';
+
+  @override
+  String get todoDueDate => 'Due date';
+
+  @override
+  String get todoEmptyTitle => 'No TODOs yet';
+
+  @override
+  String get todoEmptyDescription => 'Tap + to add your first TODO';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterActive => 'Active';
+
+  @override
+  String get filterCompleted => 'Completed';
+
+  @override
+  String get clearCompleted => 'Clear completed';
+
+  @override
+  String get about => 'About';
 }

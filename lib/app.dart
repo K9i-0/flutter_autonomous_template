@@ -6,19 +6,28 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:flutter_autonomous_template/core/dev_tools/talker.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
+import 'package:flutter_autonomous_template/core/router/app_router.dart';
 import 'package:flutter_autonomous_template/core/theme/app_theme.dart';
+import 'package:flutter_autonomous_template/features/settings/providers/settings_provider.dart';
+
+/// Application router instance
+final appRouter = AppRouter();
 
 class App extends ConsumerWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    final themeMode = ref.watch(themeModeProvider);
+    final locale = ref.watch(localeProvider);
+
+    return MaterialApp.router(
       title: 'Flutter App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: themeMode,
+      locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -26,13 +35,10 @@ class App extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      navigatorObservers: [
-        if (kDebugMode) TalkerRouteObserver(talker),
-      ],
-      home: const Scaffold(
-        body: Center(
-          child: Text('Welcome to Flutter Autonomous Template'),
-        ),
+      routerConfig: appRouter.config(
+        navigatorObservers: () => [
+          if (kDebugMode) TalkerRouteObserver(talker),
+        ],
       ),
     );
   }

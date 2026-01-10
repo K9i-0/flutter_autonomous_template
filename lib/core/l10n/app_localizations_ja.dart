@@ -49,4 +49,43 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get ok => 'OK';
+
+  @override
+  String get todos => 'TODO';
+
+  @override
+  String get todoAdd => 'TODOを追加';
+
+  @override
+  String get todoEdit => 'TODOを編集';
+
+  @override
+  String get todoTitle => 'タイトル';
+
+  @override
+  String get todoDescription => '説明';
+
+  @override
+  String get todoDueDate => '期限';
+
+  @override
+  String get todoEmptyTitle => 'TODOがありません';
+
+  @override
+  String get todoEmptyDescription => '+をタップしてTODOを追加してください';
+
+  @override
+  String get filterAll => 'すべて';
+
+  @override
+  String get filterActive => '未完了';
+
+  @override
+  String get filterCompleted => '完了済み';
+
+  @override
+  String get clearCompleted => '完了を削除';
+
+  @override
+  String get about => 'アプリについて';
 }

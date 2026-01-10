@@ -1,0 +1,240 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:flutter_autonomous_template/core/components/app_button.dart';
+import 'package:flutter_autonomous_template/core/components/app_text_field.dart';
+import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
+import 'package:flutter_autonomous_template/features/todo/data/models/todo.dart';
+import 'package:flutter_autonomous_template/features/todo/providers/todo_provider.dart';
+
+@RoutePage()
+class TodoEditScreen extends ConsumerStatefulWidget {
+  const TodoEditScreen({
+    super.key,
+    this.todo,
+  });
+
+  final Todo? todo;
+
+  @override
+  ConsumerState<TodoEditScreen> createState() => _TodoEditScreenState();
+}
+
+class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
+  DateTime? _dueDate;
+  bool _isLoading = false;
+
+  bool get isEditing => widget.todo != null;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.todo?.title);
+    _descriptionController =
+        TextEditingController(text: widget.todo?.description);
+    _dueDate = widget.todo?.dueDate;
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(isEditing ? 'Edit TODO' : 'New TODO'),
+        actions: [
+          if (isEditing)
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              onPressed: _handleDelete,
+            ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: AppSpacing.screenPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppTextField(
+              controller: _titleController,
+              label: 'Title',
+              hint: 'What needs to be done?',
+              textInputAction: TextInputAction.next,
+              autofocus: !isEditing,
+            ),
+            const VGap.md(),
+            AppTextField(
+              controller: _descriptionController,
+              label: 'Description (optional)',
+              hint: 'Add some details...',
+              maxLines: 3,
+              textInputAction: TextInputAction.newline,
+            ),
+            const VGap.md(),
+            _buildDueDatePicker(context),
+            const VGap.xl(),
+            AppButton(
+              label: isEditing ? 'Save changes' : 'Add TODO',
+              onPressed: _handleSave,
+              isLoading: _isLoading,
+              isExpanded: true,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDueDatePicker(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return InkWell(
+      onTap: _pickDueDate,
+      borderRadius: BorderRadius.circular(12),
+      child: InputDecorator(
+        decoration: const InputDecoration(
+          labelText: 'Due date (optional)',
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              _dueDate != null
+                  ? _formatDate(_dueDate!)
+                  : 'No due date',
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: _dueDate != null
+                    ? colorScheme.onSurface
+                    : colorScheme.outline,
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_dueDate != null)
+                  IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        _dueDate = null;
+                      });
+                    },
+                  ),
+                Icon(
+                  Icons.calendar_today,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickDueDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _dueDate ?? now,
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 365 * 2)),
+    );
+
+    if (picked != null) {
+      setState(() {
+        _dueDate = picked;
+      });
+    }
+  }
+
+  String _formatDate(DateTime date) {
+    final now = DateTime.now();
+    final diff = date.difference(now);
+
+    if (diff.inDays == 0) {
+      return 'Today';
+    } else if (diff.inDays == 1) {
+      return 'Tomorrow';
+    } else {
+      return '${date.month}/${date.day}/${date.year}';
+    }
+  }
+
+  Future<void> _handleSave() async {
+    final title = _titleController.text.trim();
+    if (title.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a title')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      if (isEditing) {
+        final updatedTodo = widget.todo!.copyWith(
+          title: title,
+          description: _descriptionController.text.trim(),
+          dueDate: _dueDate,
+        );
+        await ref.read(todoListProvider.notifier).updateTodo(updatedTodo);
+      } else {
+        await ref.read(todoListProvider.notifier).addTodo(
+              title: title,
+              description: _descriptionController.text.trim(),
+              dueDate: _dueDate,
+            );
+      }
+
+      if (mounted) {
+        context.router.maybePop();
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _handleDelete() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete TODO?'),
+        content: Text('Are you sure you want to delete "${widget.todo!.title}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      await ref.read(todoListProvider.notifier).deleteTodo(widget.todo!.id);
+      if (mounted) {
+        context.router.maybePop();
+      }
+    }
+  }
+}

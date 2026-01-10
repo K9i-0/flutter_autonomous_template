@@ -18,8 +18,7 @@ final todoRepositoryProvider = Provider<TodoRepository>((ref) {
 });
 
 /// Provider for the list of TODOs
-final todoListProvider =
-    AsyncNotifierProvider<TodoListNotifier, List<Todo>>(
+final todoListProvider = AsyncNotifierProvider<TodoListNotifier, List<Todo>>(
   TodoListNotifier.new,
 );
 
@@ -119,7 +118,9 @@ final filteredTodosProvider = Provider<AsyncValue<List<Todo>>>((ref) {
 });
 
 /// Provider for TODO statistics
-final todoStatsProvider = Provider<({int total, int completed, int active})>((ref) {
+final todoStatsProvider = Provider<({int total, int completed, int active})>((
+  ref,
+) {
   final todosAsync = ref.watch(todoListProvider);
 
   return todosAsync.when(

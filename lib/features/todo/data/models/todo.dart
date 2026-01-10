@@ -22,8 +22,4 @@ sealed class Todo with _$Todo {
 }
 
 /// Filter options for TODOs
-enum TodoFilter {
-  all,
-  active,
-  completed,
-}
+enum TodoFilter { all, active, completed }

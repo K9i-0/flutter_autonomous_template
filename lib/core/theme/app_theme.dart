@@ -107,12 +107,8 @@ class AppTheme {
           borderRadius: AppRadius.input,
           borderSide: BorderSide(color: colorScheme.error, width: 2),
         ),
-        hintStyle: textTheme.bodyLarge?.copyWith(
-          color: colorScheme.outline,
-        ),
-        labelStyle: textTheme.bodyMedium?.copyWith(
-          color: colorScheme.outline,
-        ),
+        hintStyle: textTheme.bodyLarge?.copyWith(color: colorScheme.outline),
+        labelStyle: textTheme.bodyMedium?.copyWith(color: colorScheme.outline),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: colorScheme.surfaceContainerHigh,
@@ -147,10 +143,7 @@ class AppTheme {
         color: colorScheme.outlineVariant,
         thickness: 1,
       ),
-      iconTheme: IconThemeData(
-        color: colorScheme.onSurface,
-        size: 24,
-      ),
+      iconTheme: IconThemeData(color: colorScheme.onSurface, size: 24),
       navigationBarTheme: NavigationBarThemeData(
         elevation: 0,
         backgroundColor: colorScheme.surface,

@@ -49,7 +49,9 @@ class AppEmptyState extends StatelessWidget {
               Icon(
                 icon,
                 size: 64,
-                color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                color: theme.colorScheme.onSurfaceVariant.withValues(
+                  alpha: 0.5,
+                ),
               ),
               const VGap.lg(),
             ],
@@ -125,11 +127,7 @@ class AppErrorState extends StatelessWidget {
 
 /// No results state (for search)
 class AppNoResultsState extends StatelessWidget {
-  const AppNoResultsState({
-    super.key,
-    this.query,
-    this.onClear,
-  });
+  const AppNoResultsState({super.key, this.query, this.onClear});
 
   final String? query;
   final VoidCallback? onClear;

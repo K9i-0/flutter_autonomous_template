@@ -133,7 +133,9 @@ class CategoryFilterRow extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: AppRadius.chip,
             border: Border.all(
-              color: isSelected ? colorScheme.primary : colorScheme.outlineVariant,
+              color: isSelected
+                  ? colorScheme.primary
+                  : colorScheme.outlineVariant,
               width: isSelected ? 1.5 : 1,
             ),
           ),

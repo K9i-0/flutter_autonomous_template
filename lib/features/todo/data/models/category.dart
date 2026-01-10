@@ -24,11 +24,7 @@ class DefaultCategories {
     colorIndex: 0,
   );
 
-  static const work = Category(
-    id: 'work',
-    name: 'Work',
-    colorIndex: 1,
-  );
+  static const work = Category(id: 'work', name: 'Work', colorIndex: 1);
 
   static const shopping = Category(
     id: 'shopping',
@@ -36,16 +32,7 @@ class DefaultCategories {
     colorIndex: 2,
   );
 
-  static const health = Category(
-    id: 'health',
-    name: 'Health',
-    colorIndex: 3,
-  );
+  static const health = Category(id: 'health', name: 'Health', colorIndex: 3);
 
-  static const List<Category> all = [
-    personal,
-    work,
-    shopping,
-    health,
-  ];
+  static const List<Category> all = [personal, work, shopping, health];
 }

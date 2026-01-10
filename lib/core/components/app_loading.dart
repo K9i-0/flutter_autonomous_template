@@ -4,10 +4,7 @@ import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 
 /// Full-screen loading indicator
 class AppLoadingOverlay extends StatelessWidget {
-  const AppLoadingOverlay({
-    super.key,
-    this.message,
-  });
+  const AppLoadingOverlay({super.key, this.message});
 
   final String? message;
 
@@ -64,12 +61,7 @@ class AppLoadingIndicator extends StatelessWidget {
 
 /// Shimmer loading placeholder
 class AppShimmer extends StatefulWidget {
-  const AppShimmer({
-    super.key,
-    this.width,
-    this.height,
-    this.borderRadius,
-  });
+  const AppShimmer({super.key, this.width, this.height, this.borderRadius});
 
   final double? width;
   final double? height;
@@ -91,9 +83,10 @@ class _AppShimmerState extends State<AppShimmer>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     )..repeat();
-    _animation = Tween<double>(begin: -1, end: 2).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: -1,
+      end: 2,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -119,16 +112,8 @@ class _AppShimmerState extends State<AppShimmer>
             gradient: LinearGradient(
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-              colors: [
-                baseColor,
-                highlightColor,
-                baseColor,
-              ],
-              stops: [
-                0,
-                _animation.value.clamp(0.0, 1.0),
-                1,
-              ],
+              colors: [baseColor, highlightColor, baseColor],
+              stops: [0, _animation.value.clamp(0.0, 1.0), 1],
             ),
           ),
         );

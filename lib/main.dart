@@ -15,12 +15,8 @@ void main() async {
 
   runApp(
     ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(prefs),
-      ],
-      observers: [
-        if (kDebugMode) TalkerRiverpodObserver(talker: talker),
-      ],
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+      observers: [if (kDebugMode) TalkerRiverpodObserver(talker: talker)],
       child: const App(),
     ),
   );

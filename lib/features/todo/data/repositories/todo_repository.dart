@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:flutter_autonomous_template/features/todo/data/models/category.dart';
 import 'package:flutter_autonomous_template/features/todo/data/models/todo.dart';
 
 /// Repository for managing TODO items persistence
@@ -35,6 +36,7 @@ class TodoRepository {
     required String title,
     String description = '',
     DateTime? dueDate,
+    Category? category,
   }) async {
     final todo = Todo(
       id: _uuid.v4(),
@@ -42,6 +44,7 @@ class TodoRepository {
       description: description,
       createdAt: DateTime.now(),
       dueDate: dueDate,
+      category: category,
     );
 
     final todos = getTodos();

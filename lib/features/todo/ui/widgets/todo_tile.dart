@@ -70,27 +70,31 @@ class TodoTile extends StatelessWidget {
   Widget _buildCheckbox(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return GestureDetector(
-      onTap: onToggle,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: 24,
-        height: 24,
-        decoration: BoxDecoration(
-          color: todo.isCompleted ? colorScheme.primary : Colors.transparent,
-          border: Border.all(
-            color: todo.isCompleted ? colorScheme.primary : colorScheme.outline,
-            width: 2,
+    return Semantics(
+      label: todo.isCompleted ? 'Mark incomplete' : 'Mark complete',
+      checked: todo.isCompleted,
+      child: GestureDetector(
+        onTap: onToggle,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            color: todo.isCompleted ? colorScheme.primary : Colors.transparent,
+            border: Border.all(
+              color: todo.isCompleted ? colorScheme.primary : colorScheme.outline,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(6),
           ),
-          borderRadius: BorderRadius.circular(6),
+          child: todo.isCompleted
+              ? Icon(
+                  Icons.check,
+                  size: 16,
+                  color: colorScheme.onPrimary,
+                )
+              : null,
         ),
-        child: todo.isCompleted
-            ? Icon(
-                Icons.check,
-                size: 16,
-                color: colorScheme.onPrimary,
-              )
-            : null,
       ),
     );
   }
@@ -163,25 +167,34 @@ class TodoTile extends StatelessWidget {
 
   bool _isDueOverdue() {
     if (todo.dueDate == null || todo.isCompleted) return false;
-    return todo.dueDate!.isBefore(DateTime.now());
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final dueDate = DateTime(
+      todo.dueDate!.year,
+      todo.dueDate!.month,
+      todo.dueDate!.day,
+    );
+    return dueDate.isBefore(today);
   }
 
   String _formatDueDate() {
     if (todo.dueDate == null) return '';
     final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
     final date = todo.dueDate!;
-    final diff = date.difference(now);
+    final dateOnly = DateTime(date.year, date.month, date.day);
+    final diff = dateOnly.difference(today).inDays;
 
-    if (diff.inDays == 0) {
+    if (diff == 0) {
       return 'Today';
-    } else if (diff.inDays == 1) {
+    } else if (diff == 1) {
       return 'Tomorrow';
-    } else if (diff.inDays == -1) {
+    } else if (diff == -1) {
       return 'Yesterday';
-    } else if (diff.inDays > 0 && diff.inDays < 7) {
-      return 'In ${diff.inDays} days';
-    } else if (diff.inDays < 0 && diff.inDays > -7) {
-      return '${-diff.inDays} days ago';
+    } else if (diff > 0 && diff < 7) {
+      return 'In $diff days';
+    } else if (diff < 0 && diff > -7) {
+      return '${-diff} days ago';
     } else {
       return '${date.month}/${date.day}';
     }

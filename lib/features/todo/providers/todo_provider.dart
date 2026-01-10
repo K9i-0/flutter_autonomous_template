@@ -45,6 +45,7 @@ class TodoListNotifier extends AsyncNotifier<List<Todo>> {
         title: title,
         description: description,
         dueDate: dueDate,
+        category: category,
       );
       return [..._repository.getTodos()];
     });

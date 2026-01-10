@@ -143,10 +143,15 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
 
   Future<void> _pickDueDate() async {
     final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    // Allow past dates when editing an existing TODO with past due date
+    final firstDate = (_dueDate != null && _dueDate!.isBefore(today))
+        ? _dueDate!
+        : today;
     final picked = await showDatePicker(
       context: context,
-      initialDate: _dueDate ?? now,
-      firstDate: now,
+      initialDate: _dueDate ?? today,
+      firstDate: firstDate,
       lastDate: now.add(const Duration(days: 365 * 2)),
     );
 
@@ -159,11 +164,13 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
 
   String _formatDate(DateTime date) {
     final now = DateTime.now();
-    final diff = date.difference(now);
+    final today = DateTime(now.year, now.month, now.day);
+    final dateOnly = DateTime(date.year, date.month, date.day);
+    final diff = dateOnly.difference(today).inDays;
 
-    if (diff.inDays == 0) {
+    if (diff == 0) {
       return 'Today';
-    } else if (diff.inDays == 1) {
+    } else if (diff == 1) {
       return 'Tomorrow';
     } else {
       return '${date.month}/${date.day}/${date.year}';

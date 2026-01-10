@@ -75,7 +75,8 @@ class TodoListScreen extends ConsumerWidget {
             context,
             label: 'All (${stats.total})',
             isSelected: currentFilter == TodoFilter.all,
-            onTap: () => ref.read(filterProvider.notifier).setFilter(TodoFilter.all),
+            onTap: () =>
+                ref.read(filterProvider.notifier).setFilter(TodoFilter.all),
           ),
           const HGap.sm(),
           _buildFilterChip(
@@ -90,8 +91,9 @@ class TodoListScreen extends ConsumerWidget {
             context,
             label: 'Done (${stats.completed})',
             isSelected: currentFilter == TodoFilter.completed,
-            onTap: () =>
-                ref.read(filterProvider.notifier).setFilter(TodoFilter.completed),
+            onTap: () => ref
+                .read(filterProvider.notifier)
+                .setFilter(TodoFilter.completed),
           ),
         ],
       ),

@@ -91,15 +91,9 @@ class AppListTileCard extends StatelessWidget {
       onLongPress: onLongPress,
       child: ListTile(
         leading: leading,
-        title: Text(
-          title,
-          style: theme.textTheme.titleMedium,
-        ),
+        title: Text(title, style: theme.textTheme.titleMedium),
         subtitle: subtitle != null
-            ? Text(
-                subtitle!,
-                style: theme.textTheme.bodySmall,
-              )
+            ? Text(subtitle!, style: theme.textTheme.bodySmall)
             : null,
         trailing: trailing,
         contentPadding: AppSpacing.listItemPadding,
@@ -158,10 +152,7 @@ class AppOutlinedCard extends StatelessWidget {
           borderRadius: effectiveBorderRadius,
         ),
         clipBehavior: Clip.antiAlias,
-        child: Material(
-          color: Colors.transparent,
-          child: content,
-        ),
+        child: Material(color: Colors.transparent, child: content),
       ),
     );
   }

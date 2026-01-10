@@ -19,9 +19,7 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n?.settings ?? 'Settings'),
-      ),
+      appBar: AppBar(title: Text(l10n?.settings ?? 'Settings')),
       body: ListView(
         padding: AppSpacing.screenPadding,
         children: [
@@ -54,10 +52,7 @@ class SettingsScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l10n?.theme ?? 'Theme',
-          style: theme.textTheme.titleMedium,
-        ),
+        Text(l10n?.theme ?? 'Theme', style: theme.textTheme.titleMedium),
         const VGap.sm(),
         _buildThemeOption(
           context,
@@ -99,10 +94,7 @@ class SettingsScreen extends ConsumerWidget {
     final isSelected = value == currentValue;
 
     return ListTile(
-      leading: Icon(
-        icon,
-        color: isSelected ? theme.colorScheme.primary : null,
-      ),
+      leading: Icon(icon, color: isSelected ? theme.colorScheme.primary : null),
       title: Text(
         title,
         style: TextStyle(
@@ -130,10 +122,7 @@ class SettingsScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l10n?.language ?? 'Language',
-          style: theme.textTheme.titleMedium,
-        ),
+        Text(l10n?.language ?? 'Language', style: theme.textTheme.titleMedium),
         const VGap.sm(),
         _buildLanguageOption(
           context,
@@ -236,10 +225,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontFamily: 'monospace'),
-            ),
+            child: Text(value, style: const TextStyle(fontFamily: 'monospace')),
           ),
         ],
       ),

@@ -36,10 +36,7 @@ class TodoTile extends StatelessWidget {
           color: colorScheme.error,
           borderRadius: AppRadius.card,
         ),
-        child: Icon(
-          Icons.delete_outline,
-          color: colorScheme.onError,
-        ),
+        child: Icon(Icons.delete_outline, color: colorScheme.onError),
       ),
       child: Material(
         color: colorScheme.surfaceContainerHigh,
@@ -82,17 +79,15 @@ class TodoTile extends StatelessWidget {
           decoration: BoxDecoration(
             color: todo.isCompleted ? colorScheme.primary : Colors.transparent,
             border: Border.all(
-              color: todo.isCompleted ? colorScheme.primary : colorScheme.outline,
+              color: todo.isCompleted
+                  ? colorScheme.primary
+                  : colorScheme.outline,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(6),
           ),
           child: todo.isCompleted
-              ? Icon(
-                  Icons.check,
-                  size: 16,
-                  color: colorScheme.onPrimary,
-                )
+              ? Icon(Icons.check, size: 16, color: colorScheme.onPrimary)
               : null,
         ),
       ),
@@ -158,10 +153,7 @@ class TodoTile extends StatelessWidget {
     return Container(
       width: 8,
       height: 8,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
     );
   }
 

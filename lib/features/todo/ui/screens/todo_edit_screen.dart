@@ -10,10 +10,7 @@ import 'package:flutter_autonomous_template/features/todo/providers/todo_provide
 
 @RoutePage()
 class TodoEditScreen extends ConsumerStatefulWidget {
-  const TodoEditScreen({
-    super.key,
-    this.todo,
-  });
+  const TodoEditScreen({super.key, this.todo});
 
   final Todo? todo;
 
@@ -33,8 +30,9 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.todo?.title);
-    _descriptionController =
-        TextEditingController(text: widget.todo?.description);
+    _descriptionController = TextEditingController(
+      text: widget.todo?.description,
+    );
     _dueDate = widget.todo?.dueDate;
   }
 
@@ -101,16 +99,12 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
       onTap: _pickDueDate,
       borderRadius: BorderRadius.circular(12),
       child: InputDecorator(
-        decoration: const InputDecoration(
-          labelText: 'Due date (optional)',
-        ),
+        decoration: const InputDecoration(labelText: 'Due date (optional)'),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              _dueDate != null
-                  ? _formatDate(_dueDate!)
-                  : 'No due date',
+              _dueDate != null ? _formatDate(_dueDate!) : 'No due date',
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: _dueDate != null
                     ? colorScheme.onSurface
@@ -129,10 +123,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
                       });
                     },
                   ),
-                Icon(
-                  Icons.calendar_today,
-                  color: colorScheme.onSurfaceVariant,
-                ),
+                Icon(Icons.calendar_today, color: colorScheme.onSurfaceVariant),
               ],
             ),
           ],
@@ -180,9 +171,9 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
   Future<void> _handleSave() async {
     final title = _titleController.text.trim();
     if (title.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a title')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter a title')));
       return;
     }
 
@@ -199,7 +190,9 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
         );
         await ref.read(todoListProvider.notifier).updateTodo(updatedTodo);
       } else {
-        await ref.read(todoListProvider.notifier).addTodo(
+        await ref
+            .read(todoListProvider.notifier)
+            .addTodo(
               title: title,
               description: _descriptionController.text.trim(),
               dueDate: _dueDate,
@@ -223,7 +216,9 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete TODO?'),
-        content: Text('Are you sure you want to delete "${widget.todo!.title}"?'),
+        content: Text(
+          'Are you sure you want to delete "${widget.todo!.title}"?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),

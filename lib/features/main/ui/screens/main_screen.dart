@@ -10,10 +10,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoTabsScaffold(
-      routes: const [
-        TodoListRoute(),
-        SettingsRoute(),
-      ],
+      routes: const [TodoListRoute(), SettingsRoute()],
       bottomNavigationBuilder: (context, tabsRouter) {
         return NavigationBar(
           selectedIndex: tabsRouter.activeIndex,

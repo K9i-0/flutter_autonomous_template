@@ -18,11 +18,7 @@ enum AppButtonVariant {
 }
 
 /// Unified button sizes
-enum AppButtonSize {
-  small,
-  medium,
-  large,
-}
+enum AppButtonSize { small, medium, large }
 
 /// Application button component
 ///
@@ -69,9 +65,14 @@ class AppButton extends StatelessWidget {
     final effectiveOnPressed = isLoading ? null : onPressed;
 
     Widget button = switch (variant) {
-      AppButtonVariant.filled => _buildFilledButton(context, effectiveOnPressed),
-      AppButtonVariant.outlined =>
-        _buildOutlinedButton(context, effectiveOnPressed),
+      AppButtonVariant.filled => _buildFilledButton(
+        context,
+        effectiveOnPressed,
+      ),
+      AppButtonVariant.outlined => _buildOutlinedButton(
+        context,
+        effectiveOnPressed,
+      ),
       AppButtonVariant.text => _buildTextButton(context, effectiveOnPressed),
       AppButtonVariant.tonal => _buildTonalButton(context, effectiveOnPressed),
     };
@@ -154,9 +155,7 @@ class AppButton extends StatelessWidget {
         width: _getLoaderSize(),
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          valueColor: AlwaysStoppedAnimation(
-            _getLoaderColor(context),
-          ),
+          valueColor: AlwaysStoppedAnimation(_getLoaderColor(context)),
         ),
       );
     }
@@ -170,9 +169,7 @@ class AppButton extends StatelessWidget {
         width: _getLoaderSize(),
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          valueColor: AlwaysStoppedAnimation(
-            _getLoaderColor(context),
-          ),
+          valueColor: AlwaysStoppedAnimation(_getLoaderColor(context)),
         ),
       );
     }
@@ -230,7 +227,4 @@ class AppButton extends StatelessWidget {
 }
 
 /// Icon position relative to button label
-enum IconPosition {
-  leading,
-  trailing,
-}
+enum IconPosition { leading, trailing }

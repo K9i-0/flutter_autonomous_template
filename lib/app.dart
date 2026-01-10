@@ -36,9 +36,7 @@ class App extends ConsumerWidget {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: appRouter.config(
-        navigatorObservers: () => [
-          if (kDebugMode) TalkerRouteObserver(talker),
-        ],
+        navigatorObservers: () => [if (kDebugMode) TalkerRouteObserver(talker)],
       ),
     );
   }

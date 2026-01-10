@@ -1,0 +1,23 @@
+# Flutter recommended lints
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    # Enforce consistent code style
+    prefer_single_quotes: true
+    always_use_package_imports: true
+    avoid_print: true
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    prefer_final_fields: true
+    prefer_final_locals: true
+    sort_constructors_first: true
+    unnecessary_lambdas: true
+    use_key_in_widget_constructors: true
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    invalid_annotation_target: ignore

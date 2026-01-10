@@ -1,0 +1,31 @@
+{
+  "@@locale": "ja",
+
+  "appTitle": "Flutterアプリ",
+
+  "welcome": "ようこそ",
+
+  "settings": "設定",
+
+  "language": "言語",
+
+  "languageEnglish": "English",
+
+  "languageJapanese": "日本語",
+
+  "theme": "テーマ",
+
+  "themeLight": "ライト",
+
+  "themeDark": "ダーク",
+
+  "themeSystem": "システム",
+
+  "cancel": "キャンセル",
+
+  "save": "保存",
+
+  "delete": "削除",
+
+  "ok": "OK"
+}

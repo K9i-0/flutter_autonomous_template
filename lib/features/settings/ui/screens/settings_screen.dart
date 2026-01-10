@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:flutter_autonomous_template/core/config/build_config.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/settings/data/models/app_settings.dart';
@@ -30,6 +32,12 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(),
           const VGap.md(),
           _buildAboutSection(context, l10n),
+          if (kDebugMode) ...[
+            const VGap.lg(),
+            const Divider(),
+            const VGap.md(),
+            _buildDebugSection(context),
+          ],
         ],
       ),
     );
@@ -184,6 +192,57 @@ class SettingsScreen extends ConsumerWidget {
           applicationLegalese: '© 2024',
         );
       },
+    );
+  }
+
+  Widget _buildDebugSection(BuildContext context) {
+    final theme = Theme.of(context);
+    final config = BuildConfig.fromEnvironment();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(Icons.bug_report, color: theme.colorScheme.error),
+            const HGap.sm(),
+            Text(
+              'Debug Info',
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.error,
+              ),
+            ),
+          ],
+        ),
+        const VGap.sm(),
+        _buildDebugItem('Flavor', config.flavor.name.toUpperCase()),
+        _buildDebugItem('App Name', config.appName),
+        _buildDebugItem('Base URL', config.baseUrl),
+      ],
+    );
+  }
+
+  Widget _buildDebugItem(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 80,
+            child: Text(
+              label,
+              style: const TextStyle(fontWeight: FontWeight.w500),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(fontFamily: 'monospace'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

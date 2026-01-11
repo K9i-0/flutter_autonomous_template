@@ -1,65 +1,78 @@
 import 'package:flutter/material.dart';
 
-/// Application color palette
+/// Application color palette - Timee Style
 ///
 /// Semantic colors for consistent theming across light and dark modes.
-/// Use these colors instead of hardcoded values.
+/// Based on Timee's yellow brand identity (#FFD700).
 abstract class AppColors {
-  // Primary colors - Brand identity
-  static const Color primaryLight = Color(0xFF4F46E5);
-  static const Color primaryDark = Color(0xFF818CF8);
-  static const Color primaryContainerLight = Color(0xFFE0E7FF);
-  static const Color primaryContainerDark = Color(0xFF4F46E5);
+  // Primary colors - Timee Yellow Brand
+  static const Color primaryLight = Color(0xFFFFD700);
+  static const Color primaryDark = Color(0xFFFFE135);
+  static const Color primaryContainerLight = Color(0xFFFFF8DC);
+  static const Color primaryContainerDark = Color(0xFF5C4A00);
 
-  // Secondary colors - Accents
-  static const Color secondaryLight = Color(0xFF0891B2);
-  static const Color secondaryDark = Color(0xFF22D3EE);
+  // Secondary colors - Blue accent (for CTAs)
+  static const Color secondaryLight = Color(0xFF0066FF);
+  static const Color secondaryDark = Color(0xFF4D94FF);
 
-  // Tertiary colors - Highlights
-  static const Color tertiaryLight = Color(0xFFDB2777);
-  static const Color tertiaryDark = Color(0xFFF472B6);
+  // Tertiary colors - Blue for info
+  static const Color tertiaryLight = Color(0xFF1976D2);
+  static const Color tertiaryDark = Color(0xFF64B5F6);
 
   // Error colors
-  static const Color errorLight = Color(0xFFDC2626);
-  static const Color errorDark = Color(0xFFF87171);
+  static const Color errorLight = Color(0xFFD32F2F);
+  static const Color errorDark = Color(0xFFEF5350);
 
   // Success colors
-  static const Color successLight = Color(0xFF16A34A);
-  static const Color successDark = Color(0xFF4ADE80);
+  static const Color successLight = Color(0xFF4CAF50);
+  static const Color successDark = Color(0xFF81C784);
 
   // Warning colors
-  static const Color warningLight = Color(0xFFD97706);
-  static const Color warningDark = Color(0xFFFBBF24);
+  static const Color warningLight = Color(0xFFFF9800);
+  static const Color warningDark = Color(0xFFFFB74D);
 
-  // Surface colors - Light theme
-  static const Color surfaceLight = Color(0xFFFAFAFC);
+  // Surface colors - Light theme (clean white backgrounds)
+  static const Color surfaceLight = Color(0xFFFAFAFA);
   static const Color surfaceContainerLowestLight = Colors.white;
-  static const Color surfaceContainerLowLight = Color(0xFFF8F9FB);
-  static const Color surfaceContainerLight = Color(0xFFF1F5F9);
-  static const Color surfaceContainerHighLight = Color(0xFFE2E8F0);
-  static const Color surfaceContainerHighestLight = Color(0xFFCBD5E1);
+  static const Color surfaceContainerLowLight = Color(0xFFF9F9F9);
+  static const Color surfaceContainerLight = Color(0xFFF5F5F5);
+  static const Color surfaceContainerHighLight = Color(0xFFEEEEEE);
+  static const Color surfaceContainerHighestLight = Color(0xFFE0E0E0);
 
   // Surface colors - Dark theme
-  static const Color surfaceDark = Color(0xFF0D0D12);
-  static const Color surfaceContainerLowestDark = Color(0xFF0D0D12);
-  static const Color surfaceContainerLowDark = Color(0xFF141419);
-  static const Color surfaceContainerDark = Color(0xFF1A1A21);
-  static const Color surfaceContainerHighDark = Color(0xFF22222B);
-  static const Color surfaceContainerHighestDark = Color(0xFF2A2A35);
+  static const Color surfaceDark = Color(0xFF121212);
+  static const Color surfaceContainerLowestDark = Color(0xFF121212);
+  static const Color surfaceContainerLowDark = Color(0xFF1E1E1E);
+  static const Color surfaceContainerDark = Color(0xFF252525);
+  static const Color surfaceContainerHighDark = Color(0xFF2C2C2C);
+  static const Color surfaceContainerHighestDark = Color(0xFF333333);
 
   // Outline colors
-  static const Color outlineLight = Color(0xFF94A3B8);
-  static const Color outlineDark = Color(0xFF4A4A5A);
-  static const Color outlineVariantLight = Color(0xFFE2E8F0);
-  static const Color outlineVariantDark = Color(0xFF2A2A35);
+  static const Color outlineLight = Color(0xFF999999);
+  static const Color outlineDark = Color(0xFF5A5A5A);
+  static const Color outlineVariantLight = Color(0xFFE8E8E8);
+  static const Color outlineVariantDark = Color(0xFF3A3A3A);
 
   // On-surface colors
-  static const Color onPrimaryLight = Colors.white;
-  static const Color onPrimaryDark = Colors.white;
-  static const Color onSecondaryLight = Colors.white;
-  static const Color onSecondaryDark = Colors.black;
+  static const Color onPrimaryLight = Color(0xFF333333); // Dark text on yellow
+  static const Color onPrimaryDark = Color(0xFF333333);
+  static const Color onSecondaryLight = Colors.white; // White text on blue
+  static const Color onSecondaryDark = Colors.white;
   static const Color onErrorLight = Colors.white;
   static const Color onErrorDark = Colors.black;
+
+  // Timee-specific semantic colors
+  static const Color textPrimaryLight = Color(0xFF333333);
+  static const Color textSecondaryLight = Color(0xFF999999);
+  static const Color textDisabledLight = Color(0xFFCCCCCC);
+  static const Color textPrimaryDark = Color(0xFFFAFAFA);
+  static const Color textSecondaryDark = Color(0xFFB0B0B0);
+  static const Color textDisabledDark = Color(0xFF6A6A6A);
+
+  // Timee accent colors
+  static const Color accentPink = Color(0xFFFF6B6B);
+  static const Color accentPurple = Color(0xFF9966FF);
+  static const Color accentGreen = Color(0xFF66BB6A);
 }
 
 /// Category colors for TODO items or tags

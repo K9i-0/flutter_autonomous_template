@@ -1,57 +1,57 @@
 import 'package:flutter/material.dart';
 
-/// Application color palette
+/// Application color palette - Discord Style
 ///
-/// Semantic colors for consistent theming across light and dark modes.
+/// Discord-inspired colors for consistent theming across light and dark modes.
 /// Use these colors instead of hardcoded values.
 abstract class AppColors {
-  // Primary colors - Brand identity
-  static const Color primaryLight = Color(0xFF4F46E5);
-  static const Color primaryDark = Color(0xFF818CF8);
-  static const Color primaryContainerLight = Color(0xFFE0E7FF);
-  static const Color primaryContainerDark = Color(0xFF4F46E5);
+  // Primary colors - Discord Blurple
+  static const Color primaryLight = Color(0xFF5865F2);
+  static const Color primaryDark = Color(0xFF7289DA);
+  static const Color primaryContainerLight = Color(0xFFE8EAFD);
+  static const Color primaryContainerDark = Color(0xFF4752C4);
 
-  // Secondary colors - Accents
-  static const Color secondaryLight = Color(0xFF0891B2);
-  static const Color secondaryDark = Color(0xFF22D3EE);
+  // Secondary colors - Discord Green
+  static const Color secondaryLight = Color(0xFF3BA55C);
+  static const Color secondaryDark = Color(0xFF57F287);
 
-  // Tertiary colors - Highlights
-  static const Color tertiaryLight = Color(0xFFDB2777);
-  static const Color tertiaryDark = Color(0xFFF472B6);
+  // Tertiary colors - Discord Link Blue
+  static const Color tertiaryLight = Color(0xFF00AFF4);
+  static const Color tertiaryDark = Color(0xFF00D4FF);
 
-  // Error colors
-  static const Color errorLight = Color(0xFFDC2626);
-  static const Color errorDark = Color(0xFFF87171);
+  // Error colors - Discord Red
+  static const Color errorLight = Color(0xFFED4245);
+  static const Color errorDark = Color(0xFFF04747);
 
-  // Success colors
-  static const Color successLight = Color(0xFF16A34A);
-  static const Color successDark = Color(0xFF4ADE80);
+  // Success colors - Discord Green
+  static const Color successLight = Color(0xFF3BA55C);
+  static const Color successDark = Color(0xFF57F287);
 
-  // Warning colors
-  static const Color warningLight = Color(0xFFD97706);
-  static const Color warningDark = Color(0xFFFBBF24);
+  // Warning colors - Discord Yellow
+  static const Color warningLight = Color(0xFFFAA61A);
+  static const Color warningDark = Color(0xFFFEE75C);
 
-  // Surface colors - Light theme
-  static const Color surfaceLight = Color(0xFFFAFAFC);
-  static const Color surfaceContainerLowestLight = Colors.white;
-  static const Color surfaceContainerLowLight = Color(0xFFF8F9FB);
-  static const Color surfaceContainerLight = Color(0xFFF1F5F9);
-  static const Color surfaceContainerHighLight = Color(0xFFE2E8F0);
-  static const Color surfaceContainerHighestLight = Color(0xFFCBD5E1);
+  // Surface colors - Light theme (Discord Light)
+  static const Color surfaceLight = Color(0xFFFFFFFF);
+  static const Color surfaceContainerLowestLight = Color(0xFFFFFFFF);
+  static const Color surfaceContainerLowLight = Color(0xFFF9FAFB);
+  static const Color surfaceContainerLight = Color(0xFFF2F3F5);
+  static const Color surfaceContainerHighLight = Color(0xFFEBEDEF);
+  static const Color surfaceContainerHighestLight = Color(0xFFE3E5E8);
 
-  // Surface colors - Dark theme
-  static const Color surfaceDark = Color(0xFF0D0D12);
-  static const Color surfaceContainerLowestDark = Color(0xFF0D0D12);
-  static const Color surfaceContainerLowDark = Color(0xFF141419);
-  static const Color surfaceContainerDark = Color(0xFF1A1A21);
-  static const Color surfaceContainerHighDark = Color(0xFF22222B);
-  static const Color surfaceContainerHighestDark = Color(0xFF2A2A35);
+  // Surface colors - Dark theme (Discord Dark)
+  static const Color surfaceDark = Color(0xFF313338);
+  static const Color surfaceContainerLowestDark = Color(0xFF1E1F22);
+  static const Color surfaceContainerLowDark = Color(0xFF232428);
+  static const Color surfaceContainerDark = Color(0xFF2B2D31);
+  static const Color surfaceContainerHighDark = Color(0xFF383A40);
+  static const Color surfaceContainerHighestDark = Color(0xFF404249);
 
   // Outline colors
-  static const Color outlineLight = Color(0xFF94A3B8);
-  static const Color outlineDark = Color(0xFF4A4A5A);
-  static const Color outlineVariantLight = Color(0xFFE2E8F0);
-  static const Color outlineVariantDark = Color(0xFF2A2A35);
+  static const Color outlineLight = Color(0xFFB5BAC1);
+  static const Color outlineDark = Color(0xFF4E5058);
+  static const Color outlineVariantLight = Color(0xFFE3E5E8);
+  static const Color outlineVariantDark = Color(0xFF383A40);
 
   // On-surface colors
   static const Color onPrimaryLight = Colors.white;
@@ -60,27 +60,35 @@ abstract class AppColors {
   static const Color onSecondaryDark = Colors.black;
   static const Color onErrorLight = Colors.white;
   static const Color onErrorDark = Colors.black;
+
+  // Text colors - Light theme
+  static const Color onSurfaceLight = Color(0xFF2E3338);
+  static const Color onSurfaceVariantLight = Color(0xFF6D6F78);
+
+  // Text colors - Dark theme
+  static const Color onSurfaceDark = Color(0xFFDBDEE1);
+  static const Color onSurfaceVariantDark = Color(0xFF949BA4);
 }
 
-/// Category colors for TODO items or tags
+/// Category colors for TODO items or tags - Discord-style
 abstract class CategoryColors {
-  static const Color red = Color(0xFFEF4444);
-  static const Color orange = Color(0xFFF97316);
-  static const Color amber = Color(0xFFF59E0B);
-  static const Color yellow = Color(0xFFEAB308);
-  static const Color lime = Color(0xFF84CC16);
-  static const Color green = Color(0xFF22C55E);
-  static const Color emerald = Color(0xFF10B981);
-  static const Color teal = Color(0xFF14B8A6);
-  static const Color cyan = Color(0xFF06B6D4);
-  static const Color sky = Color(0xFF0EA5E9);
-  static const Color blue = Color(0xFF3B82F6);
-  static const Color indigo = Color(0xFF6366F1);
-  static const Color violet = Color(0xFF8B5CF6);
-  static const Color purple = Color(0xFFA855F7);
-  static const Color fuchsia = Color(0xFFD946EF);
-  static const Color pink = Color(0xFFEC4899);
-  static const Color rose = Color(0xFFF43F5E);
+  static const Color red = Color(0xFFED4245);
+  static const Color orange = Color(0xFFFAA61A);
+  static const Color amber = Color(0xFFFEE75C);
+  static const Color yellow = Color(0xFFFEE75C);
+  static const Color lime = Color(0xFF57F287);
+  static const Color green = Color(0xFF3BA55C);
+  static const Color emerald = Color(0xFF1ABC9C);
+  static const Color teal = Color(0xFF1ABC9C);
+  static const Color cyan = Color(0xFF00AFF4);
+  static const Color sky = Color(0xFF00AFF4);
+  static const Color blue = Color(0xFF5865F2);
+  static const Color indigo = Color(0xFF5865F2);
+  static const Color violet = Color(0xFF9B59B6);
+  static const Color purple = Color(0xFF9B59B6);
+  static const Color fuchsia = Color(0xFFEB459E);
+  static const Color pink = Color(0xFFEB459E);
+  static const Color rose = Color(0xFFED4245);
 
   /// Get category color by index (wraps around)
   static Color byIndex(int index) {
@@ -105,6 +113,8 @@ extension AppColorScheme on AppColors {
   static ColorScheme lightScheme() {
     return ColorScheme.light(
       surface: AppColors.surfaceLight,
+      onSurface: AppColors.onSurfaceLight,
+      onSurfaceVariant: AppColors.onSurfaceVariantLight,
       surfaceContainerLowest: AppColors.surfaceContainerLowestLight,
       surfaceContainerLow: AppColors.surfaceContainerLowLight,
       surfaceContainer: AppColors.surfaceContainerLight,
@@ -126,6 +136,8 @@ extension AppColorScheme on AppColors {
   static ColorScheme darkScheme() {
     return ColorScheme.dark(
       surface: AppColors.surfaceDark,
+      onSurface: AppColors.onSurfaceDark,
+      onSurfaceVariant: AppColors.onSurfaceVariantDark,
       surfaceContainerLowest: AppColors.surfaceContainerLowestDark,
       surfaceContainerLow: AppColors.surfaceContainerLowDark,
       surfaceContainer: AppColors.surfaceContainerDark,

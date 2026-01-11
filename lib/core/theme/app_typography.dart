@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Application typography configuration
+/// Application typography configuration - Discord Style
 ///
-/// Uses Poppins for headlines and Inter for body text.
+/// Uses Outfit for headlines (Discord-like bold headings) and Inter for body text
+/// (similar to Discord's gg sans).
 abstract class AppTypography {
   /// Font family for headlines and display text
-  static String get headlineFont => GoogleFonts.poppins().fontFamily!;
+  static String get headlineFont => GoogleFonts.outfit().fontFamily!;
 
   /// Font family for body text and UI elements
   static String get bodyFont => GoogleFonts.inter().fontFamily!;
@@ -14,46 +15,46 @@ abstract class AppTypography {
   /// Build the complete TextTheme for the app
   static TextTheme buildTextTheme(ColorScheme colorScheme) {
     return TextTheme(
-      displayLarge: GoogleFonts.poppins(
-        fontSize: 57,
+      displayLarge: GoogleFonts.outfit(
+        fontSize: 48,
         fontWeight: FontWeight.w700,
-        letterSpacing: -0.25,
+        letterSpacing: -0.5,
         color: colorScheme.onSurface,
       ),
-      displayMedium: GoogleFonts.poppins(
-        fontSize: 45,
+      displayMedium: GoogleFonts.outfit(
+        fontSize: 40,
         fontWeight: FontWeight.w700,
         color: colorScheme.onSurface,
       ),
-      displaySmall: GoogleFonts.poppins(
-        fontSize: 36,
-        fontWeight: FontWeight.w600,
-        color: colorScheme.onSurface,
-      ),
-      headlineLarge: GoogleFonts.poppins(
+      displaySmall: GoogleFonts.outfit(
         fontSize: 32,
-        fontWeight: FontWeight.w700,
-        color: colorScheme.onSurface,
-      ),
-      headlineMedium: GoogleFonts.poppins(
-        fontSize: 28,
         fontWeight: FontWeight.w600,
         color: colorScheme.onSurface,
       ),
-      headlineSmall: GoogleFonts.poppins(
+      headlineLarge: GoogleFonts.outfit(
+        fontSize: 28,
+        fontWeight: FontWeight.w700,
+        color: colorScheme.onSurface,
+      ),
+      headlineMedium: GoogleFonts.outfit(
         fontSize: 24,
         fontWeight: FontWeight.w600,
         color: colorScheme.onSurface,
       ),
+      headlineSmall: GoogleFonts.outfit(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: colorScheme.onSurface,
+      ),
       titleLarge: GoogleFonts.inter(
-        fontSize: 22,
+        fontSize: 18,
         fontWeight: FontWeight.w600,
         color: colorScheme.onSurface,
       ),
       titleMedium: GoogleFonts.inter(
         fontSize: 16,
         fontWeight: FontWeight.w600,
-        letterSpacing: 0.15,
+        letterSpacing: 0.1,
         color: colorScheme.onSurface,
       ),
       titleSmall: GoogleFonts.inter(
@@ -65,19 +66,19 @@ abstract class AppTypography {
       bodyLarge: GoogleFonts.inter(
         fontSize: 16,
         fontWeight: FontWeight.w400,
-        letterSpacing: 0.5,
+        letterSpacing: 0.15,
         color: colorScheme.onSurface,
       ),
       bodyMedium: GoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w400,
-        letterSpacing: 0.25,
+        letterSpacing: 0.15,
         color: colorScheme.onSurface,
       ),
       bodySmall: GoogleFonts.inter(
         fontSize: 12,
         fontWeight: FontWeight.w400,
-        letterSpacing: 0.4,
+        letterSpacing: 0.2,
         color: colorScheme.onSurfaceVariant,
       ),
       labelLarge: GoogleFonts.inter(
@@ -89,13 +90,13 @@ abstract class AppTypography {
       labelMedium: GoogleFonts.inter(
         fontSize: 12,
         fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
+        letterSpacing: 0.3,
         color: colorScheme.onSurface,
       ),
       labelSmall: GoogleFonts.inter(
         fontSize: 11,
         fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
+        letterSpacing: 0.3,
         color: colorScheme.onSurfaceVariant,
       ),
     );

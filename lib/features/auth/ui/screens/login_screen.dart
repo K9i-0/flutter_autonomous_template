@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -152,7 +153,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       prefixIcon: const Icon(Icons.lock_outlined),
       suffixIcon: IconButton(
         icon: Icon(
-          _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+          _obscurePassword
+              ? Icons.visibility_outlined
+              : Icons.visibility_off_outlined,
         ),
         onPressed: () {
           setState(() {
@@ -172,6 +175,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Widget _buildDemoHint(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
+    final authState = ref.watch(authNotifierProvider);
+    final isLoading = authState.isLoading;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -204,6 +209,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               color: theme.colorScheme.outline,
             ),
           ),
+          if (kDebugMode) ...[
+            const VGap.md(),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton.icon(
+                onPressed: isLoading ? null : _handleDebugSignIn,
+                icon: const Icon(Icons.flash_on),
+                label: Text(l10n.debugQuickLogin),
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -212,9 +228,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _handleSignIn() async {
     if (!_formKey.currentState!.validate()) return;
 
-    await ref.read(authNotifierProvider.notifier).signIn(
+    await ref
+        .read(authNotifierProvider.notifier)
+        .signIn(
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
+  }
+
+  Future<void> _handleDebugSignIn() async {
+    await ref
+        .read(authNotifierProvider.notifier)
+        .signIn(email: 'demo@example.com', password: 'demo');
   }
 }

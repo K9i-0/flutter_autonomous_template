@@ -28,8 +28,9 @@ final isAuthenticatedProvider = Provider<bool>((ref) {
 });
 
 /// Notifier for authentication actions
-final authNotifierProvider =
-    AsyncNotifierProvider<AuthNotifier, void>(AuthNotifier.new);
+final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, void>(
+  AuthNotifier.new,
+);
 
 /// Notifier class for handling auth operations
 class AuthNotifier extends AsyncNotifier<void> {
@@ -39,16 +40,12 @@ class AuthNotifier extends AsyncNotifier<void> {
   }
 
   /// Sign in with email and password
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signIn({required String email, required String password}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      await ref.read(authRepositoryProvider).signIn(
-            email: email,
-            password: password,
-          );
+      await ref
+          .read(authRepositoryProvider)
+          .signIn(email: email, password: password);
     });
   }
 

@@ -137,5 +137,7 @@
 
   "dateInDays": "{count}日後",
 
-  "dateDaysAgo": "{count}日前"
+  "dateDaysAgo": "{count}日前",
+
+  "debugQuickLogin": "クイックログイン（デバッグ）"
 }

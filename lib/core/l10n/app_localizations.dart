@@ -511,6 +511,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} days ago'**
   String dateDaysAgo(int count);
+
+  /// Debug quick login button text
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Login (Debug)'**
+  String get debugQuickLogin;
 }
 
 class _AppLocalizationsDelegate

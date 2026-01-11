@@ -11,11 +11,7 @@ import 'package:flutter_autonomous_template/features/todo/providers/todo_provide
 
 @RoutePage()
 class TodoEditScreen extends ConsumerStatefulWidget {
-  const TodoEditScreen({
-    super.key,
-    this.todo,
-    @PathParam('id') this.todoId,
-  });
+  const TodoEditScreen({super.key, this.todo, @PathParam('id') this.todoId});
 
   final Todo? todo;
   final String? todoId;
@@ -127,7 +123,9 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              _dueDate != null ? _formatDate(_dueDate!, l10n) : l10n.todoDueDateNone,
+              _dueDate != null
+                  ? _formatDate(_dueDate!, l10n)
+                  : l10n.todoDueDateNone,
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: _dueDate != null
                     ? colorScheme.onSurface
@@ -195,9 +193,9 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
     final l10n = AppLocalizations.of(context);
     final title = _titleController.text.trim();
     if (title.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.todoTitleRequired)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.todoTitleRequired)));
       return;
     }
 

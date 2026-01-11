@@ -191,7 +191,11 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAccountSection(BuildContext context, WidgetRef ref, AppLocalizations l10n) {
+  Widget _buildAccountSection(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
     final theme = Theme.of(context);
     final currentUser = ref.watch(currentUserProvider);
     final authState = ref.watch(authNotifierProvider);
@@ -255,7 +259,11 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDebugSection(BuildContext context, WidgetRef ref, AppLocalizations l10n) {
+  Widget _buildDebugSection(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
     final theme = Theme.of(context);
     final config = BuildConfig.fromEnvironment();
     final debugSettings = ref.watch(debugSettingsProvider);

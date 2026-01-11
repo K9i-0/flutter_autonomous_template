@@ -2,6 +2,8 @@
 
 This document compares the UI before and after applying Discord-style design guidelines.
 
+**Note:** After screenshots are captured in Dark theme to showcase Discord's signature dark mode aesthetic.
+
 ## Design Changes Summary
 
 | Element | Before | After |

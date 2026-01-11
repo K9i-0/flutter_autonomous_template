@@ -53,7 +53,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         error: (error, _) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(l10n?.loginFailed(error.toString()) ?? 'Login failed: $error'),
+              content: Text(l10n.loginFailed(error.toString())),
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
           );
@@ -78,7 +78,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 _buildPasswordField(l10n),
                 const VGap.xl(),
                 AppButton(
-                  label: l10n?.signIn ?? 'Sign In',
+                  label: l10n.signIn,
                   onPressed: isLoading ? null : _handleSignIn,
                   isLoading: isLoading,
                   isExpanded: true,
@@ -93,7 +93,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _buildHeader(BuildContext context, AppLocalizations? l10n) {
+  Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Column(
@@ -105,14 +105,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         const VGap.lg(),
         Text(
-          l10n?.welcomeBack ?? 'Welcome Back',
+          l10n.welcomeBack,
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         const VGap.sm(),
         Text(
-          l10n?.signInToContinue ?? 'Sign in to continue',
+          l10n.signInToContinue,
           style: theme.textTheme.bodyLarge?.copyWith(
             color: theme.colorScheme.outline,
           ),
@@ -121,31 +121,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _buildEmailField(AppLocalizations? l10n) {
+  Widget _buildEmailField(AppLocalizations l10n) {
     return AppTextField(
       controller: _emailController,
-      label: l10n?.email ?? 'Email',
-      hint: l10n?.emailHint ?? 'Enter your email',
+      label: l10n.email,
+      hint: l10n.emailHint,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       prefixIcon: const Icon(Icons.email_outlined),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return l10n?.emailRequired ?? 'Please enter your email';
+          return l10n.emailRequired;
         }
         if (!value.contains('@')) {
-          return l10n?.emailInvalid ?? 'Please enter a valid email';
+          return l10n.emailInvalid;
         }
         return null;
       },
     );
   }
 
-  Widget _buildPasswordField(AppLocalizations? l10n) {
+  Widget _buildPasswordField(AppLocalizations l10n) {
     return AppTextField(
       controller: _passwordController,
-      label: l10n?.password ?? 'Password',
-      hint: l10n?.passwordHint ?? 'Enter your password',
+      label: l10n.password,
+      hint: l10n.passwordHint,
       obscureText: _obscurePassword,
       textInputAction: TextInputAction.done,
       prefixIcon: const Icon(Icons.lock_outlined),
@@ -161,7 +161,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return l10n?.passwordRequired ?? 'Please enter your password';
+          return l10n.passwordRequired;
         }
         return null;
       },
@@ -169,7 +169,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _buildDemoHint(BuildContext context, AppLocalizations? l10n) {
+  Widget _buildDemoHint(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Container(
@@ -189,7 +189,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const HGap.sm(),
               Text(
-                l10n?.demoMode ?? 'Demo Mode',
+                l10n.demoMode,
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -198,7 +198,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
           const VGap.sm(),
           Text(
-            l10n?.demoModeDescription ?? 'This is a mock login. Enter any email and password to sign in.',
+            l10n.demoModeDescription,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.outline,
             ),

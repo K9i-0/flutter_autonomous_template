@@ -25,14 +25,14 @@ class TodoListScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n?.todos ?? 'TODOs'),
+        title: Text(l10n.todos),
         actions: [
           if (stats.completed > 0)
             TextButton(
               onPressed: () {
                 ref.read(todoListProvider.notifier).clearCompleted();
               },
-              child: Text(l10n?.clearCompleted ?? 'Clear completed'),
+              child: Text(l10n.clearCompleted),
             ),
         ],
       ),
@@ -65,7 +65,7 @@ class TodoListScreen extends ConsumerWidget {
     WidgetRef ref,
     TodoFilter currentFilter,
     ({int total, int completed, int active}) stats,
-    AppLocalizations? l10n,
+    AppLocalizations l10n,
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -76,7 +76,7 @@ class TodoListScreen extends ConsumerWidget {
         children: [
           _buildFilterChip(
             context,
-            label: l10n?.filterAllCount(stats.total) ?? 'All (${stats.total})',
+            label: l10n.filterAllCount(stats.total),
             isSelected: currentFilter == TodoFilter.all,
             onTap: () =>
                 ref.read(filterProvider.notifier).setFilter(TodoFilter.all),
@@ -84,7 +84,7 @@ class TodoListScreen extends ConsumerWidget {
           const HGap.sm(),
           _buildFilterChip(
             context,
-            label: l10n?.filterActiveCount(stats.active) ?? 'Active (${stats.active})',
+            label: l10n.filterActiveCount(stats.active),
             isSelected: currentFilter == TodoFilter.active,
             onTap: () =>
                 ref.read(filterProvider.notifier).setFilter(TodoFilter.active),
@@ -92,7 +92,7 @@ class TodoListScreen extends ConsumerWidget {
           const HGap.sm(),
           _buildFilterChip(
             context,
-            label: l10n?.filterDoneCount(stats.completed) ?? 'Done (${stats.completed})',
+            label: l10n.filterDoneCount(stats.completed),
             isSelected: currentFilter == TodoFilter.completed,
             onTap: () => ref
                 .read(filterProvider.notifier)
@@ -125,12 +125,12 @@ class TodoListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTodoList(BuildContext context, WidgetRef ref, List<Todo> todos, AppLocalizations? l10n) {
+  Widget _buildTodoList(BuildContext context, WidgetRef ref, List<Todo> todos, AppLocalizations l10n) {
     if (todos.isEmpty) {
       return AppEmptyState(
         icon: Icons.check_circle_outline,
-        title: l10n?.todoEmptyTitle ?? 'No TODOs yet',
-        description: l10n?.todoEmptyDescription ?? 'Tap + to add your first TODO',
+        title: l10n.todoEmptyTitle,
+        description: l10n.todoEmptyDescription,
       );
     }
 
@@ -152,7 +152,7 @@ class TodoListScreen extends ConsumerWidget {
             ref.read(todoListProvider.notifier).deleteTodo(todo.id);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(l10n?.todoDeleted(todo.title) ?? 'Deleted "${todo.title}"'),
+                content: Text(l10n.todoDeleted(todo.title)),
                 action: SnackBarAction(
                   label: 'Undo',
                   onPressed: () {

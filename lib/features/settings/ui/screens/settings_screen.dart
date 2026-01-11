@@ -22,7 +22,7 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n?.settings ?? 'Settings')),
+      appBar: AppBar(title: Text(l10n.settings)),
       body: ListView(
         padding: AppSpacing.screenPadding,
         children: [
@@ -52,19 +52,19 @@ class SettingsScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AppSettings settings,
-    AppLocalizations? l10n,
+    AppLocalizations l10n,
   ) {
     final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n?.theme ?? 'Theme', style: theme.textTheme.titleMedium),
+        Text(l10n.theme, style: theme.textTheme.titleMedium),
         const VGap.sm(),
         _buildThemeOption(
           context,
           ref,
-          title: l10n?.themeSystem ?? 'System',
+          title: l10n.themeSystem,
           icon: Icons.brightness_auto,
           value: ThemeModeValue.system,
           currentValue: settings.themeMode,
@@ -72,7 +72,7 @@ class SettingsScreen extends ConsumerWidget {
         _buildThemeOption(
           context,
           ref,
-          title: l10n?.themeLight ?? 'Light',
+          title: l10n.themeLight,
           icon: Icons.light_mode,
           value: ThemeModeValue.light,
           currentValue: settings.themeMode,
@@ -80,7 +80,7 @@ class SettingsScreen extends ConsumerWidget {
         _buildThemeOption(
           context,
           ref,
-          title: l10n?.themeDark ?? 'Dark',
+          title: l10n.themeDark,
           icon: Icons.dark_mode,
           value: ThemeModeValue.dark,
           currentValue: settings.themeMode,
@@ -122,26 +122,26 @@ class SettingsScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AppSettings settings,
-    AppLocalizations? l10n,
+    AppLocalizations l10n,
   ) {
     final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n?.language ?? 'Language', style: theme.textTheme.titleMedium),
+        Text(l10n.language, style: theme.textTheme.titleMedium),
         const VGap.sm(),
         _buildLanguageOption(
           context,
           ref,
-          title: l10n?.languageEnglish ?? 'English',
+          title: l10n.languageEnglish,
           locale: 'en',
           currentLocale: settings.locale,
         ),
         _buildLanguageOption(
           context,
           ref,
-          title: l10n?.languageJapanese ?? '日本語',
+          title: l10n.languageJapanese,
           locale: 'ja',
           currentLocale: settings.locale,
         ),
@@ -176,7 +176,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAboutSection(BuildContext context, AppLocalizations? l10n) {
+  Widget _buildAboutSection(BuildContext context, AppLocalizations l10n) {
     return ListTile(
       leading: const Icon(Icons.info_outline),
       title: const Text('About'),
@@ -191,7 +191,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAccountSection(BuildContext context, WidgetRef ref, AppLocalizations? l10n) {
+  Widget _buildAccountSection(BuildContext context, WidgetRef ref, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final currentUser = ref.watch(currentUserProvider);
     final authState = ref.watch(authNotifierProvider);
@@ -200,7 +200,7 @@ class SettingsScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n?.account ?? 'Account', style: theme.textTheme.titleMedium),
+        Text(l10n.account, style: theme.textTheme.titleMedium),
         const VGap.sm(),
         if (currentUser != null) ...[
           ListTile(
@@ -220,7 +220,7 @@ class SettingsScreen extends ConsumerWidget {
         ListTile(
           leading: Icon(Icons.logout, color: theme.colorScheme.error),
           title: Text(
-            l10n?.signOut ?? 'Sign Out',
+            l10n.signOut,
             style: TextStyle(color: theme.colorScheme.error),
           ),
           enabled: !isLoading,
@@ -228,16 +228,16 @@ class SettingsScreen extends ConsumerWidget {
             final confirmed = await showDialog<bool>(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text(l10n?.signOut ?? 'Sign Out'),
-                content: Text(l10n?.signOutConfirm ?? 'Are you sure you want to sign out?'),
+                title: Text(l10n.signOut),
+                content: Text(l10n.signOutConfirm),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: Text(l10n?.cancel ?? 'Cancel'),
+                    child: Text(l10n.cancel),
                   ),
                   FilledButton(
                     onPressed: () => Navigator.of(context).pop(true),
-                    child: Text(l10n?.signOut ?? 'Sign Out'),
+                    child: Text(l10n.signOut),
                   ),
                 ],
               ),
@@ -255,7 +255,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDebugSection(BuildContext context, WidgetRef ref, AppLocalizations? l10n) {
+  Widget _buildDebugSection(BuildContext context, WidgetRef ref, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final config = BuildConfig.fromEnvironment();
     final debugSettings = ref.watch(debugSettingsProvider);
@@ -269,7 +269,7 @@ class SettingsScreen extends ConsumerWidget {
             Icon(Icons.bug_report, color: theme.colorScheme.error),
             const HGap.sm(),
             Text(
-              l10n?.debugInfo ?? 'Debug Info',
+              l10n.debugInfo,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.error,
               ),
@@ -284,14 +284,14 @@ class SettingsScreen extends ConsumerWidget {
         const Divider(),
         const VGap.sm(),
         Text(
-          l10n?.repositoryDebug ?? 'Repository Debug',
+          l10n.repositoryDebug,
           style: theme.textTheme.titleSmall?.copyWith(
             color: theme.colorScheme.error,
           ),
         ),
         SwitchListTile(
-          title: Text(l10n?.useDebugRepository ?? 'Use Debug Repository'),
-          subtitle: Text(l10n?.useDebugRepositoryDesc ?? 'Show dummy data for screenshots'),
+          title: Text(l10n.useDebugRepository),
+          subtitle: Text(l10n.useDebugRepositoryDesc),
           value: debugSettings.useDebugRepository,
           onChanged: (_) => debugNotifier.toggleUseDebugRepository(),
         ),
@@ -300,7 +300,7 @@ class SettingsScreen extends ConsumerWidget {
           child: TextButton.icon(
             onPressed: debugNotifier.resetToDefaults,
             icon: const Icon(Icons.refresh),
-            label: Text(l10n?.resetToDefaults ?? 'Reset to Defaults'),
+            label: Text(l10n.resetToDefaults),
           ),
         ),
       ],

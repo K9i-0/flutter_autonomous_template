@@ -69,7 +69,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? (l10n?.todoEdit ?? 'Edit TODO') : (l10n?.todoNew ?? 'New TODO')),
+        title: Text(isEditing ? l10n.todoEdit : l10n.todoNew),
         actions: [
           if (isEditing)
             IconButton(
@@ -85,16 +85,16 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
           children: [
             AppTextField(
               controller: _titleController,
-              label: l10n?.todoTitle ?? 'Title',
-              hint: l10n?.todoTitleHint ?? 'What needs to be done?',
+              label: l10n.todoTitle,
+              hint: l10n.todoTitleHint,
               textInputAction: TextInputAction.next,
               autofocus: !isEditing,
             ),
             const VGap.md(),
             AppTextField(
               controller: _descriptionController,
-              label: l10n?.todoDescriptionOptional ?? 'Description (optional)',
-              hint: l10n?.todoDescriptionHint ?? 'Add some details...',
+              label: l10n.todoDescriptionOptional,
+              hint: l10n.todoDescriptionHint,
               maxLines: 3,
               textInputAction: TextInputAction.newline,
             ),
@@ -102,7 +102,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
             _buildDueDatePicker(context, l10n),
             const VGap.xl(),
             AppButton(
-              label: isEditing ? (l10n?.saveChanges ?? 'Save changes') : (l10n?.todoAdd ?? 'Add TODO'),
+              label: isEditing ? l10n.saveChanges : l10n.todoAdd,
               onPressed: _handleSave,
               isLoading: _isLoading,
               isExpanded: true,
@@ -113,7 +113,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
     );
   }
 
-  Widget _buildDueDatePicker(BuildContext context, AppLocalizations? l10n) {
+  Widget _buildDueDatePicker(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -121,12 +121,12 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
       onTap: _pickDueDate,
       borderRadius: BorderRadius.circular(12),
       child: InputDecorator(
-        decoration: InputDecoration(labelText: l10n?.todoDueDateOptional ?? 'Due date (optional)'),
+        decoration: InputDecoration(labelText: l10n.todoDueDateOptional),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              _dueDate != null ? _formatDate(_dueDate!, l10n) : (l10n?.todoDueDateNone ?? 'No due date'),
+              _dueDate != null ? _formatDate(_dueDate!, l10n) : l10n.todoDueDateNone,
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: _dueDate != null
                     ? colorScheme.onSurface
@@ -175,16 +175,16 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
     }
   }
 
-  String _formatDate(DateTime date, AppLocalizations? l10n) {
+  String _formatDate(DateTime date, AppLocalizations l10n) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final dateOnly = DateTime(date.year, date.month, date.day);
     final diff = dateOnly.difference(today).inDays;
 
     if (diff == 0) {
-      return l10n?.dateToday ?? 'Today';
+      return l10n.dateToday;
     } else if (diff == 1) {
-      return l10n?.dateTomorrow ?? 'Tomorrow';
+      return l10n.dateTomorrow;
     } else {
       return '${date.month}/${date.day}/${date.year}';
     }
@@ -195,7 +195,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
     final title = _titleController.text.trim();
     if (title.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n?.todoTitleRequired ?? 'Please enter a title')),
+        SnackBar(content: Text(l10n.todoTitleRequired)),
       );
       return;
     }
@@ -239,19 +239,16 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(l10n?.todoDeleteTitle ?? 'Delete TODO?'),
-        content: Text(
-          l10n?.todoDeleteConfirm(_resolvedTodo!.title) ??
-              'Are you sure you want to delete "${_resolvedTodo!.title}"?',
-        ),
+        title: Text(l10n.todoDeleteTitle),
+        content: Text(l10n.todoDeleteConfirm(_resolvedTodo!.title)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n?.cancel ?? 'Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(l10n?.delete ?? 'Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),

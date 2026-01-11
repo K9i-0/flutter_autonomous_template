@@ -2,3 +2,9 @@ arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-localization-file: app_localizations.dart
 output-dir: lib/core/l10n
+
+# Non-null getter for cleaner code: l10n.key instead of l10n?.key ?? 'Default'
+nullable-getter: false
+
+# Generate untranslated messages report
+untranslated-messages-file: lib/l10n/untranslated.txt

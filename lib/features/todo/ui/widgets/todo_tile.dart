@@ -66,13 +66,11 @@ class TodoTile extends StatelessWidget {
     );
   }
 
-  Widget _buildCheckbox(BuildContext context, AppLocalizations? l10n) {
+  Widget _buildCheckbox(BuildContext context, AppLocalizations l10n) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Semantics(
-      label: todo.isCompleted
-          ? (l10n?.markIncomplete ?? 'Mark incomplete')
-          : (l10n?.markComplete ?? 'Mark complete'),
+      label: todo.isCompleted ? l10n.markIncomplete : l10n.markComplete,
       checked: todo.isCompleted,
       child: GestureDetector(
         onTap: onToggle,
@@ -98,7 +96,7 @@ class TodoTile extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context, AppLocalizations? l10n) {
+  Widget _buildContent(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -173,7 +171,7 @@ class TodoTile extends StatelessWidget {
     return dueDate.isBefore(today);
   }
 
-  String _formatDueDate(AppLocalizations? l10n) {
+  String _formatDueDate(AppLocalizations l10n) {
     if (todo.dueDate == null) return '';
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -182,15 +180,15 @@ class TodoTile extends StatelessWidget {
     final diff = dateOnly.difference(today).inDays;
 
     if (diff == 0) {
-      return l10n?.dateToday ?? 'Today';
+      return l10n.dateToday;
     } else if (diff == 1) {
-      return l10n?.dateTomorrow ?? 'Tomorrow';
+      return l10n.dateTomorrow;
     } else if (diff == -1) {
-      return l10n?.dateYesterday ?? 'Yesterday';
+      return l10n.dateYesterday;
     } else if (diff > 0 && diff < 7) {
-      return l10n?.dateInDays(diff) ?? 'In $diff days';
+      return l10n.dateInDays(diff);
     } else if (diff < 0 && diff > -7) {
-      return l10n?.dateDaysAgo(-diff) ?? '${-diff} days ago';
+      return l10n.dateDaysAgo(-diff);
     } else {
       return '${date.month}/${date.day}';
     }

@@ -200,11 +200,29 @@ abstract class AppLocalizations {
   /// **'Edit TODO'**
   String get todoEdit;
 
+  /// New TODO screen title
+  ///
+  /// In en, this message translates to:
+  /// **'New TODO'**
+  String get todoNew;
+
   /// TODO title field label
   ///
   /// In en, this message translates to:
   /// **'Title'**
   String get todoTitle;
+
+  /// TODO title field hint
+  ///
+  /// In en, this message translates to:
+  /// **'What needs to be done?'**
+  String get todoTitleHint;
+
+  /// TODO title validation error
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a title'**
+  String get todoTitleRequired;
 
   /// TODO description field label
   ///
@@ -212,11 +230,35 @@ abstract class AppLocalizations {
   /// **'Description'**
   String get todoDescription;
 
+  /// TODO description field label with optional
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get todoDescriptionOptional;
+
+  /// TODO description field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Add some details...'**
+  String get todoDescriptionHint;
+
   /// TODO due date field label
   ///
   /// In en, this message translates to:
   /// **'Due date'**
   String get todoDueDate;
+
+  /// TODO due date field label with optional
+  ///
+  /// In en, this message translates to:
+  /// **'Due date (optional)'**
+  String get todoDueDateOptional;
+
+  /// No due date selected
+  ///
+  /// In en, this message translates to:
+  /// **'No due date'**
+  String get todoDueDateNone;
 
   /// Empty TODO list title
   ///
@@ -229,6 +271,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap + to add your first TODO'**
   String get todoEmptyDescription;
+
+  /// TODO deleted snackbar message
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted \"{title}\"'**
+  String todoDeleted(String title);
+
+  /// Delete TODO dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete TODO?'**
+  String get todoDeleteTitle;
+
+  /// Delete TODO confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{title}\"?'**
+  String todoDeleteConfirm(String title);
+
+  /// Save changes button
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get saveChanges;
 
   /// All filter option
   ///
@@ -248,17 +314,203 @@ abstract class AppLocalizations {
   /// **'Completed'**
   String get filterCompleted;
 
+  /// All filter with count
+  ///
+  /// In en, this message translates to:
+  /// **'All ({count})'**
+  String filterAllCount(int count);
+
+  /// Active filter with count
+  ///
+  /// In en, this message translates to:
+  /// **'Active ({count})'**
+  String filterActiveCount(int count);
+
+  /// Done filter with count
+  ///
+  /// In en, this message translates to:
+  /// **'Done ({count})'**
+  String filterDoneCount(int count);
+
   /// Clear completed button
   ///
   /// In en, this message translates to:
   /// **'Clear completed'**
   String get clearCompleted;
 
+  /// Mark TODO as complete
+  ///
+  /// In en, this message translates to:
+  /// **'Mark complete'**
+  String get markComplete;
+
+  /// Mark TODO as incomplete
+  ///
+  /// In en, this message translates to:
+  /// **'Mark incomplete'**
+  String get markIncomplete;
+
   /// About menu item
   ///
   /// In en, this message translates to:
   /// **'About'**
   String get about;
+
+  /// Sign in button
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// Login screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get welcomeBack;
+
+  /// Login screen subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue'**
+  String get signInToContinue;
+
+  /// Email field label
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// Email field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get emailHint;
+
+  /// Email required validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get emailRequired;
+
+  /// Email invalid validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email'**
+  String get emailInvalid;
+
+  /// Password field label
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// Password field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get passwordHint;
+
+  /// Password required validation
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your password'**
+  String get passwordRequired;
+
+  /// Demo mode section title
+  ///
+  /// In en, this message translates to:
+  /// **'Demo Mode'**
+  String get demoMode;
+
+  /// Demo mode description
+  ///
+  /// In en, this message translates to:
+  /// **'This is a mock login. Enter any email and password to sign in.'**
+  String get demoModeDescription;
+
+  /// Login failed error message
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed: {error}'**
+  String loginFailed(String error);
+
+  /// Account section title
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// Sign out button
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOut;
+
+  /// Sign out confirmation message
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get signOutConfirm;
+
+  /// Debug info section title
+  ///
+  /// In en, this message translates to:
+  /// **'Debug Info'**
+  String get debugInfo;
+
+  /// Repository debug section title
+  ///
+  /// In en, this message translates to:
+  /// **'Repository Debug'**
+  String get repositoryDebug;
+
+  /// Use debug repository toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Use Debug Repository'**
+  String get useDebugRepository;
+
+  /// Use debug repository description
+  ///
+  /// In en, this message translates to:
+  /// **'Show dummy data for screenshots'**
+  String get useDebugRepositoryDesc;
+
+  /// Reset to defaults button
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to Defaults'**
+  String get resetToDefaults;
+
+  /// Today date label
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dateToday;
+
+  /// Tomorrow date label
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get dateTomorrow;
+
+  /// Yesterday date label
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get dateYesterday;
+
+  /// In N days
+  ///
+  /// In en, this message translates to:
+  /// **'In {count} days'**
+  String dateInDays(int count);
+
+  /// N days ago
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days ago'**
+  String dateDaysAgo(int count);
 }
 
 class _AppLocalizationsDelegate

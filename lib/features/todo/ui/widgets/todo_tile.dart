@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/theme/app_colors.dart';
 import 'package:flutter_autonomous_template/core/theme/app_radius.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
@@ -24,6 +25,7 @@ class TodoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return Dismissible(
       key: Key(todo.id),
@@ -49,9 +51,9 @@ class TodoTile extends StatelessWidget {
             padding: AppSpacing.cardPadding,
             child: Row(
               children: [
-                _buildCheckbox(context),
+                _buildCheckbox(context, l10n),
                 const HGap.md(),
-                Expanded(child: _buildContent(context)),
+                Expanded(child: _buildContent(context, l10n)),
                 if (todo.category != null) ...[
                   const HGap.sm(),
                   _buildCategoryIndicator(),
@@ -64,11 +66,13 @@ class TodoTile extends StatelessWidget {
     );
   }
 
-  Widget _buildCheckbox(BuildContext context) {
+  Widget _buildCheckbox(BuildContext context, AppLocalizations? l10n) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Semantics(
-      label: todo.isCompleted ? 'Mark incomplete' : 'Mark complete',
+      label: todo.isCompleted
+          ? (l10n?.markIncomplete ?? 'Mark incomplete')
+          : (l10n?.markComplete ?? 'Mark complete'),
       checked: todo.isCompleted,
       child: GestureDetector(
         onTap: onToggle,
@@ -94,7 +98,7 @@ class TodoTile extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent(BuildContext context, AppLocalizations? l10n) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -134,7 +138,7 @@ class TodoTile extends StatelessWidget {
               ),
               const HGap.xs(),
               Text(
-                _formatDueDate(),
+                _formatDueDate(l10n),
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: _isDueOverdue()
                       ? colorScheme.error
@@ -169,7 +173,7 @@ class TodoTile extends StatelessWidget {
     return dueDate.isBefore(today);
   }
 
-  String _formatDueDate() {
+  String _formatDueDate(AppLocalizations? l10n) {
     if (todo.dueDate == null) return '';
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -178,15 +182,15 @@ class TodoTile extends StatelessWidget {
     final diff = dateOnly.difference(today).inDays;
 
     if (diff == 0) {
-      return 'Today';
+      return l10n?.dateToday ?? 'Today';
     } else if (diff == 1) {
-      return 'Tomorrow';
+      return l10n?.dateTomorrow ?? 'Tomorrow';
     } else if (diff == -1) {
-      return 'Yesterday';
+      return l10n?.dateYesterday ?? 'Yesterday';
     } else if (diff > 0 && diff < 7) {
-      return 'In $diff days';
+      return l10n?.dateInDays(diff) ?? 'In $diff days';
     } else if (diff < 0 && diff > -7) {
-      return '${-diff} days ago';
+      return l10n?.dateDaysAgo(-diff) ?? '${-diff} days ago';
     } else {
       return '${date.month}/${date.day}';
     }

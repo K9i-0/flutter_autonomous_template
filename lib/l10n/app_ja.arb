@@ -35,15 +35,37 @@
 
   "todoEdit": "TODOを編集",
 
+  "todoNew": "新規TODO",
+
   "todoTitle": "タイトル",
+
+  "todoTitleHint": "何をしますか？",
+
+  "todoTitleRequired": "タイトルを入力してください",
 
   "todoDescription": "説明",
 
+  "todoDescriptionOptional": "説明（任意）",
+
+  "todoDescriptionHint": "詳細を追加...",
+
   "todoDueDate": "期限",
+
+  "todoDueDateOptional": "期限（任意）",
+
+  "todoDueDateNone": "期限なし",
 
   "todoEmptyTitle": "TODOがありません",
 
   "todoEmptyDescription": "+をタップしてTODOを追加してください",
+
+  "todoDeleted": "「{title}」を削除しました",
+
+  "todoDeleteTitle": "TODOを削除しますか？",
+
+  "todoDeleteConfirm": "「{title}」を削除してもよろしいですか？",
+
+  "saveChanges": "変更を保存",
 
   "filterAll": "すべて",
 
@@ -51,7 +73,69 @@
 
   "filterCompleted": "完了済み",
 
+  "filterAllCount": "すべて ({count})",
+
+  "filterActiveCount": "未完了 ({count})",
+
+  "filterDoneCount": "完了 ({count})",
+
   "clearCompleted": "完了を削除",
 
-  "about": "アプリについて"
+  "markComplete": "完了にする",
+
+  "markIncomplete": "未完了にする",
+
+  "about": "アプリについて",
+
+  "signIn": "サインイン",
+
+  "welcomeBack": "おかえりなさい",
+
+  "signInToContinue": "続けるにはサインインしてください",
+
+  "email": "メールアドレス",
+
+  "emailHint": "メールアドレスを入力",
+
+  "emailRequired": "メールアドレスを入力してください",
+
+  "emailInvalid": "有効なメールアドレスを入力してください",
+
+  "password": "パスワード",
+
+  "passwordHint": "パスワードを入力",
+
+  "passwordRequired": "パスワードを入力してください",
+
+  "demoMode": "デモモード",
+
+  "demoModeDescription": "これはモックログインです。任意のメールアドレスとパスワードでサインインできます。",
+
+  "loginFailed": "ログイン失敗: {error}",
+
+  "account": "アカウント",
+
+  "signOut": "サインアウト",
+
+  "signOutConfirm": "サインアウトしてもよろしいですか？",
+
+  "debugInfo": "デバッグ情報",
+
+  "repositoryDebug": "リポジトリデバッグ",
+
+  "useDebugRepository": "デバッグリポジトリを使用",
+
+  "useDebugRepositoryDesc": "スクリーンショット用のダミーデータを表示",
+
+  "resetToDefaults": "デフォルトに戻す",
+
+  "dateToday": "今日",
+
+  "dateTomorrow": "明日",
+
+  "dateYesterday": "昨日",
+
+  "dateInDays": "{count}日後",
+
+  "dateDaysAgo": "{count}日前"
 }

@@ -86,9 +86,24 @@
     "description": "Edit TODO screen title"
   },
 
+  "todoNew": "New TODO",
+  "@todoNew": {
+    "description": "New TODO screen title"
+  },
+
   "todoTitle": "Title",
   "@todoTitle": {
     "description": "TODO title field label"
+  },
+
+  "todoTitleHint": "What needs to be done?",
+  "@todoTitleHint": {
+    "description": "TODO title field hint"
+  },
+
+  "todoTitleRequired": "Please enter a title",
+  "@todoTitleRequired": {
+    "description": "TODO title validation error"
   },
 
   "todoDescription": "Description",
@@ -96,9 +111,29 @@
     "description": "TODO description field label"
   },
 
+  "todoDescriptionOptional": "Description (optional)",
+  "@todoDescriptionOptional": {
+    "description": "TODO description field label with optional"
+  },
+
+  "todoDescriptionHint": "Add some details...",
+  "@todoDescriptionHint": {
+    "description": "TODO description field hint"
+  },
+
   "todoDueDate": "Due date",
   "@todoDueDate": {
     "description": "TODO due date field label"
+  },
+
+  "todoDueDateOptional": "Due date (optional)",
+  "@todoDueDateOptional": {
+    "description": "TODO due date field label with optional"
+  },
+
+  "todoDueDateNone": "No due date",
+  "@todoDueDateNone": {
+    "description": "No due date selected"
   },
 
   "todoEmptyTitle": "No TODOs yet",
@@ -109,6 +144,36 @@
   "todoEmptyDescription": "Tap + to add your first TODO",
   "@todoEmptyDescription": {
     "description": "Empty TODO list description"
+  },
+
+  "todoDeleted": "Deleted \"{title}\"",
+  "@todoDeleted": {
+    "description": "TODO deleted snackbar message",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+
+  "todoDeleteTitle": "Delete TODO?",
+  "@todoDeleteTitle": {
+    "description": "Delete TODO dialog title"
+  },
+
+  "todoDeleteConfirm": "Are you sure you want to delete \"{title}\"?",
+  "@todoDeleteConfirm": {
+    "description": "Delete TODO confirmation message",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+
+  "saveChanges": "Save changes",
+  "@saveChanges": {
+    "description": "Save changes button"
   },
 
   "filterAll": "All",
@@ -126,13 +191,198 @@
     "description": "Completed filter option"
   },
 
+  "filterAllCount": "All ({count})",
+  "@filterAllCount": {
+    "description": "All filter with count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "filterActiveCount": "Active ({count})",
+  "@filterActiveCount": {
+    "description": "Active filter with count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "filterDoneCount": "Done ({count})",
+  "@filterDoneCount": {
+    "description": "Done filter with count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
   "clearCompleted": "Clear completed",
   "@clearCompleted": {
     "description": "Clear completed button"
   },
 
+  "markComplete": "Mark complete",
+  "@markComplete": {
+    "description": "Mark TODO as complete"
+  },
+
+  "markIncomplete": "Mark incomplete",
+  "@markIncomplete": {
+    "description": "Mark TODO as incomplete"
+  },
+
   "about": "About",
   "@about": {
     "description": "About menu item"
+  },
+
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Sign in button"
+  },
+
+  "welcomeBack": "Welcome Back",
+  "@welcomeBack": {
+    "description": "Login screen title"
+  },
+
+  "signInToContinue": "Sign in to continue",
+  "@signInToContinue": {
+    "description": "Login screen subtitle"
+  },
+
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+
+  "emailHint": "Enter your email",
+  "@emailHint": {
+    "description": "Email field hint"
+  },
+
+  "emailRequired": "Please enter your email",
+  "@emailRequired": {
+    "description": "Email required validation"
+  },
+
+  "emailInvalid": "Please enter a valid email",
+  "@emailInvalid": {
+    "description": "Email invalid validation"
+  },
+
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+
+  "passwordHint": "Enter your password",
+  "@passwordHint": {
+    "description": "Password field hint"
+  },
+
+  "passwordRequired": "Please enter your password",
+  "@passwordRequired": {
+    "description": "Password required validation"
+  },
+
+  "demoMode": "Demo Mode",
+  "@demoMode": {
+    "description": "Demo mode section title"
+  },
+
+  "demoModeDescription": "This is a mock login. Enter any email and password to sign in.",
+  "@demoModeDescription": {
+    "description": "Demo mode description"
+  },
+
+  "loginFailed": "Login failed: {error}",
+  "@loginFailed": {
+    "description": "Login failed error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "account": "Account",
+  "@account": {
+    "description": "Account section title"
+  },
+
+  "signOut": "Sign Out",
+  "@signOut": {
+    "description": "Sign out button"
+  },
+
+  "signOutConfirm": "Are you sure you want to sign out?",
+  "@signOutConfirm": {
+    "description": "Sign out confirmation message"
+  },
+
+  "debugInfo": "Debug Info",
+  "@debugInfo": {
+    "description": "Debug info section title"
+  },
+
+  "repositoryDebug": "Repository Debug",
+  "@repositoryDebug": {
+    "description": "Repository debug section title"
+  },
+
+  "useDebugRepository": "Use Debug Repository",
+  "@useDebugRepository": {
+    "description": "Use debug repository toggle"
+  },
+
+  "useDebugRepositoryDesc": "Show dummy data for screenshots",
+  "@useDebugRepositoryDesc": {
+    "description": "Use debug repository description"
+  },
+
+  "resetToDefaults": "Reset to Defaults",
+  "@resetToDefaults": {
+    "description": "Reset to defaults button"
+  },
+
+  "dateToday": "Today",
+  "@dateToday": {
+    "description": "Today date label"
+  },
+
+  "dateTomorrow": "Tomorrow",
+  "@dateTomorrow": {
+    "description": "Tomorrow date label"
+  },
+
+  "dateYesterday": "Yesterday",
+  "@dateYesterday": {
+    "description": "Yesterday date label"
+  },
+
+  "dateInDays": "In {count} days",
+  "@dateInDays": {
+    "description": "In N days",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "dateDaysAgo": "{count} days ago",
+  "@dateDaysAgo": {
+    "description": "N days ago",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

@@ -36,12 +36,12 @@ class SettingsScreen extends ConsumerWidget {
           const VGap.md(),
           const Divider(),
           const VGap.md(),
-          _buildAccountSection(context, ref),
+          _buildAccountSection(context, ref, l10n),
           if (kDebugMode) ...[
             const VGap.lg(),
             const Divider(),
             const VGap.md(),
-            _buildDebugSection(context, ref),
+            _buildDebugSection(context, ref, l10n),
           ],
         ],
       ),
@@ -191,7 +191,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAccountSection(BuildContext context, WidgetRef ref) {
+  Widget _buildAccountSection(BuildContext context, WidgetRef ref, AppLocalizations? l10n) {
     final theme = Theme.of(context);
     final currentUser = ref.watch(currentUserProvider);
     final authState = ref.watch(authNotifierProvider);
@@ -200,7 +200,7 @@ class SettingsScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Account', style: theme.textTheme.titleMedium),
+        Text(l10n?.account ?? 'Account', style: theme.textTheme.titleMedium),
         const VGap.sm(),
         if (currentUser != null) ...[
           ListTile(
@@ -220,7 +220,7 @@ class SettingsScreen extends ConsumerWidget {
         ListTile(
           leading: Icon(Icons.logout, color: theme.colorScheme.error),
           title: Text(
-            'Sign Out',
+            l10n?.signOut ?? 'Sign Out',
             style: TextStyle(color: theme.colorScheme.error),
           ),
           enabled: !isLoading,
@@ -228,16 +228,16 @@ class SettingsScreen extends ConsumerWidget {
             final confirmed = await showDialog<bool>(
               context: context,
               builder: (context) => AlertDialog(
-                title: const Text('Sign Out'),
-                content: const Text('Are you sure you want to sign out?'),
+                title: Text(l10n?.signOut ?? 'Sign Out'),
+                content: Text(l10n?.signOutConfirm ?? 'Are you sure you want to sign out?'),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text('Cancel'),
+                    child: Text(l10n?.cancel ?? 'Cancel'),
                   ),
                   FilledButton(
                     onPressed: () => Navigator.of(context).pop(true),
-                    child: const Text('Sign Out'),
+                    child: Text(l10n?.signOut ?? 'Sign Out'),
                   ),
                 ],
               ),
@@ -255,7 +255,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDebugSection(BuildContext context, WidgetRef ref) {
+  Widget _buildDebugSection(BuildContext context, WidgetRef ref, AppLocalizations? l10n) {
     final theme = Theme.of(context);
     final config = BuildConfig.fromEnvironment();
     final debugSettings = ref.watch(debugSettingsProvider);
@@ -269,7 +269,7 @@ class SettingsScreen extends ConsumerWidget {
             Icon(Icons.bug_report, color: theme.colorScheme.error),
             const HGap.sm(),
             Text(
-              'Debug Info',
+              l10n?.debugInfo ?? 'Debug Info',
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.error,
               ),
@@ -284,14 +284,14 @@ class SettingsScreen extends ConsumerWidget {
         const Divider(),
         const VGap.sm(),
         Text(
-          'Repository Debug',
+          l10n?.repositoryDebug ?? 'Repository Debug',
           style: theme.textTheme.titleSmall?.copyWith(
             color: theme.colorScheme.error,
           ),
         ),
         SwitchListTile(
-          title: const Text('Use Debug Repository'),
-          subtitle: const Text('Show dummy data for screenshots'),
+          title: Text(l10n?.useDebugRepository ?? 'Use Debug Repository'),
+          subtitle: Text(l10n?.useDebugRepositoryDesc ?? 'Show dummy data for screenshots'),
           value: debugSettings.useDebugRepository,
           onChanged: (_) => debugNotifier.toggleUseDebugRepository(),
         ),
@@ -300,7 +300,7 @@ class SettingsScreen extends ConsumerWidget {
           child: TextButton.icon(
             onPressed: debugNotifier.resetToDefaults,
             icon: const Icon(Icons.refresh),
-            label: const Text('Reset to Defaults'),
+            label: Text(l10n?.resetToDefaults ?? 'Reset to Defaults'),
           ),
         ),
       ],

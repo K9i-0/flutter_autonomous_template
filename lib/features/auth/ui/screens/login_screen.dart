@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_autonomous_template/core/components/app_button.dart';
 import 'package:flutter_autonomous_template/core/components/app_text_field.dart';
+import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/auth/data/models/user.dart';
@@ -34,6 +35,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
     final isLoading = authState.isLoading;
+    final l10n = AppLocalizations.of(context);
 
     // Listen for auth state changes
     ref.listen<AsyncValue<User?>>(authStateProvider, (previous, next) {
@@ -51,7 +53,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         error: (error, _) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Login failed: $error'),
+              content: Text(l10n?.loginFailed(error.toString()) ?? 'Login failed: $error'),
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
           );
@@ -69,20 +71,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const VGap.xxl(),
-                _buildHeader(context),
+                _buildHeader(context, l10n),
                 const VGap.xxl(),
-                _buildEmailField(),
+                _buildEmailField(l10n),
                 const VGap.md(),
-                _buildPasswordField(),
+                _buildPasswordField(l10n),
                 const VGap.xl(),
                 AppButton(
-                  label: 'Sign In',
+                  label: l10n?.signIn ?? 'Sign In',
                   onPressed: isLoading ? null : _handleSignIn,
                   isLoading: isLoading,
                   isExpanded: true,
                 ),
                 const VGap.lg(),
-                _buildDemoHint(context),
+                _buildDemoHint(context, l10n),
               ],
             ),
           ),
@@ -91,7 +93,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, AppLocalizations? l10n) {
     final theme = Theme.of(context);
 
     return Column(
@@ -103,14 +105,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         const VGap.lg(),
         Text(
-          'Welcome Back',
+          l10n?.welcomeBack ?? 'Welcome Back',
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         const VGap.sm(),
         Text(
-          'Sign in to continue',
+          l10n?.signInToContinue ?? 'Sign in to continue',
           style: theme.textTheme.bodyLarge?.copyWith(
             color: theme.colorScheme.outline,
           ),
@@ -119,31 +121,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _buildEmailField() {
+  Widget _buildEmailField(AppLocalizations? l10n) {
     return AppTextField(
       controller: _emailController,
-      label: 'Email',
-      hint: 'Enter your email',
+      label: l10n?.email ?? 'Email',
+      hint: l10n?.emailHint ?? 'Enter your email',
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       prefixIcon: const Icon(Icons.email_outlined),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter your email';
+          return l10n?.emailRequired ?? 'Please enter your email';
         }
         if (!value.contains('@')) {
-          return 'Please enter a valid email';
+          return l10n?.emailInvalid ?? 'Please enter a valid email';
         }
         return null;
       },
     );
   }
 
-  Widget _buildPasswordField() {
+  Widget _buildPasswordField(AppLocalizations? l10n) {
     return AppTextField(
       controller: _passwordController,
-      label: 'Password',
-      hint: 'Enter your password',
+      label: l10n?.password ?? 'Password',
+      hint: l10n?.passwordHint ?? 'Enter your password',
       obscureText: _obscurePassword,
       textInputAction: TextInputAction.done,
       prefixIcon: const Icon(Icons.lock_outlined),
@@ -159,7 +161,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter your password';
+          return l10n?.passwordRequired ?? 'Please enter your password';
         }
         return null;
       },
@@ -167,7 +169,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _buildDemoHint(BuildContext context) {
+  Widget _buildDemoHint(BuildContext context, AppLocalizations? l10n) {
     final theme = Theme.of(context);
 
     return Container(
@@ -187,7 +189,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const HGap.sm(),
               Text(
-                'Demo Mode',
+                l10n?.demoMode ?? 'Demo Mode',
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -196,7 +198,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
           const VGap.sm(),
           Text(
-            'This is a mock login. Enter any email and password to sign in.',
+            l10n?.demoModeDescription ?? 'This is a mock login. Enter any email and password to sign in.',
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.outline,
             ),

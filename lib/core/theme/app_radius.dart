@@ -48,6 +48,16 @@ abstract class AppRadius {
   static const BorderRadius checkbox = xsAll;
   static const BorderRadius fab = lgAll;
   static const BorderRadius avatar = fullAll;
+
+  // Discord-specific presets
+  static const double pill = 24;
+  static const BorderRadius pillAll = BorderRadius.all(Radius.circular(pill));
+  static const BorderRadius discordInput = smAll;
+  static const BorderRadius discordCard = mdAll;
+  static const BorderRadius discordSheet = BorderRadius.vertical(
+    top: Radius.circular(lg),
+  );
+  static const BorderRadius discordBadge = xsAll;
 }
 
 /// RoundedRectangleBorder presets

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_autonomous_template/core/config/build_config.dart';
 import 'package:flutter_autonomous_template/core/debug/debug_settings_provider.dart';
+import 'package:flutter_autonomous_template/core/dev_tools/discord_component_gallery.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
@@ -310,6 +311,28 @@ class SettingsScreen extends ConsumerWidget {
             icon: const Icon(Icons.refresh),
             label: Text(l10n.resetToDefaults),
           ),
+        ),
+        const VGap.lg(),
+        const Divider(),
+        const VGap.sm(),
+        Text(
+          'Component Gallery',
+          style: theme.textTheme.titleSmall?.copyWith(
+            color: theme.colorScheme.error,
+          ),
+        ),
+        const VGap.sm(),
+        ListTile(
+          leading: const Icon(Icons.palette_outlined),
+          title: const Text('Discord Components'),
+          subtitle: const Text('Preview Discord-style UI components'),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => const DiscordComponentGallery(),
+              ),
+            );
+          },
         ),
       ],
     );

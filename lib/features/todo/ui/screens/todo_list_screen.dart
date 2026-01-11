@@ -25,7 +25,7 @@ class TodoListScreen extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: theme.colorScheme.surfaceContainerLow,
       body: SafeArea(
         child: Column(
           children: [
@@ -131,48 +131,41 @@ class TodoListScreen extends ConsumerWidget {
 
           return Padding(
             padding: const EdgeInsets.only(right: 8),
-            child: Material(
-              color: isToday
-                  ? theme.colorScheme.primary
-                  : Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              child: InkWell(
-                onTap: () {},
+            child: Container(
+              width: 56,
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                color: isToday
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 56,
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    border: isToday
-                        ? null
-                        : Border.all(color: const Color(0xFFEEEEEE)),
+                border: isToday
+                    ? null
+                    : Border.all(color: theme.colorScheme.outlineVariant),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    isToday ? 'Today' : weekday,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: isToday
+                          ? theme.colorScheme.onPrimary
+                          : theme.colorScheme.outline,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        isToday ? 'Today' : weekday,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: isToday
-                              ? theme.colorScheme.onPrimary
-                              : theme.colorScheme.outline,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${day.day}',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: isToday
-                              ? theme.colorScheme.onPrimary
-                              : theme.colorScheme.onSurface,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 2),
+                  Text(
+                    '${day.day}',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: isToday
+                          ? theme.colorScheme.onPrimary
+                          : theme.colorScheme.onSurface,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           );
@@ -235,12 +228,14 @@ class TodoListScreen extends ConsumerWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? theme.colorScheme.primary : Colors.white,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected
                 ? theme.colorScheme.primary
-                : const Color(0xFFEEEEEE),
+                : theme.colorScheme.outlineVariant,
           ),
         ),
         child: Row(
@@ -330,11 +325,6 @@ class TodoListScreen extends ConsumerWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            color: theme.colorScheme.onPrimary.withValues(alpha: 0.6),
-            size: 16,
-          ),
         ],
       ),
     );
@@ -376,12 +366,6 @@ class TodoListScreen extends ConsumerWidget {
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
-                ),
-                action: SnackBarAction(
-                  label: 'Undo',
-                  onPressed: () {
-                    // TODO: Implement undo
-                  },
                 ),
               ),
             );

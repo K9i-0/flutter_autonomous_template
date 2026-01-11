@@ -61,7 +61,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -105,7 +105,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: theme.colorScheme.surface,
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(

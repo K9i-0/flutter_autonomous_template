@@ -7,7 +7,6 @@ import 'package:flutter_autonomous_template/core/config/build_config.dart';
 import 'package:flutter_autonomous_template/core/debug/debug_settings_provider.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
-import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/auth/providers/auth_provider.dart';
 import 'package:flutter_autonomous_template/features/settings/data/models/app_settings.dart';
 import 'package:flutter_autonomous_template/features/settings/providers/settings_provider.dart';
@@ -23,7 +22,7 @@ class SettingsScreen extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: theme.colorScheme.surfaceContainerLow,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -208,20 +207,6 @@ class SettingsScreen extends ConsumerWidget {
               ],
             ),
           ),
-          // Edit icon
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(
-              Icons.edit_outlined,
-              color: theme.colorScheme.onPrimary,
-              size: 20,
-            ),
-          ),
         ],
       ),
     );
@@ -237,11 +222,11 @@ class SettingsScreen extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: theme.colorScheme.shadow.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -438,14 +423,14 @@ class SettingsScreen extends ConsumerWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: theme.colorScheme.error.withValues(alpha: 0.3),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: theme.colorScheme.shadow.withValues(alpha: 0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

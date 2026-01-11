@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/theme/app_colors.dart';
-import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/todo/data/models/todo.dart';
 
 /// A tile widget displaying a single TODO item - Timee style
@@ -56,11 +55,11 @@ class TodoTile extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.06),
+              color: colorScheme.shadow.withValues(alpha: 0.06),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

@@ -165,6 +165,37 @@ When planning feature implementation, include all phases:
 - Use `inspect_view_hierarchy` liberally - it's lightweight and fast
 - Use `take_screenshot` only when visual verification is needed
 
+### API Image Limit Handling
+
+When working with many images (reference images + screenshots), API errors can occur:
+
+```
+At least one of the image dimensions exceed max allowed size
+for many-image requests: 2000 pixels
+```
+
+**Solution: Use subagents for image-heavy tasks**
+
+| Task | Approach |
+|------|----------|
+| Reference image analysis | Explore subagent → return as text |
+| E2E testing with screenshots | general-purpose subagent → return as text |
+| PR screenshots | Save to `screenshots/` folder, don't include in conversation |
+
+**Subagent Example**:
+```
+Task(subagent_type="Explore", prompt="""
+Analyze images in {path} and extract UI patterns.
+Return results as TEXT only.
+""")
+```
+
+**Best Practices**:
+1. Prefer `inspect_view_hierarchy` over `take_screenshot`
+2. Save screenshots to files (don't display in conversation)
+3. Use `/compact` if images accumulate
+4. Delegate image tasks to subagents
+
 ### Semantics for E2E Testing
 
 `Semantics` widget is essential for E2E testing. Both Maestro CLI and MCP recognize elements by accessibility information.

@@ -3,10 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:flutter_autonomous_template/core/components/app_button.dart';
-import 'package:flutter_autonomous_template/core/components/app_text_field.dart';
+import 'package:flutter_autonomous_template/core/components/discord/discord_components.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
+import 'package:flutter_autonomous_template/core/theme/app_colors.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/auth/data/models/user.dart';
 import 'package:flutter_autonomous_template/features/auth/providers/auth_provider.dart';
@@ -37,6 +37,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final authState = ref.watch(authNotifierProvider);
     final isLoading = authState.isLoading;
     final l10n = AppLocalizations.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor =
+        isDark ? DiscordColors.backgroundDark : DiscordColors.backgroundLight;
 
     // Listen for auth state changes
     ref.listen<AsyncValue<User?>>(authStateProvider, (previous, next) {
@@ -52,17 +55,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.listen<AsyncValue<void>>(authNotifierProvider, (previous, next) {
       next.whenOrNull(
         error: (error, _) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.loginFailed(error.toString())),
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
+          DiscordSnackbar.showError(
+            context,
+            l10n.loginFailed(error.toString()),
           );
         },
       );
     });
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -79,7 +81,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const VGap.md(),
                 _buildPasswordField(l10n),
                 const VGap.xl(),
-                AppButton(
+                DiscordPillButton(
                   label: l10n.signIn,
                   onPressed: isLoading ? null : _handleSignIn,
                   isLoading: isLoading,
@@ -96,27 +98,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor =
+        isDark ? DiscordColors.textPrimaryDark : DiscordColors.textPrimaryLight;
+    final mutedColor =
+        isDark ? DiscordColors.textMutedDark : DiscordColors.textMutedLight;
 
     return Column(
       children: [
         Icon(
           Icons.check_circle_outline,
           size: 80,
-          color: theme.colorScheme.primary,
+          color: DiscordColors.blurple,
         ),
         const VGap.lg(),
         Text(
           l10n.welcomeBack,
-          style: theme.textTheme.headlineMedium?.copyWith(
+          style: TextStyle(
+            color: textColor,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
         const VGap.sm(),
         Text(
           l10n.signInToContinue,
-          style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.outline,
+          style: TextStyle(
+            color: mutedColor,
+            fontSize: 16,
           ),
         ),
       ],
@@ -124,7 +133,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _buildEmailField(AppLocalizations l10n) {
-    return AppTextField(
+    return DiscordTextField(
       controller: _emailController,
       label: l10n.email,
       hint: l10n.emailHint,
@@ -144,7 +153,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _buildPasswordField(AppLocalizations l10n) {
-    return AppTextField(
+    return DiscordTextField(
       controller: _passwordController,
       label: l10n.password,
       hint: l10n.passwordHint,
@@ -174,54 +183,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _buildDemoHint(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
     final authState = ref.watch(authNotifierProvider);
     final isLoading = authState.isLoading;
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.info_outline,
-                size: 20,
-                color: theme.colorScheme.primary,
-              ),
-              const HGap.sm(),
-              Text(
-                l10n.demoMode,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          const VGap.sm(),
-          Text(
-            l10n.demoModeDescription,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.outline,
-            ),
-          ),
-          if (kDebugMode) ...[
-            const VGap.md(),
-            SizedBox(
+    return DiscordInfoCard(
+      title: l10n.demoMode,
+      icon: Icons.info_outline,
+      description: l10n.demoModeDescription,
+      child: kDebugMode
+          ? SizedBox(
               width: double.infinity,
-              child: TextButton.icon(
+              child: DiscordPillButton(
+                label: l10n.debugQuickLogin,
+                icon: Icons.flash_on,
                 onPressed: isLoading ? null : _handleDebugSignIn,
-                icon: const Icon(Icons.flash_on),
-                label: Text(l10n.debugQuickLogin),
+                variant: DiscordButtonVariant.outlined,
               ),
-            ),
-          ],
-        ],
-      ),
+            )
+          : null,
     );
   }
 

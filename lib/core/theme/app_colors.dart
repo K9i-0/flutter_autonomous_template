@@ -144,3 +144,86 @@ extension AppColorScheme on AppColors {
     );
   }
 }
+
+/// Discord brand colors
+///
+/// Official Discord color palette for theming.
+abstract class DiscordColors {
+  // Brand colors
+  static const Color blurple = Color(0xFF5865F2);
+  static const Color green = Color(0xFF3BA55C);
+  static const Color yellow = Color(0xFFFEE75C);
+  static const Color fuchsia = Color(0xFFEB459E);
+  static const Color red = Color(0xFFED4245);
+
+  // Light mode colors
+  static const Color backgroundLight = Color(0xFFFFFFFF);
+  static const Color surfaceLight = Color(0xFFF2F3F5);
+  static const Color surfaceHighLight = Color(0xFFE3E5E8);
+  static const Color textPrimaryLight = Color(0xFF060607);
+  static const Color textSecondaryLight = Color(0xFF4E5058);
+  static const Color textMutedLight = Color(0xFF80848E);
+
+  // Dark mode colors
+  static const Color backgroundDark = Color(0xFF313338);
+  static const Color surfaceDark = Color(0xFF2B2D31);
+  static const Color surfaceHighDark = Color(0xFF1E1F22);
+  static const Color textPrimaryDark = Color(0xFFFFFFFF);
+  static const Color textSecondaryDark = Color(0xFFB5BAC1);
+  static const Color textMutedDark = Color(0xFF949BA4);
+
+  // Status colors
+  static const Color online = Color(0xFF23A55A);
+  static const Color idle = Color(0xFFF0B232);
+  static const Color dnd = Color(0xFFF23F43);
+  static const Color offline = Color(0xFF80848E);
+}
+
+/// Discord ColorScheme builders
+extension DiscordColorScheme on DiscordColors {
+  static ColorScheme lightScheme() {
+    return ColorScheme.light(
+      primary: DiscordColors.blurple,
+      onPrimary: Colors.white,
+      primaryContainer: DiscordColors.blurple.withValues(alpha: 0.1),
+      secondary: DiscordColors.green,
+      onSecondary: Colors.white,
+      tertiary: DiscordColors.fuchsia,
+      error: DiscordColors.red,
+      onError: Colors.white,
+      surface: DiscordColors.backgroundLight,
+      onSurface: DiscordColors.textPrimaryLight,
+      onSurfaceVariant: DiscordColors.textSecondaryLight,
+      surfaceContainerLowest: DiscordColors.backgroundLight,
+      surfaceContainerLow: DiscordColors.surfaceLight,
+      surfaceContainer: DiscordColors.surfaceLight,
+      surfaceContainerHigh: DiscordColors.surfaceHighLight,
+      surfaceContainerHighest: DiscordColors.surfaceHighLight,
+      outline: DiscordColors.textMutedLight,
+      outlineVariant: DiscordColors.surfaceHighLight,
+    );
+  }
+
+  static ColorScheme darkScheme() {
+    return ColorScheme.dark(
+      primary: DiscordColors.blurple,
+      onPrimary: Colors.white,
+      primaryContainer: DiscordColors.blurple.withValues(alpha: 0.2),
+      secondary: DiscordColors.green,
+      onSecondary: Colors.white,
+      tertiary: DiscordColors.fuchsia,
+      error: DiscordColors.red,
+      onError: Colors.white,
+      surface: DiscordColors.backgroundDark,
+      onSurface: DiscordColors.textPrimaryDark,
+      onSurfaceVariant: DiscordColors.textSecondaryDark,
+      surfaceContainerLowest: DiscordColors.surfaceHighDark,
+      surfaceContainerLow: DiscordColors.surfaceDark,
+      surfaceContainer: DiscordColors.surfaceDark,
+      surfaceContainerHigh: DiscordColors.backgroundDark,
+      surfaceContainerHighest: DiscordColors.backgroundDark,
+      outline: DiscordColors.textMutedDark,
+      outlineVariant: DiscordColors.surfaceHighDark,
+    );
+  }
+}

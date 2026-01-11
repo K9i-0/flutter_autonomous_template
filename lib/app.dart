@@ -10,8 +10,10 @@ import 'package:flutter_autonomous_template/core/router/app_router.dart';
 import 'package:flutter_autonomous_template/core/theme/app_theme.dart';
 import 'package:flutter_autonomous_template/features/settings/providers/settings_provider.dart';
 
-/// Application router instance
-final appRouter = AppRouter();
+/// Application router provider
+final appRouterProvider = Provider<AppRouter>((ref) {
+  return AppRouter(ref);
+});
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -20,6 +22,7 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeProvider);
     final locale = ref.watch(localeProvider);
+    final appRouter = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
       title: 'Flutter App',

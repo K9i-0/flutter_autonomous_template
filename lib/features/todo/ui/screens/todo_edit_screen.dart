@@ -10,9 +10,14 @@ import 'package:flutter_autonomous_template/features/todo/providers/todo_provide
 
 @RoutePage()
 class TodoEditScreen extends ConsumerStatefulWidget {
-  const TodoEditScreen({super.key, this.todo});
+  const TodoEditScreen({
+    super.key,
+    this.todo,
+    @PathParam('id') this.todoId,
+  });
 
   final Todo? todo;
+  final String? todoId;
 
   @override
   ConsumerState<TodoEditScreen> createState() => _TodoEditScreenState();
@@ -23,17 +28,31 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
   late final TextEditingController _descriptionController;
   DateTime? _dueDate;
   bool _isLoading = false;
+  Todo? _resolvedTodo;
 
-  bool get isEditing => widget.todo != null;
+  /// Check if we're editing an existing todo
+  /// Either by direct Todo object or by resolving via todoId
+  bool get isEditing => _resolvedTodo != null;
 
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.todo?.title);
+    // Resolve todo: either from direct parameter or by looking up via todoId
+    _resolvedTodo = widget.todo ?? _findTodoById(widget.todoId);
+    _titleController = TextEditingController(text: _resolvedTodo?.title);
     _descriptionController = TextEditingController(
-      text: widget.todo?.description,
+      text: _resolvedTodo?.description,
     );
-    _dueDate = widget.todo?.dueDate;
+    _dueDate = _resolvedTodo?.dueDate;
+  }
+
+  /// Find todo by ID from the current todo list
+  Todo? _findTodoById(String? id) {
+    if (id == null) return null;
+    final todosAsync = ref.read(todoListProvider);
+    return todosAsync.whenOrNull(
+      data: (todos) => todos.where((t) => t.id == id).firstOrNull,
+    );
   }
 
   @override
@@ -183,7 +202,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
 
     try {
       if (isEditing) {
-        final updatedTodo = widget.todo!.copyWith(
+        final updatedTodo = _resolvedTodo!.copyWith(
           title: title,
           description: _descriptionController.text.trim(),
           dueDate: _dueDate,
@@ -217,7 +236,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
       builder: (context) => AlertDialog(
         title: const Text('Delete TODO?'),
         content: Text(
-          'Are you sure you want to delete "${widget.todo!.title}"?',
+          'Are you sure you want to delete "${_resolvedTodo!.title}"?',
         ),
         actions: [
           TextButton(
@@ -233,7 +252,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
     );
 
     if (confirmed == true) {
-      await ref.read(todoListProvider.notifier).deleteTodo(widget.todo!.id);
+      await ref.read(todoListProvider.notifier).deleteTodo(_resolvedTodo!.id);
       if (mounted) {
         context.router.maybePop();
       }

@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_autonomous_template/core/config/build_config.dart';
+import 'package:flutter_autonomous_template/core/debug/debug_settings_provider.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
+import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
+import 'package:flutter_autonomous_template/features/auth/providers/auth_provider.dart';
 import 'package:flutter_autonomous_template/features/settings/data/models/app_settings.dart';
 import 'package:flutter_autonomous_template/features/settings/providers/settings_provider.dart';
 
@@ -30,11 +33,15 @@ class SettingsScreen extends ConsumerWidget {
           const Divider(),
           const VGap.md(),
           _buildAboutSection(context, l10n),
+          const VGap.md(),
+          const Divider(),
+          const VGap.md(),
+          _buildAccountSection(context, ref),
           if (kDebugMode) ...[
             const VGap.lg(),
             const Divider(),
             const VGap.md(),
-            _buildDebugSection(context),
+            _buildDebugSection(context, ref),
           ],
         ],
       ),
@@ -184,9 +191,75 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDebugSection(BuildContext context) {
+  Widget _buildAccountSection(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final currentUser = ref.watch(currentUserProvider);
+    final authState = ref.watch(authNotifierProvider);
+    final isLoading = authState.isLoading;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Account', style: theme.textTheme.titleMedium),
+        const VGap.sm(),
+        if (currentUser != null) ...[
+          ListTile(
+            leading: CircleAvatar(
+              backgroundColor: theme.colorScheme.primaryContainer,
+              child: Text(
+                currentUser.name.isNotEmpty
+                    ? currentUser.name[0].toUpperCase()
+                    : '?',
+                style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+              ),
+            ),
+            title: Text(currentUser.name),
+            subtitle: Text(currentUser.email),
+          ),
+        ],
+        ListTile(
+          leading: Icon(Icons.logout, color: theme.colorScheme.error),
+          title: Text(
+            'Sign Out',
+            style: TextStyle(color: theme.colorScheme.error),
+          ),
+          enabled: !isLoading,
+          onTap: () async {
+            final confirmed = await showDialog<bool>(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Sign Out'),
+                content: const Text('Are you sure you want to sign out?'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('Cancel'),
+                  ),
+                  FilledButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: const Text('Sign Out'),
+                  ),
+                ],
+              ),
+            );
+
+            if (confirmed == true) {
+              await ref.read(authNotifierProvider.notifier).signOut();
+              if (context.mounted) {
+                context.router.replaceAll([const LoginRoute()]);
+              }
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDebugSection(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final config = BuildConfig.fromEnvironment();
+    final debugSettings = ref.watch(debugSettingsProvider);
+    final debugNotifier = ref.read(debugSettingsProvider.notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,6 +280,53 @@ class SettingsScreen extends ConsumerWidget {
         _buildDebugItem('Flavor', config.flavor.name.toUpperCase()),
         _buildDebugItem('App Name', config.appName),
         _buildDebugItem('Base URL', config.baseUrl),
+        const VGap.md(),
+        const Divider(),
+        const VGap.sm(),
+        Text(
+          'Repository Debug',
+          style: theme.textTheme.titleSmall?.copyWith(
+            color: theme.colorScheme.error,
+          ),
+        ),
+        SwitchListTile(
+          title: const Text('Use Debug Repository'),
+          subtitle: const Text('Enable debug repository with simulation'),
+          value: debugSettings.useDebugRepository,
+          onChanged: (_) => debugNotifier.toggleUseDebugRepository(),
+        ),
+        SwitchListTile(
+          title: const Text('Simulate Network Delay'),
+          subtitle: const Text('Add 2s delay to repository operations'),
+          value: debugSettings.simulateNetworkDelay,
+          onChanged: debugSettings.useDebugRepository
+              ? (_) => debugNotifier.toggleSimulateNetworkDelay()
+              : null,
+        ),
+        SwitchListTile(
+          title: const Text('Simulate Error'),
+          subtitle: const Text('Throw error on repository operations'),
+          value: debugSettings.simulateError,
+          onChanged: debugSettings.useDebugRepository
+              ? (_) => debugNotifier.toggleSimulateError()
+              : null,
+        ),
+        SwitchListTile(
+          title: const Text('Show Network Logs'),
+          subtitle: const Text('Log repository operations to console'),
+          value: debugSettings.showNetworkLogs,
+          onChanged: debugSettings.useDebugRepository
+              ? (_) => debugNotifier.toggleShowNetworkLogs()
+              : null,
+        ),
+        const VGap.sm(),
+        Center(
+          child: TextButton.icon(
+            onPressed: debugNotifier.resetToDefaults,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Reset to Defaults'),
+          ),
+        ),
       ],
     );
   }

@@ -1,9 +1,13 @@
+import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:flutter_autonomous_template/core/debug/debug_settings_provider.dart';
 import 'package:flutter_autonomous_template/features/todo/data/models/category.dart';
 import 'package:flutter_autonomous_template/features/todo/data/models/todo.dart';
+import 'package:flutter_autonomous_template/features/todo/data/repositories/debug_todo_repository.dart';
 import 'package:flutter_autonomous_template/features/todo/data/repositories/todo_repository.dart';
+import 'package:flutter_autonomous_template/features/todo/data/repositories/todo_repository_impl.dart';
 import 'package:flutter_autonomous_template/features/todo/providers/filter_provider.dart';
 
 /// SharedPreferences provider
@@ -12,9 +16,21 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 });
 
 /// TodoRepository provider
+///
+/// In debug mode, switches between [TodoRepositoryImpl] and [DebugTodoRepository]
+/// based on [debugSettingsProvider].
 final todoRepositoryProvider = Provider<TodoRepository>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);
-  return TodoRepository(prefs);
+
+  // In debug mode, check if debug repository is enabled
+  if (kDebugMode) {
+    final debugSettings = ref.watch(debugSettingsProvider);
+    if (debugSettings.useDebugRepository) {
+      return DebugTodoRepository(prefs, debugSettings);
+    }
+  }
+
+  return TodoRepositoryImpl(prefs);
 });
 
 /// Provider for the list of TODOs
@@ -28,6 +44,8 @@ class TodoListNotifier extends AsyncNotifier<List<Todo>> {
 
   @override
   Future<List<Todo>> build() async {
+    // Watch the repository provider to rebuild when it changes
+    ref.watch(todoRepositoryProvider);
     return _repository.getTodos();
   }
 

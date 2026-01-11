@@ -304,3 +304,73 @@ Container(
 3. **Consistent radius** - Pick 2-3 values and stick with them
 4. **Test both themes** - Implement light and dark from the start
 5. **Layout last** - Change component layouts after theme is stable
+
+---
+
+## API Image Limit Handling
+
+### Problem
+
+```
+At least one of the image dimensions exceed max allowed size
+for many-image requests: 2000 pixels
+```
+
+When analyzing many reference images + taking E2E screenshots, the API limit can be exceeded.
+
+### Solution: Use Subagents for Image-Heavy Tasks
+
+#### Phase 1: Reference Image Analysis (Explore Subagent)
+
+```
+Task(subagent_type="Explore", prompt="""
+Analyze the reference images in {ui_pocket_path} and extract:
+
+1. Layout structure (sidebar, navigation, main area)
+2. Color scheme (primary, secondary, background colors)
+3. Component details (buttons, cards, lists, inputs)
+4. Distinctive UI patterns
+
+Return results as TEXT only. Do not include images in response.
+""")
+```
+
+**Benefits**:
+- Subagent context is isolated
+- Images don't accumulate in main context
+- Results returned as text
+
+#### Phase 5: E2E Testing (Subagent)
+
+```
+Task(subagent_type="general-purpose", prompt="""
+Test the app on iOS simulator:
+
+1. Launch app (Dart MCP: launch_app)
+2. Login screen → Quick Login
+3. Verify TODO list screen
+4. Verify Settings screen
+5. Report issues as TEXT
+
+Do NOT take screenshots unless absolutely necessary.
+Use inspect_view_hierarchy instead (lightweight).
+""")
+```
+
+### Image Management Guidelines
+
+| Phase | Image Handling |
+|-------|----------------|
+| Reference analysis | Subagent (return as text) |
+| Component implementation | No images |
+| Screen rebuild | No images |
+| E2E testing | Subagent or minimal |
+| PR screenshots | Save to file only |
+
+### Best Practices
+
+1. **Prefer hierarchy over screenshots** - `inspect_view_hierarchy` is lightweight
+2. **Save screenshots to files** - Don't include in conversation
+3. **Use subagents for image tasks** - Isolate context
+4. **One screenshot per verification** - Not multiple
+5. **Compact conversation** - Use `/compact` if images accumulate

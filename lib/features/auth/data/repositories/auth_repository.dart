@@ -13,10 +13,7 @@ abstract class AuthRepository {
   Stream<User?> get authStateChanges;
 
   /// Sign in with email and password
-  Future<User> signIn({
-    required String email,
-    required String password,
-  });
+  Future<User> signIn({required String email, required String password});
 
   /// Sign out the current user
   Future<void> signOut();

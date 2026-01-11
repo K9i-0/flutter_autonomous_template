@@ -22,10 +22,7 @@ class MockAuthRepository implements AuthRepository {
   Stream<User?> get authStateChanges => _authStateController.stream;
 
   @override
-  Future<User> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<User> signIn({required String email, required String password}) async {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 1500));
 
@@ -55,9 +52,11 @@ class MockAuthRepository implements AuthRepository {
     final localPart = email.split('@').first;
     final words = localPart.split(RegExp(r'[._-]'));
     return words
-        .map((word) => word.isEmpty
-            ? ''
-            : '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}')
+        .map(
+          (word) => word.isEmpty
+              ? ''
+              : '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}',
+        )
         .join(' ')
         .trim();
   }

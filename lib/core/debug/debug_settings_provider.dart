@@ -9,8 +9,8 @@ import 'package:flutter_autonomous_template/features/todo/providers/todo_provide
 /// Provider for debug settings
 final debugSettingsProvider =
     NotifierProvider<DebugSettingsNotifier, DebugSettings>(
-  DebugSettingsNotifier.new,
-);
+      DebugSettingsNotifier.new,
+    );
 
 /// Notifier for managing debug settings state
 class DebugSettingsNotifier extends Notifier<DebugSettings> {

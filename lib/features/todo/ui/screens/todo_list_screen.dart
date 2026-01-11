@@ -125,7 +125,12 @@ class TodoListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTodoList(BuildContext context, WidgetRef ref, List<Todo> todos, AppLocalizations l10n) {
+  Widget _buildTodoList(
+    BuildContext context,
+    WidgetRef ref,
+    List<Todo> todos,
+    AppLocalizations l10n,
+  ) {
     if (todos.isEmpty) {
       return AppEmptyState(
         icon: Icons.check_circle_outline,

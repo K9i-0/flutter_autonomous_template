@@ -1,100 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Application typography configuration
+/// Application typography configuration - Antique Theme
 ///
-/// Uses Poppins for headlines and Inter for body text.
+/// Uses Playfair Display for headlines and Merriweather for body text.
+/// Classic serif fonts for an elegant, vintage aesthetic.
 abstract class AppTypography {
   /// Font family for headlines and display text
-  static String get headlineFont => GoogleFonts.poppins().fontFamily!;
+  static String get headlineFont => GoogleFonts.playfairDisplay().fontFamily!;
 
   /// Font family for body text and UI elements
-  static String get bodyFont => GoogleFonts.inter().fontFamily!;
+  static String get bodyFont => GoogleFonts.merriweather().fontFamily!;
 
   /// Build the complete TextTheme for the app
   static TextTheme buildTextTheme(ColorScheme colorScheme) {
     return TextTheme(
-      displayLarge: GoogleFonts.poppins(
+      displayLarge: GoogleFonts.playfairDisplay(
         fontSize: 57,
         fontWeight: FontWeight.w700,
         letterSpacing: -0.25,
         color: colorScheme.onSurface,
       ),
-      displayMedium: GoogleFonts.poppins(
+      displayMedium: GoogleFonts.playfairDisplay(
         fontSize: 45,
         fontWeight: FontWeight.w700,
         color: colorScheme.onSurface,
       ),
-      displaySmall: GoogleFonts.poppins(
+      displaySmall: GoogleFonts.playfairDisplay(
         fontSize: 36,
         fontWeight: FontWeight.w600,
         color: colorScheme.onSurface,
       ),
-      headlineLarge: GoogleFonts.poppins(
+      headlineLarge: GoogleFonts.playfairDisplay(
         fontSize: 32,
         fontWeight: FontWeight.w700,
         color: colorScheme.onSurface,
       ),
-      headlineMedium: GoogleFonts.poppins(
+      headlineMedium: GoogleFonts.playfairDisplay(
         fontSize: 28,
         fontWeight: FontWeight.w600,
         color: colorScheme.onSurface,
       ),
-      headlineSmall: GoogleFonts.poppins(
+      headlineSmall: GoogleFonts.playfairDisplay(
         fontSize: 24,
         fontWeight: FontWeight.w600,
         color: colorScheme.onSurface,
       ),
-      titleLarge: GoogleFonts.inter(
+      titleLarge: GoogleFonts.merriweather(
         fontSize: 22,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: colorScheme.onSurface,
       ),
-      titleMedium: GoogleFonts.inter(
+      titleMedium: GoogleFonts.merriweather(
         fontSize: 16,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         letterSpacing: 0.15,
         color: colorScheme.onSurface,
       ),
-      titleSmall: GoogleFonts.inter(
+      titleSmall: GoogleFonts.merriweather(
         fontSize: 14,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         letterSpacing: 0.1,
         color: colorScheme.onSurface,
       ),
-      bodyLarge: GoogleFonts.inter(
+      bodyLarge: GoogleFonts.merriweather(
         fontSize: 16,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
         color: colorScheme.onSurface,
       ),
-      bodyMedium: GoogleFonts.inter(
+      bodyMedium: GoogleFonts.merriweather(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.25,
         color: colorScheme.onSurface,
       ),
-      bodySmall: GoogleFonts.inter(
+      bodySmall: GoogleFonts.merriweather(
         fontSize: 12,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.4,
         color: colorScheme.onSurfaceVariant,
       ),
-      labelLarge: GoogleFonts.inter(
+      labelLarge: GoogleFonts.merriweather(
         fontSize: 14,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         letterSpacing: 0.1,
         color: colorScheme.onSurface,
       ),
-      labelMedium: GoogleFonts.inter(
+      labelMedium: GoogleFonts.merriweather(
         fontSize: 12,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
         color: colorScheme.onSurface,
       ),
-      labelSmall: GoogleFonts.inter(
+      labelSmall: GoogleFonts.merriweather(
         fontSize: 11,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
         color: colorScheme.onSurfaceVariant,
       ),

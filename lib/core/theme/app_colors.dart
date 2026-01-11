@@ -1,100 +1,105 @@
 import 'package:flutter/material.dart';
 
-/// Application color palette
+/// Application color palette - Antique Theme
 ///
-/// Semantic colors for consistent theming across light and dark modes.
-/// Use these colors instead of hardcoded values.
+/// Warm parchment tones with dark wood and brass accents.
+/// Inspired by old manuscripts and classic libraries.
 abstract class AppColors {
-  // Primary colors - Brand identity
-  static const Color primaryLight = Color(0xFF4F46E5);
-  static const Color primaryDark = Color(0xFF818CF8);
-  static const Color primaryContainerLight = Color(0xFFE0E7FF);
-  static const Color primaryContainerDark = Color(0xFF4F46E5);
+  // Primary colors - Dark wood/sepia
+  static const Color primaryLight = Color(0xFF5D4037);
+  static const Color primaryDark = Color(0xFF8D6E63);
+  static const Color primaryContainerLight = Color(0xFF8D6E63);
+  static const Color primaryContainerDark = Color(0xFF5D4037);
 
-  // Secondary colors - Accents
-  static const Color secondaryLight = Color(0xFF0891B2);
-  static const Color secondaryDark = Color(0xFF22D3EE);
+  // Secondary colors - Brass/gold accents
+  static const Color secondaryLight = Color(0xFFB8860B);
+  static const Color secondaryDark = Color(0xFFD4AF37);
 
-  // Tertiary colors - Highlights
-  static const Color tertiaryLight = Color(0xFFDB2777);
-  static const Color tertiaryDark = Color(0xFFF472B6);
+  // Tertiary colors - Deep burgundy
+  static const Color tertiaryLight = Color(0xFF6D1E1E);
+  static const Color tertiaryDark = Color(0xFF8B3A3A);
 
   // Error colors
-  static const Color errorLight = Color(0xFFDC2626);
-  static const Color errorDark = Color(0xFFF87171);
+  static const Color errorLight = Color(0xFFA63D40);
+  static const Color errorDark = Color(0xFFCF6679);
 
   // Success colors
-  static const Color successLight = Color(0xFF16A34A);
-  static const Color successDark = Color(0xFF4ADE80);
+  static const Color successLight = Color(0xFF4A7C59);
+  static const Color successDark = Color(0xFF6B9F7E);
 
   // Warning colors
-  static const Color warningLight = Color(0xFFD97706);
-  static const Color warningDark = Color(0xFFFBBF24);
+  static const Color warningLight = Color(0xFFBF8B2E);
+  static const Color warningDark = Color(0xFFD4A84B);
 
-  // Surface colors - Light theme
-  static const Color surfaceLight = Color(0xFFFAFAFC);
-  static const Color surfaceContainerLowestLight = Colors.white;
-  static const Color surfaceContainerLowLight = Color(0xFFF8F9FB);
-  static const Color surfaceContainerLight = Color(0xFFF1F5F9);
-  static const Color surfaceContainerHighLight = Color(0xFFE2E8F0);
-  static const Color surfaceContainerHighestLight = Color(0xFFCBD5E1);
+  // Surface colors - Light theme (Parchment)
+  static const Color surfaceLight = Color(0xFFF5E6C8);
+  static const Color surfaceContainerLowestLight = Color(0xFFFAF3E0);
+  static const Color surfaceContainerLowLight = Color(0xFFF5E6C8);
+  static const Color surfaceContainerLight = Color(0xFFEDE0C8);
+  static const Color surfaceContainerHighLight = Color(0xFFE5D4B5);
+  static const Color surfaceContainerHighestLight = Color(0xFFD4C4A0);
 
-  // Surface colors - Dark theme
-  static const Color surfaceDark = Color(0xFF0D0D12);
-  static const Color surfaceContainerLowestDark = Color(0xFF0D0D12);
-  static const Color surfaceContainerLowDark = Color(0xFF141419);
-  static const Color surfaceContainerDark = Color(0xFF1A1A21);
-  static const Color surfaceContainerHighDark = Color(0xFF22222B);
-  static const Color surfaceContainerHighestDark = Color(0xFF2A2A35);
+  // Surface colors - Dark theme (Aged parchment)
+  static const Color surfaceDark = Color(0xFF2A231C);
+  static const Color surfaceContainerLowestDark = Color(0xFF1E1815);
+  static const Color surfaceContainerLowDark = Color(0xFF2A231C);
+  static const Color surfaceContainerDark = Color(0xFF362E25);
+  static const Color surfaceContainerHighDark = Color(0xFF44392E);
+  static const Color surfaceContainerHighestDark = Color(0xFF524538);
 
   // Outline colors
-  static const Color outlineLight = Color(0xFF94A3B8);
-  static const Color outlineDark = Color(0xFF4A4A5A);
-  static const Color outlineVariantLight = Color(0xFFE2E8F0);
-  static const Color outlineVariantDark = Color(0xFF2A2A35);
+  static const Color outlineLight = Color(0xFF8D7355);
+  static const Color outlineDark = Color(0xFF6D5840);
+  static const Color outlineVariantLight = Color(0xFFB8A080);
+  static const Color outlineVariantDark = Color(0xFF4A3D30);
 
   // On-surface colors
-  static const Color onPrimaryLight = Colors.white;
-  static const Color onPrimaryDark = Colors.white;
-  static const Color onSecondaryLight = Colors.white;
-  static const Color onSecondaryDark = Colors.black;
-  static const Color onErrorLight = Colors.white;
-  static const Color onErrorDark = Colors.black;
+  static const Color onPrimaryLight = Color(0xFFFAF3E0);
+  static const Color onPrimaryDark = Color(0xFFFAF3E0);
+  static const Color onSecondaryLight = Color(0xFFFAF3E0);
+  static const Color onSecondaryDark = Color(0xFF3E2723);
+  static const Color onErrorLight = Color(0xFFFAF3E0);
+  static const Color onErrorDark = Color(0xFF1E1815);
+
+  // Text colors
+  static const Color onSurfaceLight = Color(0xFF3E2723);
+  static const Color onSurfaceDark = Color(0xFFE5D4B5);
+  static const Color onSurfaceVariantLight = Color(0xFF5D4037);
+  static const Color onSurfaceVariantDark = Color(0xFFB8A080);
 }
 
-/// Category colors for TODO items or tags
+/// Category colors for TODO items or tags - Antique palette
 abstract class CategoryColors {
-  static const Color red = Color(0xFFEF4444);
-  static const Color orange = Color(0xFFF97316);
-  static const Color amber = Color(0xFFF59E0B);
-  static const Color yellow = Color(0xFFEAB308);
-  static const Color lime = Color(0xFF84CC16);
-  static const Color green = Color(0xFF22C55E);
-  static const Color emerald = Color(0xFF10B981);
-  static const Color teal = Color(0xFF14B8A6);
-  static const Color cyan = Color(0xFF06B6D4);
-  static const Color sky = Color(0xFF0EA5E9);
-  static const Color blue = Color(0xFF3B82F6);
-  static const Color indigo = Color(0xFF6366F1);
-  static const Color violet = Color(0xFF8B5CF6);
-  static const Color purple = Color(0xFFA855F7);
-  static const Color fuchsia = Color(0xFFD946EF);
-  static const Color pink = Color(0xFFEC4899);
-  static const Color rose = Color(0xFFF43F5E);
+  static const Color burgundy = Color(0xFF6D1E1E);
+  static const Color rust = Color(0xFF8B4513);
+  static const Color copper = Color(0xFFB87333);
+  static const Color brass = Color(0xFFB8860B);
+  static const Color gold = Color(0xFFD4AF37);
+  static const Color olive = Color(0xFF556B2F);
+  static const Color sage = Color(0xFF6B8E63);
+  static const Color teal = Color(0xFF2F6B6B);
+  static const Color slate = Color(0xFF4A5568);
+  static const Color navy = Color(0xFF2C3E50);
+  static const Color plum = Color(0xFF5D3A5D);
+  static const Color mahogany = Color(0xFF4E2728);
+  static const Color espresso = Color(0xFF3C2415);
+  static const Color walnut = Color(0xFF5D4037);
+  static const Color bronze = Color(0xFF8D6E63);
+  static const Color sepia = Color(0xFF704214);
 
   /// Get category color by index (wraps around)
   static Color byIndex(int index) {
     const colors = [
-      blue,
-      green,
-      purple,
-      orange,
-      pink,
+      burgundy,
+      brass,
+      sage,
+      navy,
+      copper,
+      plum,
+      olive,
       teal,
-      amber,
-      indigo,
-      emerald,
-      rose,
+      rust,
+      bronze,
     ];
     return colors[index % colors.length];
   }
@@ -120,6 +125,8 @@ extension AppColorScheme on AppColors {
       onError: AppColors.onErrorLight,
       outline: AppColors.outlineLight,
       outlineVariant: AppColors.outlineVariantLight,
+      onSurface: AppColors.onSurfaceLight,
+      onSurfaceVariant: AppColors.onSurfaceVariantLight,
     );
   }
 
@@ -141,6 +148,8 @@ extension AppColorScheme on AppColors {
       onError: AppColors.onErrorDark,
       outline: AppColors.outlineDark,
       outlineVariant: AppColors.outlineVariantDark,
+      onSurface: AppColors.onSurfaceDark,
+      onSurfaceVariant: AppColors.onSurfaceVariantDark,
     );
   }
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/widgets.dart';
 
-/// Application border radius constants
+/// Application border radius constants - Antique Theme
 ///
-/// Consistent corner rounding for UI elements.
+/// More subtle corner rounding for a classic, elegant feel.
 abstract class AppRadius {
-  // Radius values
+  // Radius values - slightly reduced for classic aesthetic
   static const double none = 0;
   static const double xs = 4;
-  static const double sm = 8;
-  static const double md = 12;
-  static const double lg = 16;
-  static const double xl = 20;
-  static const double xxl = 24;
+  static const double sm = 6;
+  static const double md = 8;
+  static const double lg = 12;
+  static const double xl = 16;
+  static const double xxl = 20;
   static const double full = 9999;
 
   // BorderRadius presets
@@ -36,17 +36,17 @@ abstract class AppRadius {
     top: Radius.circular(xxl),
   );
 
-  // Component-specific presets
+  // Component-specific presets - adjusted for antique style
   static const BorderRadius button = mdAll;
   static const BorderRadius buttonSmall = smAll;
-  static const BorderRadius card = lgAll;
-  static const BorderRadius cardLarge = xlAll;
-  static const BorderRadius chip = smAll;
+  static const BorderRadius card = mdAll; // Reduced from lg
+  static const BorderRadius cardLarge = lgAll;
+  static const BorderRadius chip = fullAll; // Pill-shaped for filter chips
   static const BorderRadius input = mdAll;
-  static const BorderRadius dialog = xlAll;
-  static const BorderRadius bottomSheet = xlTop;
+  static const BorderRadius dialog = lgAll; // Reduced from xl
+  static const BorderRadius bottomSheet = lgTop;
   static const BorderRadius checkbox = xsAll;
-  static const BorderRadius fab = lgAll;
+  static const BorderRadius fab = xlAll;
   static const BorderRadius avatar = fullAll;
 }
 

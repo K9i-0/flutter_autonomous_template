@@ -291,33 +291,9 @@ class SettingsScreen extends ConsumerWidget {
         ),
         SwitchListTile(
           title: const Text('Use Debug Repository'),
-          subtitle: const Text('Enable debug repository with simulation'),
+          subtitle: const Text('Show dummy data for screenshots'),
           value: debugSettings.useDebugRepository,
           onChanged: (_) => debugNotifier.toggleUseDebugRepository(),
-        ),
-        SwitchListTile(
-          title: const Text('Simulate Network Delay'),
-          subtitle: const Text('Add 2s delay to repository operations'),
-          value: debugSettings.simulateNetworkDelay,
-          onChanged: debugSettings.useDebugRepository
-              ? (_) => debugNotifier.toggleSimulateNetworkDelay()
-              : null,
-        ),
-        SwitchListTile(
-          title: const Text('Simulate Error'),
-          subtitle: const Text('Throw error on repository operations'),
-          value: debugSettings.simulateError,
-          onChanged: debugSettings.useDebugRepository
-              ? (_) => debugNotifier.toggleSimulateError()
-              : null,
-        ),
-        SwitchListTile(
-          title: const Text('Show Network Logs'),
-          subtitle: const Text('Log repository operations to console'),
-          value: debugSettings.showNetworkLogs,
-          onChanged: debugSettings.useDebugRepository
-              ? (_) => debugNotifier.toggleShowNetworkLogs()
-              : null,
         ),
         const VGap.sm(),
         Center(

@@ -7,7 +7,6 @@ import 'package:flutter_autonomous_template/features/todo/data/models/category.d
 import 'package:flutter_autonomous_template/features/todo/data/models/todo.dart';
 import 'package:flutter_autonomous_template/features/todo/data/repositories/debug_todo_repository.dart';
 import 'package:flutter_autonomous_template/features/todo/data/repositories/todo_repository.dart';
-import 'package:flutter_autonomous_template/features/todo/data/repositories/todo_repository_impl.dart';
 import 'package:flutter_autonomous_template/features/todo/providers/filter_provider.dart';
 
 /// SharedPreferences provider
@@ -17,7 +16,7 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 
 /// TodoRepository provider
 ///
-/// In debug mode, switches between [TodoRepositoryImpl] and [DebugTodoRepository]
+/// In debug mode, switches between [TodoRepository] and [DebugTodoRepository]
 /// based on [debugSettingsProvider].
 final todoRepositoryProvider = Provider<TodoRepository>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);
@@ -26,11 +25,11 @@ final todoRepositoryProvider = Provider<TodoRepository>((ref) {
   if (kDebugMode) {
     final debugSettings = ref.watch(debugSettingsProvider);
     if (debugSettings.useDebugRepository) {
-      return DebugTodoRepository(prefs, debugSettings);
+      return DebugTodoRepository(prefs);
     }
   }
 
-  return TodoRepositoryImpl(prefs);
+  return TodoRepository(prefs);
 });
 
 /// Provider for the list of TODOs

@@ -1,107 +1,68 @@
-import 'package:talker_flutter/talker_flutter.dart';
-
-import 'package:flutter_autonomous_template/core/debug/debug_settings.dart';
 import 'package:flutter_autonomous_template/features/todo/data/models/category.dart';
 import 'package:flutter_autonomous_template/features/todo/data/models/todo.dart';
-import 'package:flutter_autonomous_template/features/todo/data/repositories/todo_repository_impl.dart';
+import 'package:flutter_autonomous_template/features/todo/data/repositories/todo_repository.dart';
 
 /// Debug implementation of TodoRepository
 ///
-/// Extends [TodoRepositoryImpl] and adds debug capabilities:
-/// - Simulated network delay
-/// - Simulated errors
-/// - Logging
-class DebugTodoRepository extends TodoRepositoryImpl {
-  DebugTodoRepository(
-    super.prefs,
-    this._debugSettings, {
-    Talker? talker,
-  }) : _talker = talker ?? Talker();
+/// Extends [TodoRepository] and provides dummy data for screenshots
+/// and UI demonstrations. Other operations delegate to super.
+class DebugTodoRepository extends TodoRepository {
+  DebugTodoRepository(super.prefs);
 
-  final DebugSettings _debugSettings;
-  final Talker _talker;
-
-  /// Simulate network delay if enabled
-  Future<void> _simulateDelay() async {
-    if (_debugSettings.simulateNetworkDelay) {
-      _log('Simulating network delay (2s)...');
-      await Future.delayed(const Duration(seconds: 2));
-    }
-  }
-
-  /// Throw error if simulation is enabled
-  void _checkError(String operation) {
-    if (_debugSettings.simulateError) {
-      _log('Simulating error for: $operation', isError: true);
-      throw Exception('Debug: Simulated error in $operation');
-    }
-  }
-
-  /// Log message if logging is enabled
-  void _log(String message, {bool isError = false}) {
-    if (_debugSettings.showNetworkLogs) {
-      if (isError) {
-        _talker.error('[DebugRepo] $message');
-      } else {
-        _talker.debug('[DebugRepo] $message');
-      }
-    }
-  }
-
+  /// Returns dummy TODOs for screenshots and demonstrations
   @override
   List<Todo> getTodos() {
-    _log('getTodos() called');
-    _checkError('getTodos');
-    return super.getTodos();
-  }
+    final now = DateTime.now();
 
-  @override
-  Future<Todo> createTodo({
-    required String title,
-    String description = '',
-    DateTime? dueDate,
-    Category? category,
-  }) async {
-    _log('createTodo() called: $title');
-    await _simulateDelay();
-    _checkError('createTodo');
-    return super.createTodo(
-      title: title,
-      description: description,
-      dueDate: dueDate,
-      category: category,
-    );
-  }
-
-  @override
-  Future<void> updateTodo(Todo todo) async {
-    _log('updateTodo() called: ${todo.id}');
-    await _simulateDelay();
-    _checkError('updateTodo');
-    return super.updateTodo(todo);
-  }
-
-  @override
-  Future<void> deleteTodo(String id) async {
-    _log('deleteTodo() called: $id');
-    await _simulateDelay();
-    _checkError('deleteTodo');
-    return super.deleteTodo(id);
-  }
-
-  @override
-  Future<Todo> toggleTodoCompletion(String id) async {
-    _log('toggleTodoCompletion() called: $id');
-    await _simulateDelay();
-    _checkError('toggleTodoCompletion');
-    return super.toggleTodoCompletion(id);
-  }
-
-  @override
-  Future<void> clearCompleted() async {
-    _log('clearCompleted() called');
-    await _simulateDelay();
-    _checkError('clearCompleted');
-    return super.clearCompleted();
+    return [
+      Todo(
+        id: 'dummy-1',
+        title: 'Buy groceries',
+        description: 'Milk, eggs, bread, vegetables',
+        createdAt: now.subtract(const Duration(days: 2)),
+        dueDate: now.add(const Duration(days: 1)),
+        category: DefaultCategories.shopping,
+      ),
+      Todo(
+        id: 'dummy-2',
+        title: 'Finish project report',
+        description: 'Complete the quarterly report for the team meeting',
+        createdAt: now.subtract(const Duration(days: 1)),
+        dueDate: now.add(const Duration(days: 3)),
+        category: DefaultCategories.work,
+      ),
+      Todo(
+        id: 'dummy-3',
+        title: 'Call mom',
+        description: '',
+        createdAt: now.subtract(const Duration(hours: 5)),
+        category: DefaultCategories.personal,
+        isCompleted: true,
+      ),
+      Todo(
+        id: 'dummy-4',
+        title: 'Go to the gym',
+        description: 'Leg day workout',
+        createdAt: now.subtract(const Duration(days: 3)),
+        dueDate: now,
+        category: DefaultCategories.health,
+      ),
+      Todo(
+        id: 'dummy-5',
+        title: 'Read Flutter documentation',
+        description: 'Learn about new features in Flutter 3.x',
+        createdAt: now.subtract(const Duration(days: 4)),
+        category: DefaultCategories.personal,
+        isCompleted: true,
+      ),
+      Todo(
+        id: 'dummy-6',
+        title: 'Prepare presentation',
+        description: 'Slides for the client meeting on Friday',
+        createdAt: now.subtract(const Duration(hours: 12)),
+        dueDate: now.add(const Duration(days: 2)),
+        category: DefaultCategories.work,
+      ),
+    ];
   }
 }

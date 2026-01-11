@@ -46,24 +46,6 @@ class DebugSettingsNotifier extends Notifier<DebugSettings> {
     await _saveSettings(state);
   }
 
-  /// Toggle network delay simulation
-  Future<void> toggleSimulateNetworkDelay() async {
-    state = state.copyWith(simulateNetworkDelay: !state.simulateNetworkDelay);
-    await _saveSettings(state);
-  }
-
-  /// Toggle error simulation
-  Future<void> toggleSimulateError() async {
-    state = state.copyWith(simulateError: !state.simulateError);
-    await _saveSettings(state);
-  }
-
-  /// Toggle network logs
-  Future<void> toggleShowNetworkLogs() async {
-    state = state.copyWith(showNetworkLogs: !state.showNetworkLogs);
-    await _saveSettings(state);
-  }
-
   /// Reset all debug settings to defaults
   Future<void> resetToDefaults() async {
     state = const DebugSettings();

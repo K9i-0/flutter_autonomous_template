@@ -14,6 +14,9 @@ enum DiscordButtonVariant {
 
   /// Gray button for secondary actions
   gray,
+
+  /// Destructive button with red background
+  destructive,
 }
 
 /// Discord-style pill button
@@ -57,6 +60,8 @@ class DiscordPillButton extends StatelessWidget {
         return _buildOutlinedButton(context, isEnabled);
       case DiscordButtonVariant.gray:
         return _buildGrayButton(context, isEnabled);
+      case DiscordButtonVariant.destructive:
+        return _buildDestructiveButton(context, isEnabled);
     }
   }
 
@@ -114,6 +119,21 @@ class DiscordPillButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       ),
       child: _buildContent(colorScheme.onSurface),
+    );
+  }
+
+  Widget _buildDestructiveButton(BuildContext context, bool isEnabled) {
+    return FilledButton(
+      onPressed: isEnabled ? onPressed : null,
+      style: FilledButton.styleFrom(
+        backgroundColor: DiscordColors.red,
+        foregroundColor: Colors.white,
+        disabledBackgroundColor: DiscordColors.red.withValues(alpha: 0.5),
+        disabledForegroundColor: Colors.white.withValues(alpha: 0.5),
+        shape: RoundedRectangleBorder(borderRadius: AppRadius.pillAll),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+      ),
+      child: _buildContent(Colors.white),
     );
   }
 

@@ -194,19 +194,146 @@ class DiscordConfirmSheet {
     String cancelLabel = 'Cancel',
     VoidCallback? onConfirm,
     VoidCallback? onCancel,
+    bool isDestructive = false,
   }) {
-    return DiscordBottomSheet.show<bool>(
+    return showModalBottomSheet<bool>(
       context: context,
-      title: title,
-      description: description,
-      illustration: illustration,
-      primaryAction: DiscordBottomSheetAction(
-        label: confirmLabel,
-        onPressed: onConfirm,
+      isScrollControlled: true,
+      isDismissible: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => _DiscordConfirmSheetContent(
+        title: title,
+        description: description,
+        illustration: illustration,
+        confirmLabel: confirmLabel,
+        cancelLabel: cancelLabel,
+        onConfirm: onConfirm,
+        onCancel: onCancel,
+        isDestructive: isDestructive,
       ),
-      secondaryAction: DiscordBottomSheetAction(
-        label: cancelLabel,
-        onPressed: onCancel,
+    );
+  }
+}
+
+/// Internal widget for confirmation sheet content
+class _DiscordConfirmSheetContent extends StatelessWidget {
+  const _DiscordConfirmSheetContent({
+    required this.title,
+    this.description,
+    this.illustration,
+    required this.confirmLabel,
+    required this.cancelLabel,
+    this.onConfirm,
+    this.onCancel,
+    required this.isDestructive,
+  });
+
+  final String title;
+  final String? description;
+  final Widget? illustration;
+  final String confirmLabel;
+  final String cancelLabel;
+  final VoidCallback? onConfirm;
+  final VoidCallback? onCancel;
+  final bool isDestructive;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor =
+        isDark ? DiscordColors.backgroundDark : DiscordColors.backgroundLight;
+    final textColor =
+        isDark
+            ? DiscordColors.textPrimaryDark
+            : DiscordColors.textPrimaryLight;
+    final subtitleColor =
+        isDark
+            ? DiscordColors.textSecondaryDark
+            : DiscordColors.textSecondaryLight;
+
+    return Container(
+      margin: const EdgeInsets.all(AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: AppRadius.discordSheet,
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle indicator
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color:
+                      isDark
+                          ? DiscordColors.surfaceHighDark
+                          : DiscordColors.surfaceHighLight,
+                  borderRadius: AppRadius.fullAll,
+                ),
+              ),
+              const VGap.lg(),
+
+              // Illustration
+              if (illustration != null) ...[
+                illustration!,
+                const VGap.lg(),
+              ],
+
+              // Title
+              Text(
+                title,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+
+              // Description
+              if (description != null) ...[
+                const VGap.sm(),
+                Text(
+                  description!,
+                  style: TextStyle(color: subtitleColor, fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+
+              const VGap.xl(),
+
+              // Confirm button
+              DiscordPillButton(
+                label: confirmLabel,
+                onPressed: () {
+                  onConfirm?.call();
+                  Navigator.of(context).pop(true);
+                },
+                variant: isDestructive
+                    ? DiscordButtonVariant.destructive
+                    : DiscordButtonVariant.filled,
+                isExpanded: true,
+              ),
+              const VGap.sm(),
+
+              // Cancel button
+              DiscordPillButton(
+                label: cancelLabel,
+                onPressed: () {
+                  onCancel?.call();
+                  Navigator.of(context).pop(false);
+                },
+                variant: DiscordButtonVariant.gray,
+                isExpanded: true,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:flutter_autonomous_template/core/components/app_button.dart';
-import 'package:flutter_autonomous_template/core/components/app_text_field.dart';
+import 'package:flutter_autonomous_template/core/components/discord/discord_components.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
+import 'package:flutter_autonomous_template/core/theme/app_colors.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/todo/data/models/todo.dart';
 import 'package:flutter_autonomous_template/features/todo/providers/todo_provider.dart';
@@ -62,14 +62,19 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor =
+        isDark ? DiscordColors.backgroundDark : DiscordColors.backgroundLight;
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(isEditing ? l10n.todoEdit : l10n.todoNew),
+        backgroundColor: backgroundColor,
         actions: [
           if (isEditing)
             IconButton(
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(Icons.delete_outline, color: DiscordColors.red),
               onPressed: _handleDelete,
             ),
         ],
@@ -80,7 +85,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            AppTextField(
+            DiscordTextField(
               controller: _titleController,
               label: l10n.todoTitle,
               hint: l10n.todoTitleHint,
@@ -88,7 +93,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
               autofocus: !isEditing,
             ),
             const VGap.md(),
-            AppTextField(
+            DiscordTextField(
               controller: _descriptionController,
               label: l10n.todoDescriptionOptional,
               hint: l10n.todoDescriptionHint,
@@ -98,9 +103,9 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
             const VGap.md(),
             _buildDueDatePicker(context, l10n),
             const VGap.xl(),
-            AppButton(
+            DiscordPillButton(
               label: isEditing ? l10n.saveChanges : l10n.todoAdd,
-              onPressed: _handleSave,
+              onPressed: _isLoading ? null : _handleSave,
               isLoading: _isLoading,
               isExpanded: true,
             ),
@@ -111,45 +116,70 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
   }
 
   Widget _buildDueDatePicker(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor =
+        isDark ? DiscordColors.textPrimaryDark : DiscordColors.textPrimaryLight;
+    final mutedColor =
+        isDark ? DiscordColors.textMutedDark : DiscordColors.textMutedLight;
+    final surfaceColor =
+        isDark ? DiscordColors.surfaceDark : DiscordColors.surfaceLight;
 
-    return InkWell(
-      onTap: _pickDueDate,
-      borderRadius: BorderRadius.circular(12),
-      child: InputDecorator(
-        decoration: InputDecoration(labelText: l10n.todoDueDateOptional),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              _dueDate != null
-                  ? _formatDate(_dueDate!, l10n)
-                  : l10n.todoDueDateNone,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: _dueDate != null
-                    ? colorScheme.onSurface
-                    : colorScheme.outline,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.todoDueDateOptional,
+          style: TextStyle(
+            color: mutedColor,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const VGap.sm(),
+        Material(
+          color: surfaceColor,
+          borderRadius: BorderRadius.circular(12),
+          child: InkWell(
+            onTap: _pickDueDate,
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.md,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _dueDate != null
+                        ? _formatDate(_dueDate!, l10n)
+                        : l10n.todoDueDateNone,
+                    style: TextStyle(
+                      color: _dueDate != null ? textColor : mutedColor,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (_dueDate != null)
+                        IconButton(
+                          icon: Icon(Icons.clear, color: mutedColor),
+                          onPressed: () {
+                            setState(() {
+                              _dueDate = null;
+                            });
+                          },
+                        ),
+                      Icon(Icons.calendar_today, color: mutedColor),
+                    ],
+                  ),
+                ],
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (_dueDate != null)
-                  IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      setState(() {
-                        _dueDate = null;
-                      });
-                    },
-                  ),
-                Icon(Icons.calendar_today, color: colorScheme.onSurfaceVariant),
-              ],
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -157,9 +187,8 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     // Allow past dates when editing an existing TODO with past due date
-    final firstDate = (_dueDate != null && _dueDate!.isBefore(today))
-        ? _dueDate!
-        : today;
+    final firstDate =
+        (_dueDate != null && _dueDate!.isBefore(today)) ? _dueDate! : today;
     final picked = await showDatePicker(
       context: context,
       initialDate: _dueDate ?? today,
@@ -193,9 +222,7 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
     final l10n = AppLocalizations.of(context);
     final title = _titleController.text.trim();
     if (title.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.todoTitleRequired)));
+      DiscordSnackbar.showError(context, l10n.todoTitleRequired);
       return;
     }
 
@@ -212,13 +239,11 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
         );
         await ref.read(todoListProvider.notifier).updateTodo(updatedTodo);
       } else {
-        await ref
-            .read(todoListProvider.notifier)
-            .addTodo(
-              title: title,
-              description: _descriptionController.text.trim(),
-              dueDate: _dueDate,
-            );
+        await ref.read(todoListProvider.notifier).addTodo(
+          title: title,
+          description: _descriptionController.text.trim(),
+          dueDate: _dueDate,
+        );
       }
 
       if (mounted) {
@@ -235,22 +260,13 @@ class _TodoEditScreenState extends ConsumerState<TodoEditScreen> {
 
   Future<void> _handleDelete() async {
     final l10n = AppLocalizations.of(context);
-    final confirmed = await showDialog<bool>(
+    final confirmed = await DiscordConfirmSheet.show(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.todoDeleteTitle),
-        content: Text(l10n.todoDeleteConfirm(_resolvedTodo!.title)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.cancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(l10n.delete),
-          ),
-        ],
-      ),
+      title: l10n.todoDeleteTitle,
+      description: l10n.todoDeleteConfirm(_resolvedTodo!.title),
+      confirmLabel: l10n.delete,
+      cancelLabel: l10n.cancel,
+      isDestructive: true,
     );
 
     if (confirmed == true) {

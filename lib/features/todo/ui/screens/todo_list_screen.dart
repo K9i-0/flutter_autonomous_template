@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_autonomous_template/core/components/app_empty_state.dart';
 import 'package:flutter_autonomous_template/core/components/app_loading.dart';
+import 'package:flutter_autonomous_template/core/components/discord/discord_components.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
+import 'package:flutter_autonomous_template/core/theme/app_colors.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/todo/data/models/todo.dart';
 import 'package:flutter_autonomous_template/features/todo/providers/filter_provider.dart';
@@ -22,17 +24,25 @@ class TodoListScreen extends ConsumerWidget {
     final currentFilter = ref.watch(filterProvider);
     final stats = ref.watch(todoStatsProvider);
     final l10n = AppLocalizations.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor =
+        isDark ? DiscordColors.backgroundDark : DiscordColors.backgroundLight;
 
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(l10n.todos),
+        backgroundColor: backgroundColor,
         actions: [
           if (stats.completed > 0)
             TextButton(
               onPressed: () {
                 ref.read(todoListProvider.notifier).clearCompleted();
               },
-              child: Text(l10n.clearCompleted),
+              child: Text(
+                l10n.clearCompleted,
+                style: const TextStyle(color: DiscordColors.blurple),
+              ),
             ),
         ],
       ),
@@ -51,11 +61,11 @@ class TodoListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: DiscordFAB(
         onPressed: () {
           context.router.push(TodoEditRoute());
         },
-        child: const Icon(Icons.add),
+        tooltip: l10n.todoAdd,
       ),
     );
   }
@@ -74,24 +84,21 @@ class TodoListScreen extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          _buildFilterChip(
-            context,
+          DiscordChip(
             label: l10n.filterAllCount(stats.total),
             isSelected: currentFilter == TodoFilter.all,
             onTap: () =>
                 ref.read(filterProvider.notifier).setFilter(TodoFilter.all),
           ),
           const HGap.sm(),
-          _buildFilterChip(
-            context,
+          DiscordChip(
             label: l10n.filterActiveCount(stats.active),
             isSelected: currentFilter == TodoFilter.active,
             onTap: () =>
                 ref.read(filterProvider.notifier).setFilter(TodoFilter.active),
           ),
           const HGap.sm(),
-          _buildFilterChip(
-            context,
+          DiscordChip(
             label: l10n.filterDoneCount(stats.completed),
             isSelected: currentFilter == TodoFilter.completed,
             onTap: () => ref
@@ -99,28 +106,6 @@ class TodoListScreen extends ConsumerWidget {
                 .setFilter(TodoFilter.completed),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildFilterChip(
-    BuildContext context, {
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return FilterChip(
-      label: Text(label),
-      selected: isSelected,
-      onSelected: (_) => onTap(),
-      selectedColor: colorScheme.primaryContainer,
-      checkmarkColor: colorScheme.primary,
-      labelStyle: TextStyle(
-        color: isSelected ? colorScheme.primary : colorScheme.onSurface,
-        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
       ),
     );
   }
@@ -155,16 +140,10 @@ class TodoListScreen extends ConsumerWidget {
           },
           onDelete: () {
             ref.read(todoListProvider.notifier).deleteTodo(todo.id);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(l10n.todoDeleted(todo.title)),
-                action: SnackBarAction(
-                  label: 'Undo',
-                  onPressed: () {
-                    // TODO: Implement undo
-                  },
-                ),
-              ),
+            DiscordSnackbar.show(
+              context,
+              message: l10n.todoDeleted(todo.title),
+              variant: DiscordSnackbarVariant.info,
             );
           },
         );

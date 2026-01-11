@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_autonomous_template/core/components/discord/discord_components.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/theme/app_colors.dart';
 import 'package:flutter_autonomous_template/core/theme/app_radius.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/todo/data/models/todo.dart';
 
-/// A tile widget displaying a single TODO item
+/// A tile widget displaying a single TODO item with Discord styling
 class TodoTile extends StatelessWidget {
   const TodoTile({
     required this.todo,
@@ -23,9 +24,10 @@ class TodoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
+    final backgroundColor =
+        isDark ? DiscordColors.surfaceDark : DiscordColors.surfaceLight;
 
     return Dismissible(
       key: Key(todo.id),
@@ -35,23 +37,28 @@ class TodoTile extends StatelessWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: AppSpacing.md),
         decoration: BoxDecoration(
-          color: colorScheme.error,
-          borderRadius: AppRadius.card,
+          color: DiscordColors.red,
+          borderRadius: AppRadius.discordCard,
         ),
-        child: Icon(Icons.delete_outline, color: colorScheme.onError),
+        child: const Icon(Icons.delete_outline, color: Colors.white),
       ),
       child: Material(
-        color: colorScheme.surfaceContainerHigh,
-        borderRadius: AppRadius.card,
+        color: backgroundColor,
+        borderRadius: AppRadius.discordCard,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
-          borderRadius: AppRadius.card,
+          borderRadius: AppRadius.discordCard,
           child: Padding(
             padding: AppSpacing.cardPadding,
             child: Row(
               children: [
-                _buildCheckbox(context, l10n),
+                DiscordCheckbox(
+                  value: todo.isCompleted,
+                  onChanged: (_) => onToggle(),
+                  semanticLabel:
+                      todo.isCompleted ? l10n.markIncomplete : l10n.markComplete,
+                ),
                 const HGap.md(),
                 Expanded(child: _buildContent(context, l10n)),
                 if (todo.category != null) ...[
@@ -66,58 +73,32 @@ class TodoTile extends StatelessWidget {
     );
   }
 
-  Widget _buildCheckbox(BuildContext context, AppLocalizations l10n) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Semantics(
-      label: todo.isCompleted ? l10n.markIncomplete : l10n.markComplete,
-      checked: todo.isCompleted,
-      child: GestureDetector(
-        onTap: onToggle,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            color: todo.isCompleted ? colorScheme.primary : Colors.transparent,
-            border: Border.all(
-              color: todo.isCompleted
-                  ? colorScheme.primary
-                  : colorScheme.outline,
-              width: 2,
-            ),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: todo.isCompleted
-              ? Icon(Icons.check, size: 16, color: colorScheme.onPrimary)
-              : null,
-        ),
-      ),
-    );
-  }
-
   Widget _buildContent(BuildContext context, AppLocalizations l10n) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor =
+        isDark ? DiscordColors.textPrimaryDark : DiscordColors.textPrimaryLight;
+    final mutedColor =
+        isDark ? DiscordColors.textMutedDark : DiscordColors.textMutedLight;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           todo.title,
-          style: theme.textTheme.titleMedium?.copyWith(
+          style: TextStyle(
+            color: todo.isCompleted ? mutedColor : textColor,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
             decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
-            color: todo.isCompleted
-                ? colorScheme.onSurfaceVariant
-                : colorScheme.onSurface,
           ),
         ),
         if (todo.description.isNotEmpty) ...[
           const VGap.xs(),
           Text(
             todo.description,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurfaceVariant,
+            style: TextStyle(
+              color: mutedColor,
+              fontSize: 14,
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -130,17 +111,14 @@ class TodoTile extends StatelessWidget {
               Icon(
                 Icons.schedule,
                 size: 14,
-                color: _isDueOverdue()
-                    ? colorScheme.error
-                    : colorScheme.onSurfaceVariant,
+                color: _isDueOverdue() ? DiscordColors.red : mutedColor,
               ),
               const HGap.xs(),
               Text(
                 _formatDueDate(l10n),
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: _isDueOverdue()
-                      ? colorScheme.error
-                      : colorScheme.onSurfaceVariant,
+                style: TextStyle(
+                  color: _isDueOverdue() ? DiscordColors.red : mutedColor,
+                  fontSize: 12,
                 ),
               ),
             ],

@@ -19,6 +19,7 @@ class DiscordListTile extends StatelessWidget {
     this.onLongPress,
     this.showDivider = false,
     this.dense = false,
+    this.titleStyle,
   });
 
   final String title;
@@ -29,6 +30,10 @@ class DiscordListTile extends StatelessWidget {
   final VoidCallback? onLongPress;
   final bool showDivider;
   final bool dense;
+
+  /// Custom text style for the title.
+  /// If null, uses default Discord styling.
+  final TextStyle? titleStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +72,12 @@ class DiscordListTile extends StatelessWidget {
                       children: [
                         Text(
                           title,
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: dense ? 14 : 16,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: titleStyle ??
+                              TextStyle(
+                                color: textColor,
+                                fontSize: dense ? 14 : 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                         ),
                         if (subtitle != null) ...[
                           const VGap.xxs(),

@@ -5,7 +5,13 @@ library;
 
 export 'discord_bottom_nav_bar.dart';
 export 'discord_bottom_sheet.dart';
+export 'discord_card.dart';
+export 'discord_chip.dart';
+export 'discord_fab.dart';
+export 'discord_info_card.dart';
 export 'discord_list_tile.dart';
 export 'discord_pill_button.dart';
 export 'discord_segmented_control.dart';
+export 'discord_snackbar.dart';
+export 'discord_switch.dart';
 export 'discord_text_field.dart';

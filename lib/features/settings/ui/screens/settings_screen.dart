@@ -7,7 +7,6 @@ import 'package:flutter_autonomous_template/core/config/build_config.dart';
 import 'package:flutter_autonomous_template/core/debug/debug_settings_provider.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
-import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/auth/providers/auth_provider.dart';
 import 'package:flutter_autonomous_template/features/settings/data/models/app_settings.dart';
 import 'package:flutter_autonomous_template/features/settings/providers/settings_provider.dart';
@@ -20,72 +19,244 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settings)),
-      body: ListView(
-        padding: AppSpacing.screenPadding,
-        children: [
-          _buildThemeSection(context, ref, settings, l10n),
-          const VGap.md(),
-          _buildLanguageSection(context, ref, settings, l10n),
-          const VGap.md(),
-          const Divider(),
-          const VGap.md(),
-          _buildAboutSection(context, l10n),
-          const VGap.md(),
-          const Divider(),
-          const VGap.md(),
-          _buildAccountSection(context, ref, l10n),
-          if (kDebugMode) ...[
-            const VGap.lg(),
-            const Divider(),
-            const VGap.md(),
-            _buildDebugSection(context, ref, l10n),
+      backgroundColor: theme.colorScheme.surfaceContainerLow,
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            // Header
+            SliverToBoxAdapter(
+              child: _buildHeader(context, l10n),
+            ),
+            // Account Card
+            SliverToBoxAdapter(
+              child: _buildAccountCard(context, ref, l10n),
+            ),
+            // Settings sections
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    _buildSettingsCard(
+                      context,
+                      title: l10n.theme,
+                      icon: Icons.palette_outlined,
+                      children: [
+                        _buildThemeOption(
+                          context,
+                          ref,
+                          title: l10n.themeSystem,
+                          icon: Icons.brightness_auto,
+                          value: ThemeModeValue.system,
+                          currentValue: settings.themeMode,
+                        ),
+                        _buildThemeOption(
+                          context,
+                          ref,
+                          title: l10n.themeLight,
+                          icon: Icons.light_mode,
+                          value: ThemeModeValue.light,
+                          currentValue: settings.themeMode,
+                        ),
+                        _buildThemeOption(
+                          context,
+                          ref,
+                          title: l10n.themeDark,
+                          icon: Icons.dark_mode,
+                          value: ThemeModeValue.dark,
+                          currentValue: settings.themeMode,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    _buildSettingsCard(
+                      context,
+                      title: l10n.language,
+                      icon: Icons.language,
+                      children: [
+                        _buildLanguageOption(
+                          context,
+                          ref,
+                          title: l10n.languageEnglish,
+                          locale: 'en',
+                          currentLocale: settings.locale,
+                        ),
+                        _buildLanguageOption(
+                          context,
+                          ref,
+                          title: l10n.languageJapanese,
+                          locale: 'ja',
+                          currentLocale: settings.locale,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    _buildSettingsCard(
+                      context,
+                      title: 'General',
+                      icon: Icons.settings_outlined,
+                      children: [
+                        _buildAboutTile(context, l10n),
+                      ],
+                    ),
+                    if (kDebugMode) ...[
+                      const SizedBox(height: 16),
+                      _buildDebugCard(context, ref, l10n),
+                    ],
+                    const SizedBox(height: 32),
+                    _buildSignOutButton(context, ref, l10n),
+                    const SizedBox(height: 32),
+                  ],
+                ),
+              ),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+      child: Text(
+        l10n.settings,
+        style: theme.textTheme.headlineSmall?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAccountCard(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
+    final theme = Theme.of(context);
+    final currentUser = ref.watch(currentUserProvider);
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            theme.colorScheme.primary,
+            theme.colorScheme.primary.withValues(alpha: 0.8),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: theme.colorScheme.primary.withValues(alpha: 0.3),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          // Avatar
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Center(
+              child: Text(
+                currentUser?.name.isNotEmpty == true
+                    ? currentUser!.name[0].toUpperCase()
+                    : '?',
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  color: theme.colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          // User info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  currentUser?.name ?? 'Guest',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    color: theme.colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  currentUser?.email ?? '',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildThemeSection(
-    BuildContext context,
-    WidgetRef ref,
-    AppSettings settings,
-    AppLocalizations l10n,
-  ) {
+  Widget _buildSettingsCard(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required List<Widget> children,
+  }) {
     final theme = Theme.of(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(l10n.theme, style: theme.textTheme.titleMedium),
-        const VGap.sm(),
-        _buildThemeOption(
-          context,
-          ref,
-          title: l10n.themeSystem,
-          icon: Icons.brightness_auto,
-          value: ThemeModeValue.system,
-          currentValue: settings.themeMode,
-        ),
-        _buildThemeOption(
-          context,
-          ref,
-          title: l10n.themeLight,
-          icon: Icons.light_mode,
-          value: ThemeModeValue.light,
-          currentValue: settings.themeMode,
-        ),
-        _buildThemeOption(
-          context,
-          ref,
-          title: l10n.themeDark,
-          icon: Icons.dark_mode,
-          value: ThemeModeValue.dark,
-          currentValue: settings.themeMode,
-        ),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: theme.colorScheme.shadow.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Section header
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Row(
+              children: [
+                Icon(icon, size: 20, color: theme.colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  title,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Children
+          ...children,
+          const SizedBox(height: 8),
+        ],
+      ),
     );
   }
 
@@ -101,51 +272,48 @@ class SettingsScreen extends ConsumerWidget {
     final isSelected = value == currentValue;
 
     return ListTile(
-      leading: Icon(icon, color: isSelected ? theme.colorScheme.primary : null),
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: isSelected
+              ? theme.colorScheme.primary.withValues(alpha: 0.1)
+              : theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(
+          icon,
+          size: 20,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
       title: Text(
         title,
-        style: TextStyle(
+        style: theme.textTheme.bodyLarge?.copyWith(
           color: isSelected ? theme.colorScheme.primary : null,
-          fontWeight: isSelected ? FontWeight.w600 : null,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
         ),
       ),
       trailing: isSelected
-          ? Icon(Icons.check, color: theme.colorScheme.primary)
+          ? Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.check,
+                size: 16,
+                color: theme.colorScheme.onPrimary,
+              ),
+            )
           : null,
       onTap: () {
         ref.read(settingsProvider.notifier).setThemeMode(value);
       },
-    );
-  }
-
-  Widget _buildLanguageSection(
-    BuildContext context,
-    WidgetRef ref,
-    AppSettings settings,
-    AppLocalizations l10n,
-  ) {
-    final theme = Theme.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(l10n.language, style: theme.textTheme.titleMedium),
-        const VGap.sm(),
-        _buildLanguageOption(
-          context,
-          ref,
-          title: l10n.languageEnglish,
-          locale: 'en',
-          currentLocale: settings.locale,
-        ),
-        _buildLanguageOption(
-          context,
-          ref,
-          title: l10n.languageJapanese,
-          locale: 'ja',
-          currentLocale: settings.locale,
-        ),
-      ],
     );
   }
 
@@ -160,15 +328,48 @@ class SettingsScreen extends ConsumerWidget {
     final isSelected = locale == currentLocale;
 
     return ListTile(
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: isSelected
+              ? theme.colorScheme.primary.withValues(alpha: 0.1)
+              : theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Center(
+          child: Text(
+            locale.toUpperCase(),
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: isSelected
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.onSurfaceVariant,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
       title: Text(
         title,
-        style: TextStyle(
+        style: theme.textTheme.bodyLarge?.copyWith(
           color: isSelected ? theme.colorScheme.primary : null,
-          fontWeight: isSelected ? FontWeight.w600 : null,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
         ),
       ),
       trailing: isSelected
-          ? Icon(Icons.check, color: theme.colorScheme.primary)
+          ? Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.check,
+                size: 16,
+                color: theme.colorScheme.onPrimary,
+              ),
+            )
           : null,
       onTap: () {
         ref.read(settingsProvider.notifier).setLocale(locale);
@@ -176,14 +377,33 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAboutSection(BuildContext context, AppLocalizations l10n) {
+  Widget _buildAboutTile(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+
     return ListTile(
-      leading: const Icon(Icons.info_outline),
-      title: const Text('About'),
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(
+          Icons.info_outline,
+          size: 20,
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
+      title: Text('About', style: theme.textTheme.bodyLarge),
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        size: 16,
+        color: theme.colorScheme.outline,
+      ),
       onTap: () {
         showAboutDialog(
           context: context,
-          applicationName: 'Flutter Autonomous Template',
+          applicationName: 'TODO App',
           applicationVersion: '1.0.0',
           applicationLegalese: '© 2024',
         );
@@ -191,75 +411,7 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAccountSection(
-    BuildContext context,
-    WidgetRef ref,
-    AppLocalizations l10n,
-  ) {
-    final theme = Theme.of(context);
-    final currentUser = ref.watch(currentUserProvider);
-    final authState = ref.watch(authNotifierProvider);
-    final isLoading = authState.isLoading;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(l10n.account, style: theme.textTheme.titleMedium),
-        const VGap.sm(),
-        if (currentUser != null) ...[
-          ListTile(
-            leading: CircleAvatar(
-              backgroundColor: theme.colorScheme.primaryContainer,
-              child: Text(
-                currentUser.name.isNotEmpty
-                    ? currentUser.name[0].toUpperCase()
-                    : '?',
-                style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
-              ),
-            ),
-            title: Text(currentUser.name),
-            subtitle: Text(currentUser.email),
-          ),
-        ],
-        ListTile(
-          leading: Icon(Icons.logout, color: theme.colorScheme.error),
-          title: Text(
-            l10n.signOut,
-            style: TextStyle(color: theme.colorScheme.error),
-          ),
-          enabled: !isLoading,
-          onTap: () async {
-            final confirmed = await showDialog<bool>(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text(l10n.signOut),
-                content: Text(l10n.signOutConfirm),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: Text(l10n.cancel),
-                  ),
-                  FilledButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: Text(l10n.signOut),
-                  ),
-                ],
-              ),
-            );
-
-            if (confirmed == true) {
-              await ref.read(authNotifierProvider.notifier).signOut();
-              if (context.mounted) {
-                context.router.replaceAll([const LoginRoute()]);
-              }
-            }
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDebugSection(
+  Widget _buildDebugCard(
     BuildContext context,
     WidgetRef ref,
     AppLocalizations l10n,
@@ -269,49 +421,59 @@ class SettingsScreen extends ConsumerWidget {
     final debugSettings = ref.watch(debugSettingsProvider);
     final debugNotifier = ref.read(debugSettingsProvider.notifier);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Icon(Icons.bug_report, color: theme.colorScheme.error),
-            const HGap.sm(),
-            Text(
-              l10n.debugInfo,
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.error,
-              ),
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.error.withValues(alpha: 0.3),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: theme.colorScheme.shadow.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Row(
+              children: [
+                Icon(Icons.bug_report, size: 20, color: theme.colorScheme.error),
+                const SizedBox(width: 8),
+                Text(
+                  l10n.debugInfo,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.error,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        const VGap.sm(),
-        _buildDebugItem('Flavor', config.flavor.name.toUpperCase()),
-        _buildDebugItem('App Name', config.appName),
-        _buildDebugItem('Base URL', config.baseUrl),
-        const VGap.md(),
-        const Divider(),
-        const VGap.sm(),
-        Text(
-          l10n.repositoryDebug,
-          style: theme.textTheme.titleSmall?.copyWith(
-            color: theme.colorScheme.error,
           ),
-        ),
-        SwitchListTile(
-          title: Text(l10n.useDebugRepository),
-          subtitle: Text(l10n.useDebugRepositoryDesc),
-          value: debugSettings.useDebugRepository,
-          onChanged: (_) => debugNotifier.toggleUseDebugRepository(),
-        ),
-        const VGap.sm(),
-        Center(
-          child: TextButton.icon(
-            onPressed: debugNotifier.resetToDefaults,
-            icon: const Icon(Icons.refresh),
-            label: Text(l10n.resetToDefaults),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                _buildDebugItem('Flavor', config.flavor.name.toUpperCase()),
+                _buildDebugItem('App Name', config.appName),
+              ],
+            ),
           ),
-        ),
-      ],
+          const Divider(),
+          SwitchListTile(
+            title: Text(l10n.useDebugRepository),
+            subtitle: Text(l10n.useDebugRepositoryDesc),
+            value: debugSettings.useDebugRepository,
+            onChanged: (_) => debugNotifier.toggleUseDebugRepository(),
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
     );
   }
 
@@ -332,6 +494,69 @@ class SettingsScreen extends ConsumerWidget {
             child: Text(value, style: const TextStyle(fontFamily: 'monospace')),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSignOutButton(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
+    final theme = Theme.of(context);
+    final authState = ref.watch(authNotifierProvider);
+    final isLoading = authState.isLoading;
+
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: OutlinedButton.icon(
+        onPressed: isLoading
+            ? null
+            : () async {
+                final confirmed = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    title: Text(l10n.signOut),
+                    content: Text(l10n.signOutConfirm),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: Text(l10n.cancel),
+                      ),
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: theme.colorScheme.error,
+                        ),
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: Text(l10n.signOut),
+                      ),
+                    ],
+                  ),
+                );
+
+                if (confirmed == true) {
+                  await ref.read(authNotifierProvider.notifier).signOut();
+                  if (context.mounted) {
+                    context.router.replaceAll([const LoginRoute()]);
+                  }
+                }
+              },
+        style: OutlinedButton.styleFrom(
+          foregroundColor: theme.colorScheme.error,
+          side: BorderSide(color: theme.colorScheme.error),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        icon: const Icon(Icons.logout),
+        label: Text(
+          l10n.signOut,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
       ),
     );
   }

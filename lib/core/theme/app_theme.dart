@@ -5,9 +5,10 @@ import 'package:flutter_autonomous_template/core/theme/app_radius.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/core/theme/app_typography.dart';
 
-/// Application theme configuration
+/// Application theme configuration - Timee Style
 ///
-/// Uses Material 3 design system with custom colors, typography, and spacing.
+/// Uses Material 3 design system with Timee's warm orange brand colors.
+/// Features clean white backgrounds and rounded 8px corners.
 class AppTheme {
   /// Dark theme
   static ThemeData get darkTheme {
@@ -48,8 +49,8 @@ class AppTheme {
         clipBehavior: Clip.antiAlias,
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        elevation: 2,
-        highlightElevation: 4,
+        elevation: 4,
+        highlightElevation: 8,
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
         shape: AppShapeBorder.fab,

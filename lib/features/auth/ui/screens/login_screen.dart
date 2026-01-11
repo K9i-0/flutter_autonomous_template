@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:flutter_autonomous_template/core/components/app_button.dart';
 import 'package:flutter_autonomous_template/core/components/app_text_field.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
@@ -42,7 +41,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.listen<AsyncValue<User?>>(authStateProvider, (previous, next) {
       next.whenData((user) {
         if (user != null && mounted) {
-          // Navigate to main screen when authenticated
           context.router.replaceAll([const MainRoute()]);
         }
       });
@@ -63,63 +61,174 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       body: SafeArea(
         child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          padding: AppSpacing.screenPadding,
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const VGap.xxl(),
-                _buildHeader(context, l10n),
-                const VGap.xxl(),
-                _buildEmailField(l10n),
-                const VGap.md(),
-                _buildPasswordField(l10n),
-                const VGap.xl(),
-                AppButton(
-                  label: l10n.signIn,
-                  onPressed: isLoading ? null : _handleSignIn,
-                  isLoading: isLoading,
-                  isExpanded: true,
-                ),
-                const VGap.lg(),
-                _buildDemoHint(context, l10n),
-              ],
-            ),
+          child: Column(
+            children: [
+              // Hero section with yellow background
+              _buildHeroSection(context, l10n),
+              // Form section
+              _buildFormSection(context, l10n, isLoading),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
+  Widget _buildHeroSection(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
-    return Column(
-      children: [
-        Icon(
-          Icons.check_circle_outline,
-          size: 80,
-          color: theme.colorScheme.primary,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 32),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            theme.colorScheme.primary,
+            theme.colorScheme.primary.withValues(alpha: 0.8),
+          ],
         ),
-        const VGap.lg(),
-        Text(
-          l10n.welcomeBack,
-          style: theme.textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(32),
+          bottomRight: Radius.circular(32),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // App icon in phone-like frame
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Icon(
+              Icons.check_circle,
+              size: 64,
+              color: theme.colorScheme.primary,
+            ),
           ),
-        ),
-        const VGap.sm(),
-        Text(
-          l10n.signInToContinue,
-          style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.outline,
+          const VGap.lg(),
+          // Title
+          Text(
+            'TODO App',
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onPrimary,
+            ),
           ),
+          const VGap.sm(),
+          // Subtitle
+          Text(
+            l10n.signInToContinue,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
+            ),
+          ),
+          const VGap.lg(),
+          // Page indicators (decorative)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(4, (index) {
+              final isActive = index == 3;
+              return Container(
+                width: isActive ? 24 : 8,
+                height: 8,
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                decoration: BoxDecoration(
+                  color: isActive
+                      ? theme.colorScheme.onPrimary
+                      : theme.colorScheme.onPrimary.withValues(alpha: 0.4),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              );
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFormSection(
+    BuildContext context,
+    AppLocalizations l10n,
+    bool isLoading,
+  ) {
+    final theme = Theme.of(context);
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const VGap.md(),
+            // Welcome text
+            Text(
+              l10n.welcomeBack,
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const VGap.lg(),
+            // Email field
+            _buildEmailField(l10n),
+            const VGap.md(),
+            // Password field
+            _buildPasswordField(l10n),
+            const VGap.lg(),
+            // Sign in button (Timee blue style)
+            SizedBox(
+              height: 52,
+              child: FilledButton(
+                onPressed: isLoading ? null : _handleSignIn,
+                style: FilledButton.styleFrom(
+                  backgroundColor: theme.colorScheme.secondary,
+                  foregroundColor: theme.colorScheme.onSecondary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: isLoading
+                    ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        l10n.signIn,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            // Demo hint (Timee-style card)
+            if (kDebugMode) _buildDemoHint(context, l10n, isLoading),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -173,53 +282,90 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _buildDemoHint(BuildContext context, AppLocalizations l10n) {
+  Widget _buildDemoHint(
+    BuildContext context,
+    AppLocalizations l10n,
+    bool isLoading,
+  ) {
     final theme = Theme.of(context);
-    final authState = ref.watch(authNotifierProvider);
-    final isLoading = authState.isLoading;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            theme.colorScheme.primary.withValues(alpha: 0.15),
+            theme.colorScheme.primary.withValues(alpha: 0.05),
+          ],
+        ),
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: theme.colorScheme.primary.withValues(alpha: 0.3),
+        ),
       ),
       child: Column(
         children: [
           Row(
             children: [
-              Icon(
-                Icons.info_outline,
-                size: 20,
-                color: theme.colorScheme.primary,
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.flash_on,
+                  size: 20,
+                  color: theme.colorScheme.onPrimary,
+                ),
               ),
-              const HGap.sm(),
-              Text(
-                l10n.demoMode,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+              const HGap.md(),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.demoMode,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      l10n.demoModeDescription,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-          const VGap.sm(),
-          Text(
-            l10n.demoModeDescription,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.outline,
-            ),
-          ),
-          if (kDebugMode) ...[
-            const VGap.md(),
-            SizedBox(
-              width: double.infinity,
-              child: TextButton.icon(
-                onPressed: isLoading ? null : _handleDebugSignIn,
-                icon: const Icon(Icons.flash_on),
-                label: Text(l10n.debugQuickLogin),
+          const VGap.md(),
+          SizedBox(
+            width: double.infinity,
+            height: 44,
+            child: OutlinedButton(
+              onPressed: isLoading ? null : _handleDebugSignIn,
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: theme.colorScheme.primary),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text(
+                l10n.debugQuickLogin,
+                style: TextStyle(
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ],
+          ),
         ],
       ),
     );

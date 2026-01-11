@@ -1,16 +1,17 @@
 import 'package:flutter/widgets.dart';
 
-/// Application border radius constants
+/// Application border radius constants - Timee Style
 ///
 /// Consistent corner rounding for UI elements.
+/// Timee uses 8px as standard radius with lighter rounded corners.
 abstract class AppRadius {
-  // Radius values
+  // Radius values - Timee style (8px standard)
   static const double none = 0;
   static const double xs = 4;
-  static const double sm = 8;
-  static const double md = 12;
-  static const double lg = 16;
-  static const double xl = 20;
+  static const double sm = 6;
+  static const double md = 8;
+  static const double lg = 12;
+  static const double xl = 16;
   static const double xxl = 24;
   static const double full = 9999;
 
@@ -36,21 +37,23 @@ abstract class AppRadius {
     top: Radius.circular(xxl),
   );
 
-  // Component-specific presets
-  static const BorderRadius button = mdAll;
-  static const BorderRadius buttonSmall = smAll;
-  static const BorderRadius card = lgAll;
-  static const BorderRadius cardLarge = xlAll;
-  static const BorderRadius chip = smAll;
-  static const BorderRadius input = mdAll;
-  static const BorderRadius dialog = xlAll;
-  static const BorderRadius bottomSheet = xlTop;
-  static const BorderRadius checkbox = xsAll;
-  static const BorderRadius fab = lgAll;
-  static const BorderRadius avatar = fullAll;
+  // Component-specific presets - Timee style
+  static const BorderRadius button = mdAll; // 8px - standard buttons
+  static const BorderRadius buttonSmall = smAll; // 6px - small buttons
+  static const BorderRadius buttonPill = fullAll; // pill shape buttons
+  static const BorderRadius card = mdAll; // 8px - cards
+  static const BorderRadius cardLarge = lgAll; // 12px - large cards
+  static const BorderRadius chip = smAll; // 6px - chips/tags
+  static const BorderRadius input = mdAll; // 8px - inputs
+  static const BorderRadius dialog = lgAll; // 12px - dialogs
+  static const BorderRadius bottomSheet = lgTop; // 12px top - bottom sheets
+  static const BorderRadius checkbox = xsAll; // 4px - checkbox
+  static const BorderRadius fab = mdAll; // 8px - FAB
+  static const BorderRadius avatar = fullAll; // full - avatars
+  static const BorderRadius badge = xsAll; // 4px - badges
 }
 
-/// RoundedRectangleBorder presets
+/// RoundedRectangleBorder presets - Timee style
 abstract class AppShapeBorder {
   static final RoundedRectangleBorder button = RoundedRectangleBorder(
     borderRadius: AppRadius.button,
@@ -58,6 +61,10 @@ abstract class AppShapeBorder {
 
   static final RoundedRectangleBorder buttonSmall = RoundedRectangleBorder(
     borderRadius: AppRadius.buttonSmall,
+  );
+
+  static final RoundedRectangleBorder buttonPill = RoundedRectangleBorder(
+    borderRadius: AppRadius.buttonPill,
   );
 
   static final RoundedRectangleBorder card = RoundedRectangleBorder(
@@ -82,5 +89,9 @@ abstract class AppShapeBorder {
 
   static final RoundedRectangleBorder fab = RoundedRectangleBorder(
     borderRadius: AppRadius.fab,
+  );
+
+  static final RoundedRectangleBorder badge = RoundedRectangleBorder(
+    borderRadius: AppRadius.badge,
   );
 }

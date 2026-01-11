@@ -5,9 +5,9 @@ import 'package:flutter_autonomous_template/core/theme/app_radius.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/core/theme/app_typography.dart';
 
-/// Application theme configuration
+/// Application theme configuration - McDonald's Style
 ///
-/// Uses Material 3 design system with custom colors, typography, and spacing.
+/// Uses Material 3 design system with McDonald's-inspired colors, typography, and spacing.
 class AppTheme {
   /// Dark theme
   static ThemeData get darkTheme {
@@ -34,7 +34,7 @@ class AppTheme {
         backgroundColor: colorScheme.surface,
         foregroundColor: colorScheme.onSurface,
         elevation: 0,
-        scrolledUnderElevation: 0,
+        scrolledUnderElevation: 1,
         centerTitle: false,
         titleTextStyle: textTheme.headlineSmall?.copyWith(
           color: colorScheme.onSurface,
@@ -42,16 +42,17 @@ class AppTheme {
         ),
       ),
       cardTheme: CardThemeData(
-        elevation: 0,
+        elevation: 2,
+        shadowColor: Colors.black.withOpacity(0.1),
         shape: AppShapeBorder.card,
-        color: colorScheme.surfaceContainerHigh,
+        color: colorScheme.surface,
         clipBehavior: Clip.antiAlias,
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        elevation: 2,
-        highlightElevation: 4,
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
+        elevation: 4,
+        highlightElevation: 6,
+        backgroundColor: colorScheme.secondary, // McDonald's Yellow
+        foregroundColor: colorScheme.onSecondary, // Dark text on yellow
         shape: AppShapeBorder.fab,
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -66,7 +67,9 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           padding: AppSpacing.buttonPadding,
-          side: BorderSide(color: colorScheme.outline, width: 1.5),
+          side: BorderSide.none,
+          backgroundColor: colorScheme.secondary, // McDonald's Yellow
+          foregroundColor: colorScheme.onSecondary,
           shape: AppShapeBorder.button,
         ),
       ),
@@ -74,6 +77,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           padding: AppSpacing.buttonPaddingSmall,
           shape: AppShapeBorder.buttonSmall,
+          foregroundColor: colorScheme.primary, // McDonald's Red
         ),
       ),
       checkboxTheme: CheckboxThemeData(
@@ -112,9 +116,9 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: colorScheme.surfaceContainerHigh,
-        selectedColor: colorScheme.primaryContainer,
+        selectedColor: colorScheme.secondary.withOpacity(0.2),
         labelStyle: textTheme.labelMedium,
-        side: BorderSide(color: colorScheme.outlineVariant),
+        side: BorderSide.none,
         shape: RoundedRectangleBorder(borderRadius: AppRadius.chip),
         padding: EdgeInsets.symmetric(
           horizontal: AppSpacing.sm + AppSpacing.xs,
@@ -132,7 +136,7 @@ class AppTheme {
         ),
       ),
       dialogTheme: DialogThemeData(
-        backgroundColor: colorScheme.surfaceContainer,
+        backgroundColor: colorScheme.surface,
         elevation: 8,
         shape: AppShapeBorder.dialog,
         titleTextStyle: textTheme.headlineSmall?.copyWith(
@@ -147,7 +151,7 @@ class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         elevation: 0,
         backgroundColor: colorScheme.surface,
-        indicatorColor: colorScheme.primaryContainer,
+        indicatorColor: colorScheme.primary.withOpacity(0.15),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return textTheme.labelMedium?.copyWith(
@@ -169,6 +173,13 @@ class AppTheme {
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: colorScheme.surface,
         shape: RoundedRectangleBorder(borderRadius: AppRadius.bottomSheet),
+      ),
+      listTileTheme: ListTileThemeData(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.xs,
+        ),
+        shape: RoundedRectangleBorder(borderRadius: AppRadius.smAll),
       ),
     );
   }

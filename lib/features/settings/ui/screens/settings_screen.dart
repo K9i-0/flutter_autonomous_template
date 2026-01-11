@@ -7,6 +7,7 @@ import 'package:flutter_autonomous_template/core/config/build_config.dart';
 import 'package:flutter_autonomous_template/core/debug/debug_settings_provider.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
+import 'package:flutter_autonomous_template/core/theme/app_radius.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/auth/providers/auth_provider.dart';
 import 'package:flutter_autonomous_template/features/settings/data/models/app_settings.dart';
@@ -26,23 +27,121 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: AppSpacing.screenPadding,
         children: [
-          _buildThemeSection(context, ref, settings, l10n),
+          _buildSectionCard(
+            context,
+            title: l10n.theme,
+            icon: Icons.palette,
+            child: _buildThemeSection(context, ref, settings, l10n),
+          ),
           const VGap.md(),
-          _buildLanguageSection(context, ref, settings, l10n),
+          _buildSectionCard(
+            context,
+            title: l10n.language,
+            icon: Icons.language,
+            child: _buildLanguageSection(context, ref, settings, l10n),
+          ),
           const VGap.md(),
-          const Divider(),
+          _buildSectionCard(
+            context,
+            title: 'Information',
+            icon: Icons.info_outline,
+            child: _buildAboutSection(context, l10n),
+          ),
           const VGap.md(),
-          _buildAboutSection(context, l10n),
-          const VGap.md(),
-          const Divider(),
-          const VGap.md(),
-          _buildAccountSection(context, ref, l10n),
+          _buildSectionCard(
+            context,
+            title: l10n.account,
+            icon: Icons.person,
+            child: _buildAccountSection(context, ref, l10n),
+          ),
           if (kDebugMode) ...[
-            const VGap.lg(),
-            const Divider(),
             const VGap.md(),
-            _buildDebugSection(context, ref, l10n),
+            _buildSectionCard(
+              context,
+              title: l10n.debugInfo,
+              icon: Icons.bug_report,
+              isDebug: true,
+              child: _buildDebugSection(context, ref, l10n),
+            ),
           ],
+          const VGap.lg(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionCard(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required Widget child,
+    bool isDebug = false,
+  }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final accentColor = isDebug ? colorScheme.error : colorScheme.primary;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: AppRadius.card,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header with accent line
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                left: BorderSide(
+                  color: accentColor,
+                  width: 4,
+                ),
+              ),
+            ),
+            padding: const EdgeInsets.all(AppSpacing.md),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  decoration: BoxDecoration(
+                    color: accentColor.withOpacity(0.1),
+                    borderRadius: AppRadius.smAll,
+                  ),
+                  child: Icon(
+                    icon,
+                    color: accentColor,
+                    size: 20,
+                  ),
+                ),
+                const HGap.md(),
+                Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: isDebug ? accentColor : null,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Divider(height: 1),
+          // Content
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.sm,
+              vertical: AppSpacing.xs,
+            ),
+            child: child,
+          ),
         ],
       ),
     );
@@ -54,13 +153,8 @@ class SettingsScreen extends ConsumerWidget {
     AppSettings settings,
     AppLocalizations l10n,
   ) {
-    final theme = Theme.of(context);
-
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.theme, style: theme.textTheme.titleMedium),
-        const VGap.sm(),
         _buildThemeOption(
           context,
           ref,
@@ -124,13 +218,8 @@ class SettingsScreen extends ConsumerWidget {
     AppSettings settings,
     AppLocalizations l10n,
   ) {
-    final theme = Theme.of(context);
-
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.language, style: theme.textTheme.titleMedium),
-        const VGap.sm(),
         _buildLanguageOption(
           context,
           ref,
@@ -180,6 +269,7 @@ class SettingsScreen extends ConsumerWidget {
     return ListTile(
       leading: const Icon(Icons.info_outline),
       title: const Text('About'),
+      trailing: const Icon(Icons.chevron_right),
       onTap: () {
         showAboutDialog(
           context: context,
@@ -198,19 +288,19 @@ class SettingsScreen extends ConsumerWidget {
     final isLoading = authState.isLoading;
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.account, style: theme.textTheme.titleMedium),
-        const VGap.sm(),
         if (currentUser != null) ...[
           ListTile(
             leading: CircleAvatar(
-              backgroundColor: theme.colorScheme.primaryContainer,
+              backgroundColor: theme.colorScheme.secondary.withOpacity(0.2),
               child: Text(
                 currentUser.name.isNotEmpty
                     ? currentUser.name[0].toUpperCase()
                     : '?',
-                style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+                style: TextStyle(
+                  color: theme.colorScheme.onSecondary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             title: Text(currentUser.name),
@@ -264,29 +354,28 @@ class SettingsScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Icon(Icons.bug_report, color: theme.colorScheme.error),
-            const HGap.sm(),
-            Text(
-              l10n.debugInfo,
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.error,
-              ),
-            ),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildDebugItem('Flavor', config.flavor.name.toUpperCase()),
+              _buildDebugItem('App Name', config.appName),
+              _buildDebugItem('Base URL', config.baseUrl),
+            ],
+          ),
         ),
-        const VGap.sm(),
-        _buildDebugItem('Flavor', config.flavor.name.toUpperCase()),
-        _buildDebugItem('App Name', config.appName),
-        _buildDebugItem('Base URL', config.baseUrl),
-        const VGap.md(),
         const Divider(),
-        const VGap.sm(),
-        Text(
-          l10n.repositoryDebug,
-          style: theme.textTheme.titleSmall?.copyWith(
-            color: theme.colorScheme.error,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          child: Text(
+            l10n.repositoryDebug,
+            style: theme.textTheme.titleSmall?.copyWith(
+              color: theme.colorScheme.error,
+            ),
           ),
         ),
         SwitchListTile(
@@ -295,7 +384,6 @@ class SettingsScreen extends ConsumerWidget {
           value: debugSettings.useDebugRepository,
           onChanged: (_) => debugNotifier.toggleUseDebugRepository(),
         ),
-        const VGap.sm(),
         Center(
           child: TextButton.icon(
             onPressed: debugNotifier.resetToDefaults,

@@ -6,6 +6,7 @@ import 'package:flutter_autonomous_template/core/components/app_button.dart';
 import 'package:flutter_autonomous_template/core/components/app_text_field.dart';
 import 'package:flutter_autonomous_template/core/l10n/app_localizations.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
+import 'package:flutter_autonomous_template/core/theme/app_radius.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/features/auth/data/models/user.dart';
 import 'package:flutter_autonomous_template/features/auth/providers/auth_provider.dart';
@@ -71,7 +72,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const VGap.xxl(),
+                const VGap.md(),
+                _buildWelcomeBanner(context),
+                const VGap.xl(),
                 _buildHeader(context, l10n),
                 const VGap.xxl(),
                 _buildEmailField(l10n),
@@ -94,17 +97,99 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
+  Widget _buildWelcomeBanner(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            theme.colorScheme.secondary,
+            theme.colorScheme.secondary.withOpacity(0.8),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: AppRadius.banner,
+        boxShadow: [
+          BoxShadow(
+            color: theme.colorScheme.secondary.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(AppSpacing.sm),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: AppRadius.smAll,
+            ),
+            child: Icon(
+              Icons.local_offer,
+              color: theme.colorScheme.onSecondary,
+              size: 28,
+            ),
+          ),
+          const HGap.md(),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Special Offer!',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: theme.colorScheme.onSecondary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const VGap.xs(),
+                Text(
+                  'Complete your tasks and earn rewards',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSecondary.withOpacity(0.9),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(
+            Icons.arrow_forward_ios,
+            color: theme.colorScheme.onSecondary.withOpacity(0.7),
+            size: 16,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildHeader(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     return Column(
       children: [
-        Icon(
-          Icons.check_circle_outline,
-          size: 80,
-          color: theme.colorScheme.primary,
+        // McDonald's-style logo area with red and yellow accents
+        Container(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              colors: [
+                theme.colorScheme.primary.withOpacity(0.1),
+                Colors.transparent,
+              ],
+              radius: 1.5,
+            ),
+          ),
+          child: Icon(
+            Icons.check_circle,
+            size: 80,
+            color: theme.colorScheme.primary,
+          ),
         ),
-        const VGap.lg(),
+        const VGap.md(),
         Text(
           l10n.welcomeBack,
           style: theme.textTheme.headlineMedium?.copyWith(

@@ -231,4 +231,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String dateDaysAgo(int count) {
     return '$count days ago';
   }
+
+  @override
+  String get debugQuickLogin => 'Quick Login (Debug)';
 }

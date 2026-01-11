@@ -230,4 +230,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String dateDaysAgo(int count) {
     return '$count日前';
   }
+
+  @override
+  String get debugQuickLogin => 'クイックログイン（デバッグ）';
 }

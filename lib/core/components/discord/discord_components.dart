@@ -3,6 +3,7 @@
 /// Export all Discord-style components for easy import.
 library;
 
+export 'discord_bottom_nav_bar.dart';
 export 'discord_bottom_sheet.dart';
 export 'discord_list_tile.dart';
 export 'discord_pill_button.dart';

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_autonomous_template/core/components/discord/discord_components.dart';
 import 'package:flutter_autonomous_template/core/router/app_router.gr.dart';
 
 @RoutePage()
@@ -12,16 +13,16 @@ class MainScreen extends StatelessWidget {
     return AutoTabsScaffold(
       routes: const [TodoListRoute(), SettingsRoute()],
       bottomNavigationBuilder: (context, tabsRouter) {
-        return NavigationBar(
+        return DiscordBottomNavBar(
           selectedIndex: tabsRouter.activeIndex,
           onDestinationSelected: tabsRouter.setActiveIndex,
           destinations: const [
-            NavigationDestination(
+            DiscordNavDestination(
               icon: Icon(Icons.check_circle_outline),
               selectedIcon: Icon(Icons.check_circle),
               label: 'TODOs',
             ),
-            NavigationDestination(
+            DiscordNavDestination(
               icon: Icon(Icons.settings_outlined),
               selectedIcon: Icon(Icons.settings),
               label: 'Settings',

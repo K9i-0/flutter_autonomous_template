@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Application typography configuration
+/// Application typography configuration - McDonald's Style
 ///
-/// Uses Poppins for headlines and Inter for body text.
+/// Uses Poppins for headlines (bold, impactful) and Nunito Sans for body text
+/// (friendly, readable).
 abstract class AppTypography {
   /// Font family for headlines and display text
   static String get headlineFont => GoogleFonts.poppins().fontFamily!;
 
   /// Font family for body text and UI elements
-  static String get bodyFont => GoogleFonts.inter().fontFamily!;
+  static String get bodyFont => GoogleFonts.nunitoSans().fontFamily!;
 
   /// Build the complete TextTheme for the app
   static TextTheme buildTextTheme(ColorScheme colorScheme) {
@@ -45,54 +46,54 @@ abstract class AppTypography {
         fontWeight: FontWeight.w600,
         color: colorScheme.onSurface,
       ),
-      titleLarge: GoogleFonts.inter(
+      titleLarge: GoogleFonts.nunitoSans(
         fontSize: 22,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: colorScheme.onSurface,
       ),
-      titleMedium: GoogleFonts.inter(
+      titleMedium: GoogleFonts.nunitoSans(
         fontSize: 16,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.15,
         color: colorScheme.onSurface,
       ),
-      titleSmall: GoogleFonts.inter(
+      titleSmall: GoogleFonts.nunitoSans(
         fontSize: 14,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.1,
         color: colorScheme.onSurface,
       ),
-      bodyLarge: GoogleFonts.inter(
+      bodyLarge: GoogleFonts.nunitoSans(
         fontSize: 16,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.5,
         color: colorScheme.onSurface,
       ),
-      bodyMedium: GoogleFonts.inter(
+      bodyMedium: GoogleFonts.nunitoSans(
         fontSize: 14,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.25,
         color: colorScheme.onSurface,
       ),
-      bodySmall: GoogleFonts.inter(
+      bodySmall: GoogleFonts.nunitoSans(
         fontSize: 12,
         fontWeight: FontWeight.w400,
         letterSpacing: 0.4,
         color: colorScheme.onSurfaceVariant,
       ),
-      labelLarge: GoogleFonts.inter(
+      labelLarge: GoogleFonts.poppins(
         fontSize: 14,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.1,
         color: colorScheme.onSurface,
       ),
-      labelMedium: GoogleFonts.inter(
+      labelMedium: GoogleFonts.poppins(
         fontSize: 12,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.5,
         color: colorScheme.onSurface,
       ),
-      labelSmall: GoogleFonts.inter(
+      labelSmall: GoogleFonts.poppins(
         fontSize: 11,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.5,

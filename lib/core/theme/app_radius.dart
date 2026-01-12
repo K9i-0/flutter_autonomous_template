@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-/// Application border radius constants
+/// Application border radius constants - McDonald's Style
 ///
-/// Consistent corner rounding for UI elements.
+/// McDonald's uses moderate, friendly rounding (8-12px typically).
 abstract class AppRadius {
   // Radius values
   static const double none = 0;
@@ -26,28 +26,30 @@ abstract class AppRadius {
   static const BorderRadius fullAll = BorderRadius.all(Radius.circular(full));
 
   // Top-only radius (for bottom sheets, modals)
+  static const BorderRadius mdTop = BorderRadius.vertical(
+    top: Radius.circular(md),
+  );
   static const BorderRadius lgTop = BorderRadius.vertical(
     top: Radius.circular(lg),
   );
   static const BorderRadius xlTop = BorderRadius.vertical(
     top: Radius.circular(xl),
   );
-  static const BorderRadius xxlTop = BorderRadius.vertical(
-    top: Radius.circular(xxl),
-  );
 
-  // Component-specific presets
-  static const BorderRadius button = mdAll;
-  static const BorderRadius buttonSmall = smAll;
-  static const BorderRadius card = lgAll;
-  static const BorderRadius cardLarge = xlAll;
-  static const BorderRadius chip = smAll;
-  static const BorderRadius input = mdAll;
-  static const BorderRadius dialog = xlAll;
-  static const BorderRadius bottomSheet = xlTop;
-  static const BorderRadius checkbox = xsAll;
-  static const BorderRadius fab = lgAll;
-  static const BorderRadius avatar = fullAll;
+  // Component-specific presets - McDonald's style
+  static const BorderRadius button = smAll; // 8px - moderate rounding
+  static const BorderRadius buttonSmall = xsAll; // 4px
+  static const BorderRadius card = mdAll; // 12px - card rounding
+  static const BorderRadius cardLarge = lgAll; // 16px
+  static const BorderRadius chip = smAll; // 8px
+  static const BorderRadius input = smAll; // 8px - input rounding
+  static const BorderRadius dialog = mdAll; // 12px
+  static const BorderRadius bottomSheet = lgTop; // 16px top
+  static const BorderRadius checkbox = xsAll; // 4px
+  static const BorderRadius fab = fullAll; // Circular FAB
+  static const BorderRadius avatar = fullAll; // Circular avatar
+  static const BorderRadius badge = xsAll; // 4px for badges/tags
+  static const BorderRadius banner = smAll; // 8px for promotional banners
 }
 
 /// RoundedRectangleBorder presets
@@ -82,5 +84,13 @@ abstract class AppShapeBorder {
 
   static final RoundedRectangleBorder fab = RoundedRectangleBorder(
     borderRadius: AppRadius.fab,
+  );
+
+  static final RoundedRectangleBorder badge = RoundedRectangleBorder(
+    borderRadius: AppRadius.badge,
+  );
+
+  static final RoundedRectangleBorder banner = RoundedRectangleBorder(
+    borderRadius: AppRadius.banner,
   );
 }

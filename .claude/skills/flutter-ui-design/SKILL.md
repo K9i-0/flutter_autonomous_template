@@ -1,313 +1,292 @@
 ---
 name: flutter-ui-design
-description: Modern UI design guidelines for Flutter apps. Achieve refined visuals based on Material Design 3.
+description: McDonald's-inspired UI design guidelines for Flutter apps. Bold colors, friendly shapes, and promotional elements.
 ---
 
-# Flutter UI Design Guidelines
+# Flutter UI Design Guidelines - McDonald's Style
 
 ## Purpose
 
-This skill provides guidelines to make Flutter app UIs stand out from "typical defaults" and achieve professional, impressive designs.
+This skill provides guidelines to create Flutter apps with McDonald's-inspired UI design. Features bold red and yellow colors, friendly rounded shapes, and promotional card-based layouts.
+
+## Brand Colors
+
+### McDonald's Color Palette
+
+```dart
+// Primary: McDonald's Red
+static const Color primaryLight = Color(0xFFDA291C);
+static const Color primaryDark = Color(0xFFE74C3C);
+
+// Secondary: McDonald's Yellow/Gold
+static const Color secondaryLight = Color(0xFFFFC72C);
+static const Color secondaryDark = Color(0xFFF1C40F);
+
+// Supporting Colors
+static const Color errorLight = Color(0xFFDC3545);
+static const Color successLight = Color(0xFF28A745);
+static const Color warningLight = Color(0xFFFFC72C);
+```
+
+### Usage Guidelines
+- **Primary (Red)**: Headers, accent borders, primary buttons, error states
+- **Secondary (Yellow)**: CTAs, FABs, highlights, promotional banners
+- **Neutral**: White backgrounds, gray surfaces, dark text
 
 ## Typography
 
-### Patterns to Avoid
-- Using only default `Roboto`
-- Monotonous font weights (Regular/Bold only)
-- Uniform text sizes
-
-### Recommended Approach
+### Font Pairing
 
 ```dart
-// Use modern fonts with Google Fonts
-import 'package:google_fonts/google_fonts.dart';
-
-// For titles: Distinctive display fonts
+// Headlines: Poppins (Bold, impactful)
 GoogleFonts.poppins(fontWeight: FontWeight.w700)
-GoogleFonts.inter(fontWeight: FontWeight.w800)
-GoogleFonts.plusJakartaSans()
 
-// For body: Readable sans-serif
-GoogleFonts.inter()
-GoogleFonts.dmSans()
+// Body: Nunito Sans (Friendly, readable)
+GoogleFonts.nunitoSans(fontWeight: FontWeight.w400)
 
-// Size hierarchy with contrast in mind
-headlineLarge: 32sp, weight: 800
-headlineMedium: 24sp, weight: 700
-titleLarge: 20sp, weight: 600
+// Labels/Badges: Poppins SemiBold
+GoogleFonts.poppins(fontWeight: FontWeight.w600)
+```
+
+### Size Hierarchy
+```dart
+headlineLarge: 32sp, weight: 700
+headlineMedium: 28sp, weight: 600
+titleLarge: 22sp, weight: 700
+titleMedium: 16sp, weight: 600
 bodyLarge: 16sp, weight: 400
-labelSmall: 12sp, weight: 500
+bodyMedium: 14sp, weight: 400
+labelMedium: 12sp, weight: 500
 ```
 
-### Font Weight Usage
-- Extreme contrast: Combine `w300` and `w800`
-- Bold for headings (w600-w800), regular for body (w400)
+## Border Radius
 
-## Color & Theme
-
-### Patterns to Avoid
-- Material Design default blue/purple
-- Subtle, uniform color palettes
-- Gray-only safe UIs
-
-### Recommended Approach
+McDonald's uses moderate, friendly rounding (not pill-shaped):
 
 ```dart
-// Dark theme: Deep background + vivid accents
-ColorScheme.dark(
-  surface: Color(0xFF0F0F14),        // Deep dark gray
-  surfaceContainerHighest: Color(0xFF1A1A23),
-  primary: Color(0xFF6366F1),         // Vivid indigo
-  secondary: Color(0xFF22D3EE),       // Cyan accent
-  tertiary: Color(0xFFF472B6),        // Pink accent
-)
-
-// Light theme: Clean white + vivid accents
-ColorScheme.light(
-  surface: Color(0xFFFAFAFC),
-  surfaceContainerHighest: Color(0xFFF1F5F9),
-  primary: Color(0xFF4F46E5),         // Indigo
-  secondary: Color(0xFF0EA5E9),       // Sky blue
-  tertiary: Color(0xFFEC4899),        // Pink
-)
+// Component-specific presets
+static const BorderRadius button = 8px;      // Buttons
+static const BorderRadius input = 8px;       // Input fields
+static const BorderRadius card = 12px;       // Cards
+static const BorderRadius badge = 4px;       // Badges/Tags
+static const BorderRadius fab = circular;    // FAB is circular
+static const BorderRadius banner = 8px;      // Promotional banners
 ```
 
-### Color Usage Points
-- **Dominant Color**: Use one primary color boldly
-- **Sharp Accents**: Use secondary color sparingly as accent
-- **Semantic Colors**: Success=green, Error=red, Warning=yellow intuitively
+## Component Styles
 
-## Elevation & Depth
-
-### Patterns to Avoid
-- Too flat designs
-- Uniform elevation
-- Overusing shadows
-
-### Recommended Approach
+### Buttons
 
 ```dart
-// Cards with subtle depth
-Card(
-  elevation: 0,
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(16),
-  ),
-  color: theme.colorScheme.surfaceContainerHighest,
-  child: ...
-)
-
-// Soft shadow (low contrast)
-BoxDecoration(
-  borderRadius: BorderRadius.circular(16),
-  boxShadow: [
-    BoxShadow(
-      color: Colors.black.withOpacity(0.04),
-      blurRadius: 10,
-      offset: Offset(0, 4),
+// Primary Button (Red)
+FilledButton(
+  style: FilledButton.styleFrom(
+    backgroundColor: colorScheme.primary,  // Red
+    foregroundColor: Colors.white,
+    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
     ),
-  ],
+  ),
 )
 
-// Glassmorphism effect
-ClipRRect(
-  borderRadius: BorderRadius.circular(16),
-  child: BackdropFilter(
-    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-    child: Container(
-      color: Colors.white.withOpacity(0.1),
-      child: ...
+// Secondary Button (Yellow)
+OutlinedButton(
+  style: OutlinedButton.styleFrom(
+    backgroundColor: colorScheme.secondary,  // Yellow
+    foregroundColor: Color(0xFF292929),      // Dark text
+    side: BorderSide.none,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
     ),
   ),
 )
 ```
 
-## Motion & Animation
-
-### Patterns to Avoid
-- Rigid UI without animations
-- Excessive, scattered animations
-- Inconsistent timing
-
-### Recommended Approach
+### Cards with Left Border Accent
 
 ```dart
-// Page transition: Smooth fade+slide
-PageRouteBuilder(
-  transitionDuration: Duration(milliseconds: 300),
-  pageBuilder: (_, __, ___) => DestinationPage(),
-  transitionsBuilder: (_, animation, __, child) {
-    return FadeTransition(
-      opacity: animation,
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: Offset(0, 0.05),
-          end: Offset.zero,
-        ).animate(CurvedAnimation(
-          parent: animation,
-          curve: Curves.easeOutCubic,
-        )),
-        child: child,
+Container(
+  decoration: BoxDecoration(
+    color: colorScheme.surface,
+    borderRadius: BorderRadius.circular(12),
+    border: Border(
+      left: BorderSide(
+        color: accentColor,  // Category or priority color
+        width: 4,
       ),
-    );
-  },
-)
-
-// List items: Staggered Animation
-AnimatedList + interval-based delays
-
-// Tap feedback: Subtle scale
-Transform.scale(
-  scale: isPressed ? 0.98 : 1.0,
-  child: AnimatedContainer(
-    duration: Duration(milliseconds: 100),
-    ...
+    ),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.06),
+        blurRadius: 8,
+        offset: Offset(0, 2),
+      ),
+    ],
   ),
 )
 ```
 
-### Timing Guidelines
-- **Short operations (tap)**: 100-150ms
-- **Screen transitions**: 250-350ms
-- **Complex animations**: 400-600ms
-- **Curve**: Base on `easeOutCubic`, `easeInOutCubic`
-
-## Layout & Spacing
-
-### Patterns to Avoid
-- Cramped UI
-- Irregular padding
-- Insufficient spacing between elements
-
-### Recommended Approach
+### Promotional Banner
 
 ```dart
-// 8px-based spacing system
+Container(
+  padding: EdgeInsets.all(16),
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      colors: [
+        colorScheme.secondary,
+        colorScheme.secondary.withOpacity(0.8),
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+    borderRadius: BorderRadius.circular(8),
+    boxShadow: [
+      BoxShadow(
+        color: colorScheme.secondary.withOpacity(0.3),
+        blurRadius: 8,
+        offset: Offset(0, 4),
+      ),
+    ],
+  ),
+  child: Row(
+    children: [
+      Icon(Icons.local_offer, color: Colors.black87),
+      SizedBox(width: 12),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Special Offer!', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('Description text here'),
+          ],
+        ),
+      ),
+      Icon(Icons.arrow_forward_ios),
+    ],
+  ),
+)
+```
+
+### Priority/Status Badges
+
+```dart
+Container(
+  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+  decoration: BoxDecoration(
+    color: badgeColor.withOpacity(0.1),
+    borderRadius: BorderRadius.circular(4),
+  ),
+  child: Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Icon(badgeIcon, size: 14, color: badgeColor),
+      SizedBox(width: 4),
+      Text(
+        badgeText,
+        style: TextStyle(
+          color: badgeColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 11,
+        ),
+      ),
+    ],
+  ),
+)
+```
+
+### FAB (Circular, Yellow)
+
+```dart
+FloatingActionButton(
+  elevation: 4,
+  backgroundColor: colorScheme.secondary,  // Yellow
+  foregroundColor: colorScheme.onSecondary, // Dark icon
+  shape: CircleBorder(),
+  child: Icon(Icons.add),
+)
+```
+
+### Section Cards (Settings)
+
+```dart
+Container(
+  decoration: BoxDecoration(
+    color: colorScheme.surface,
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [BoxShadow(...)],
+  ),
+  child: Column(
+    children: [
+      // Header with icon and accent border
+      Container(
+        decoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(color: accentColor, width: 4),
+          ),
+        ),
+        padding: EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: accentColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, color: accentColor),
+            ),
+            SizedBox(width: 12),
+            Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
+      Divider(height: 1),
+      // Content
+      Padding(padding: EdgeInsets.all(8), child: content),
+    ],
+  ),
+)
+```
+
+## Layout Patterns
+
+### Spacing System (8px base)
+
+```dart
 const spacing = (
   xs: 4.0,
   sm: 8.0,
   md: 16.0,
   lg: 24.0,
   xl: 32.0,
-  xxl: 48.0,
 );
-
-// Content area margins
-Padding(
-  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-  child: ...
-)
-
-// Card padding larger than outer
-Card(
-  child: Padding(
-    padding: EdgeInsets.all(20),
-    child: ...
-  ),
-)
-
-// Gaps between elements
-SizedBox(height: 16) // Between related elements
-SizedBox(height: 32) // Between sections
 ```
 
-## Components
+### Screen Structure
 
-### Buttons
-
-```dart
-// Primary button: Rounded corners + sufficient padding
-FilledButton(
-  style: FilledButton.styleFrom(
-    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
-    ),
-  ),
-  child: Text('Action'),
-)
-
-// Outline button
-OutlinedButton(
-  style: OutlinedButton.styleFrom(
-    side: BorderSide(color: theme.colorScheme.outline, width: 1.5),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
-    ),
-  ),
-)
+```
+├── AppBar (white/surface background)
+├── Promotional Banner (yellow gradient)
+├── Content Cards (white with shadow)
+│   ├── Left border accent (category color)
+│   ├── Title + Description
+│   └── Status badges (priority/completion)
+└── FAB (circular, yellow)
 ```
 
-### Input Fields
+## Design Checklist
 
-```dart
-TextField(
-  decoration: InputDecoration(
-    filled: true,
-    fillColor: theme.colorScheme.surfaceContainerHighest,
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide.none,
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(
-        color: theme.colorScheme.primary,
-        width: 2,
-      ),
-    ),
-    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-  ),
-)
-```
+When implementing McDonald's-style UI:
 
-### FAB
-
-```dart
-FloatingActionButton(
-  elevation: 2,
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(16),
-  ),
-  child: Icon(Icons.add),
-)
-```
-
-## Background
-
-### Recommended Techniques
-
-```dart
-// Gradient background
-Container(
-  decoration: BoxDecoration(
-    gradient: LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        theme.colorScheme.surface,
-        theme.colorScheme.surface.withOpacity(0.95),
-      ],
-    ),
-  ),
-)
-
-// Subtle pattern (dots, grid)
-CustomPaint(
-  painter: DotPatternPainter(
-    color: theme.colorScheme.outline.withOpacity(0.05),
-    spacing: 20,
-  ),
-)
-```
-
-## Checklist
-
-Checklist when implementing UI:
-
-- [ ] Using fonts other than default
-- [ ] Color palette has accent colors
-- [ ] Appropriate margins/padding are set
-- [ ] Interactions have feedback (animations)
-- [ ] Component corner radii are unified (12-16px recommended)
-- [ ] Text hierarchy (size/weight) is clear
+- [ ] Using McDonald's Red (#DA291C) as primary
+- [ ] Using McDonald's Yellow (#FFC72C) for CTAs and FAB
+- [ ] Cards have left border accent for categorization
+- [ ] Badges for status/priority indicators
+- [ ] Rounded corners are 8-12px (not pill-shaped)
+- [ ] FAB is circular and yellow
+- [ ] Promotional banners use yellow gradient
+- [ ] Section cards have icon headers
+- [ ] Typography: Poppins (headlines) + Nunito Sans (body)
+- [ ] Shadows are subtle but present (elevation effect)

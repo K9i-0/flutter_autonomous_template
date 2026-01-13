@@ -1,17 +1,17 @@
 import 'package:flutter/widgets.dart';
 
-/// Application border radius constants
+/// Application border radius constants - Discord Style
 ///
-/// Consistent corner rounding for UI elements.
+/// Discord uses moderate rounding with pill-shaped buttons.
 abstract class AppRadius {
   // Radius values
   static const double none = 0;
-  static const double xs = 4;
-  static const double sm = 8;
-  static const double md = 12;
-  static const double lg = 16;
-  static const double xl = 20;
-  static const double xxl = 24;
+  static const double xs = 3;
+  static const double sm = 4;
+  static const double md = 8;
+  static const double lg = 12;
+  static const double xl = 16;
+  static const double xxl = 20;
   static const double full = 9999;
 
   // BorderRadius presets
@@ -36,17 +36,17 @@ abstract class AppRadius {
     top: Radius.circular(xxl),
   );
 
-  // Component-specific presets
-  static const BorderRadius button = mdAll;
+  // Component-specific presets - Discord style
+  static const BorderRadius button = xxlAll; // Pill-shaped buttons
   static const BorderRadius buttonSmall = smAll;
-  static const BorderRadius card = lgAll;
-  static const BorderRadius cardLarge = xlAll;
-  static const BorderRadius chip = smAll;
-  static const BorderRadius input = mdAll;
-  static const BorderRadius dialog = xlAll;
+  static const BorderRadius card = mdAll; // 8px rounded cards
+  static const BorderRadius cardLarge = lgAll;
+  static const BorderRadius chip = fullAll; // Pill-shaped chips
+  static const BorderRadius input = smAll; // Subtle input rounding
+  static const BorderRadius dialog = lgAll;
   static const BorderRadius bottomSheet = xlTop;
-  static const BorderRadius checkbox = xsAll;
-  static const BorderRadius fab = lgAll;
+  static const BorderRadius checkbox = BorderRadius.all(Radius.circular(6));
+  static const BorderRadius fab = fullAll; // Circular FAB
   static const BorderRadius avatar = fullAll;
 }
 

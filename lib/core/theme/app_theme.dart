@@ -5,9 +5,9 @@ import 'package:flutter_autonomous_template/core/theme/app_radius.dart';
 import 'package:flutter_autonomous_template/core/theme/app_spacing.dart';
 import 'package:flutter_autonomous_template/core/theme/app_typography.dart';
 
-/// Application theme configuration
+/// Application theme configuration - Discord Style
 ///
-/// Uses Material 3 design system with custom colors, typography, and spacing.
+/// Uses Material 3 design system with Discord-inspired colors, typography, and spacing.
 class AppTheme {
   /// Dark theme
   static ThemeData get darkTheme {
@@ -56,7 +56,7 @@ class AppTheme {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          padding: AppSpacing.buttonPadding,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: AppShapeBorder.button,
           textStyle: textTheme.labelLarge?.copyWith(
             fontWeight: FontWeight.w600,
@@ -65,8 +65,9 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          padding: AppSpacing.buttonPadding,
-          side: BorderSide(color: colorScheme.outline, width: 1.5),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          side: BorderSide.none,
+          backgroundColor: colorScheme.surfaceContainerHigh,
           shape: AppShapeBorder.button,
         ),
       ),
@@ -89,8 +90,8 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: colorScheme.surfaceContainerHigh,
-        contentPadding: AppSpacing.inputPadding,
+        fillColor: colorScheme.surfaceContainerHighest,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         border: OutlineInputBorder(
           borderRadius: AppRadius.input,
           borderSide: BorderSide.none,
@@ -112,11 +113,11 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: colorScheme.surfaceContainerHigh,
-        selectedColor: colorScheme.primaryContainer,
+        selectedColor: colorScheme.primary.withOpacity(0.15),
         labelStyle: textTheme.labelMedium,
-        side: BorderSide(color: colorScheme.outlineVariant),
+        side: BorderSide.none,
         shape: RoundedRectangleBorder(borderRadius: AppRadius.chip),
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.sm + AppSpacing.xs,
           vertical: AppSpacing.sm,
         ),
@@ -132,7 +133,7 @@ class AppTheme {
         ),
       ),
       dialogTheme: DialogThemeData(
-        backgroundColor: colorScheme.surfaceContainer,
+        backgroundColor: colorScheme.surface,
         elevation: 8,
         shape: AppShapeBorder.dialog,
         titleTextStyle: textTheme.headlineSmall?.copyWith(
@@ -147,7 +148,7 @@ class AppTheme {
       navigationBarTheme: NavigationBarThemeData(
         elevation: 0,
         backgroundColor: colorScheme.surface,
-        indicatorColor: colorScheme.primaryContainer,
+        indicatorColor: colorScheme.primary.withOpacity(0.15),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return textTheme.labelMedium?.copyWith(
